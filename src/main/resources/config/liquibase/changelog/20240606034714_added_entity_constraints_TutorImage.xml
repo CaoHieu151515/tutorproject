@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity TutorImage.
+    -->
+    <changeSet id="20240606034714-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="media_id"
+                                 baseTableName="tutor_image"
+                                 constraintName="fk_tutor_image__media_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="media"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="tutor_details_id"
+                                 baseTableName="tutor_image"
+                                 constraintName="fk_tutor_image__tutor_details_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tutor_details"
+                                 />
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,27 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240606034707"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "timeHire",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "totalPrice",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "HireStatus",
+      "fieldValues": "DURING,DONE,CANCEL"
+    }
+  ],
+  "name": "HireTutor",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

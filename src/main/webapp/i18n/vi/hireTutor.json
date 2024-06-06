@@ -1,0 +1,28 @@
+{
+  "projectApp": {
+    "hireTutor": {
+      "home": {
+        "title": "Hire Tutors",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Hire Tutor",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Hire Tutor",
+        "notFound": "No Hire Tutors found"
+      },
+      "created": "Một Hire Tutor mới được tạo với định danh {{ param }}",
+      "updated": "Một Hire Tutor cập nhật với định danh {{ param }}",
+      "deleted": "Một Hire Tutor đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Hire Tutor {{ id }}?"
+      },
+      "detail": {
+        "title": "Hire Tutor"
+      },
+      "id": "ID",
+      "timeHire": "Time Hire",
+      "totalPrice": "Total Price",
+      "status": "Status",
+      "appUser": "App User",
+      "tutor": "Tutor"
+    }
+  }
+}

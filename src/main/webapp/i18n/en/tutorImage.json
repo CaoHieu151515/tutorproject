@@ -1,0 +1,25 @@
+{
+  "projectApp": {
+    "tutorImage": {
+      "home": {
+        "title": "Tutor Images",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Tutor Image",
+        "createOrEditLabel": "Create or edit a Tutor Image",
+        "notFound": "No Tutor Images found"
+      },
+      "created": "A new Tutor Image is created with identifier {{ param }}",
+      "updated": "A Tutor Image is updated with identifier {{ param }}",
+      "deleted": "A Tutor Image is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Tutor Image {{ id }}?"
+      },
+      "detail": {
+        "title": "Tutor Image"
+      },
+      "id": "ID",
+      "media": "Media",
+      "tutorDetails": "Tutor Details"
+    }
+  }
+}

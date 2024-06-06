@@ -1,0 +1,25 @@
+{
+  "projectApp": {
+    "identityCard": {
+      "home": {
+        "title": "Identity Cards",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Identity Card",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Identity Card",
+        "notFound": "No Identity Cards found"
+      },
+      "created": "Một Identity Card mới được tạo với định danh {{ param }}",
+      "updated": "Một Identity Card cập nhật với định danh {{ param }}",
+      "deleted": "Một Identity Card đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Identity Card {{ id }}?"
+      },
+      "detail": {
+        "title": "Identity Card"
+      },
+      "id": "ID",
+      "media": "Media",
+      "userVerify": "User Verify"
+    }
+  }
+}

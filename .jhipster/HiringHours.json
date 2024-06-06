@@ -1,0 +1,18 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240606034708"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "hour",
+      "fieldType": "Integer"
+    }
+  ],
+  "name": "HiringHours",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

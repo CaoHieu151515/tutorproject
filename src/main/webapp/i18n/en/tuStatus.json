@@ -1,0 +1,10 @@
+{
+  "projectApp": {
+    "TuStatus": {
+      "null": "",
+      "READY": "READY",
+      "BUSY": "BUSY",
+      "OFFLINE": "OFFLINE"
+    }
+  }
+}

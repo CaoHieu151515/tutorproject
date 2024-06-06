@@ -1,0 +1,25 @@
+{
+  "projectApp": {
+    "hiringHours": {
+      "home": {
+        "title": "Hiring Hours",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Hiring Hours",
+        "createOrEditLabel": "Create or edit a Hiring Hours",
+        "notFound": "No Hiring Hours found"
+      },
+      "created": "A new Hiring Hours is created with identifier {{ param }}",
+      "updated": "A Hiring Hours is updated with identifier {{ param }}",
+      "deleted": "A Hiring Hours is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Hiring Hours {{ id }}?"
+      },
+      "detail": {
+        "title": "Hiring Hours"
+      },
+      "id": "ID",
+      "hour": "Hour",
+      "tutor": "Tutor"
+    }
+  }
+}

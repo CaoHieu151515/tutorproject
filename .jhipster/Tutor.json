@@ -1,0 +1,66 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240606034712"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "recommend",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "tuDevice",
+      "fieldType": "Devide",
+      "fieldValues": "MICRO,CAMERA"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "TuStatus",
+      "fieldValues": "READY,BUSY,OFFLINE"
+    },
+    {
+      "fieldName": "followerCount",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "averageRating",
+      "fieldType": "BigDecimal"
+    }
+  ],
+  "name": "Tutor",
+  "relationships": [
+    {
+      "otherEntityName": "tutorDetails",
+      "relationshipName": "tutorDetails",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "hireTutor",
+      "relationshipName": "hireTutor",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "hiringHours",
+      "relationshipName": "hiringHours",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "rating",
+      "otherEntityRelationshipName": "tutor",
+      "relationshipName": "rating",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

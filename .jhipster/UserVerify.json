@@ -1,0 +1,47 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240606034717"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "rating",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "school",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "studentID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "major",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "graduationYear",
+      "fieldType": "Long"
+    }
+  ],
+  "name": "UserVerify",
+  "relationships": [
+    {
+      "otherEntityName": "identityCard",
+      "relationshipName": "identityCard",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "academicRank",
+      "relationshipName": "academicRank",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
