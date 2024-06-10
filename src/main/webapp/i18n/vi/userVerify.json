@@ -1,0 +1,31 @@
+{
+  "projectApp": {
+    "userVerify": {
+      "home": {
+        "title": "User Verifies",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một User Verify",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật User Verify",
+        "notFound": "No User Verifies found"
+      },
+      "created": "Một User Verify mới được tạo với định danh {{ param }}",
+      "updated": "Một User Verify cập nhật với định danh {{ param }}",
+      "deleted": "Một User Verify đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa User Verify {{ id }}?"
+      },
+      "detail": {
+        "title": "User Verify"
+      },
+      "id": "ID",
+      "rating": "Rating",
+      "school": "School",
+      "studentID": "Student ID",
+      "major": "Major",
+      "graduationYear": "Graduation Year",
+      "identityCard": "Identity Card",
+      "academicRank": "Academic Rank",
+      "appUser": "App User"
+    }
+  }
+}

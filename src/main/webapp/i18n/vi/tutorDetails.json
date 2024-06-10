@@ -1,0 +1,29 @@
+{
+  "projectApp": {
+    "tutorDetails": {
+      "home": {
+        "title": "Tutor Details",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Tutor Details",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Tutor Details",
+        "notFound": "No Tutor Details found"
+      },
+      "created": "Một Tutor Details mới được tạo với định danh {{ param }}",
+      "updated": "Một Tutor Details cập nhật với định danh {{ param }}",
+      "deleted": "Một Tutor Details đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Tutor Details {{ id }}?"
+      },
+      "detail": {
+        "title": "Tutor Details"
+      },
+      "id": "ID",
+      "contact": "Contact",
+      "information": "Information",
+      "tutorVideo": "Tutor Video",
+      "tutorTeach": "Tutor Teach",
+      "tutorImage": "Tutor Image",
+      "tutor": "Tutor"
+    }
+  }
+}

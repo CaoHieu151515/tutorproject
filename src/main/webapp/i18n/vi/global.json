@@ -7,7 +7,23 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Thực thể",
-        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+        "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+        "academicRankMySuffix": "Academic Rank",
+        "appUserMySuffix": "App User",
+        "followMySuffix": "Follow",
+        "hireTutorMySuffix": "Hire Tutor",
+        "hiringHoursMySuffix": "Hiring Hours",
+        "identityCardMySuffix": "Identity Card",
+        "mediaMySuffix": "Media",
+        "ratingMySuffix": "Rating",
+        "tutorMySuffix": "Tutor",
+        "tutorDetailsMySuffix": "Tutor Details",
+        "tutorImageMySuffix": "Tutor Image",
+        "tutorTeachMySuffix": "Tutor Teach",
+        "tutorVideoMySuffix": "Tutor Video",
+        "userVerifyMySuffix": "User Verify",
+        "walletMySuffix": "Wallet",
+        "walletTransactionMySuffix": "Wallet Transaction"
       },
       "account": {
         "main": "Tài khoản",

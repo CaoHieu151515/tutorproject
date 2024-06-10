@@ -1,0 +1,79 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240610003929"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "beTutor",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "GenderType",
+      "fieldValues": "MALE,FEMALE,OTHER"
+    },
+    {
+      "fieldName": "bankAccountNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "walletAddress",
+      "fieldType": "String"
+    }
+  ],
+  "name": "AppUser",
+  "relationships": [
+    {
+      "otherEntityName": "tutor",
+      "relationshipName": "tutor",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "userVerify",
+      "relationshipName": "userVerify",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "appUser",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "rating",
+      "otherEntityRelationshipName": "appUser",
+      "relationshipName": "rating",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "hireTutor",
+      "relationshipName": "hireTutor",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "options": {
+        "builtInEntity": true
+      },
+      "otherEntityName": "wallet",
+      "otherEntityRelationshipName": "appUser",
+      "relationshipName": "wallet",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

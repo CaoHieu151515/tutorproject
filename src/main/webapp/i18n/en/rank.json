@@ -1,0 +1,10 @@
+{
+  "projectApp": {
+    "Rank": {
+      "null": "",
+      "BACHELOR": "BACHELOR",
+      "MASTER": "MASTER",
+      "SECOND": "SECOND"
+    }
+  }
+}

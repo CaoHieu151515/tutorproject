@@ -13,8 +13,15 @@ enum Teach {
     ENGLISH_12
 }
 
+
+enum GenderType{
+	MALE,
+    FEMALE,
+    OTHER
+
+}
 enum Devide {
-    MiCRO,
+    MICRO,
     CAMERA
 }
 
@@ -60,6 +67,9 @@ entity Wallet {
     amount Double
 }
 
+entity HiringHours{
+	hour Integer,
+}
 entity WalletTransaction {
     amount Double,
     type WalletTransactionType,
@@ -83,8 +93,17 @@ entity Tutor {
     recommend Boolean,
     price Double,
     tuDevice Devide,
-    status TuStatus
+    status TuStatus,
+    followerCount Long,
+    averageRating BigDecimal
 }
+entity Rating {
+    rating Integer required min(1) max(5),
+    comment String maxlength(500),
+    hours Integer,
+    date LocalDate required
+}
+
 
 entity TutorDetails {
     contact Contact,
@@ -112,10 +131,16 @@ entity HireTutor {
 }
 
 entity AppUser {
-    beTutor Boolean
+    beTutor Boolean,
+    gender GenderType,
+    bankAccountNumber String,
+    bankName String,
+    walletAddress String
 }
 
-entity Follow {}
+entity Follow {
+    createDate LocalDate
+}
 
 relationship OneToMany {
     Wallet{transactions} to WalletTransaction,
@@ -124,9 +149,14 @@ relationship OneToMany {
     TutorDetails{tutorTeach} to TutorTeach,
     TutorDetails{tutorImage} to TutorImage,
     AppUser{hireTutor} to HireTutor,
-    Tutor{hireTutor} to HireTutor,
-    AppUser to Follow{appUser},
-    AppUser to Follow{followerAppUser}
+    Tutor{hireTutor} to HireTutor
+    Tutor{hiringHours} to HiringHours
+}
+
+relationship ManyToOne {
+    Follow{followerAppUser} to AppUser
+    Follow{followedTutor} to Tutor
+    Rating to Tutor
 }
 
 relationship OneToOne {
@@ -139,7 +169,8 @@ relationship OneToOne {
     TutorDetails{tutorVideo} to TutorVideo,
     TutorVideo{media} to Media,
     TutorImage{media} to Media,
-     AppUser{user} to User{appUser} with builtInEntity
+    AppUser{user} to User{appUser} with builtInEntity,
+    AppUser to Rating
 }
 
 // Sử dụng Data Transfer Objects (DTO)
@@ -151,5 +182,3 @@ service all with serviceImpl
 // Cấu hình hậu tố cho React
 angularSuffix * with mySuffix
 
-// Pagination for entity
-paginate Request with infinite-scroll

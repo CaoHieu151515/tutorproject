@@ -11,7 +11,38 @@
     <property name="datetimeType" value="datetime(6)" dbms="mysql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003928_added_entity_AcademicRank.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003929_added_entity_AppUser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003930_added_entity_Follow.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003931_added_entity_HireTutor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003932_added_entity_HiringHours.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003933_added_entity_IdentityCard.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003934_added_entity_Media.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003935_added_entity_Rating.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003936_added_entity_Tutor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003937_added_entity_TutorDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003938_added_entity_TutorImage.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003939_added_entity_TutorTeach.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003940_added_entity_TutorVideo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003941_added_entity_UserVerify.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003942_added_entity_Wallet.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003943_added_entity_WalletTransaction.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20240610003928_added_entity_constraints_AcademicRank.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003929_added_entity_constraints_AppUser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003930_added_entity_constraints_Follow.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003931_added_entity_constraints_HireTutor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003932_added_entity_constraints_HiringHours.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003934_added_entity_constraints_Media.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003935_added_entity_constraints_Rating.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003936_added_entity_constraints_Tutor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003937_added_entity_constraints_TutorDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003938_added_entity_constraints_TutorImage.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003939_added_entity_constraints_TutorTeach.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003940_added_entity_constraints_TutorVideo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003941_added_entity_constraints_UserVerify.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003942_added_entity_constraints_Wallet.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240610003943_added_entity_constraints_WalletTransaction.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

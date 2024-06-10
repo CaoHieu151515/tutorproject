@@ -1,0 +1,25 @@
+{
+  "projectApp": {
+    "hiringHours": {
+      "home": {
+        "title": "Hiring Hours",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Hiring Hours",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Hiring Hours",
+        "notFound": "No Hiring Hours found"
+      },
+      "created": "Một Hiring Hours mới được tạo với định danh {{ param }}",
+      "updated": "Một Hiring Hours cập nhật với định danh {{ param }}",
+      "deleted": "Một Hiring Hours đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Hiring Hours {{ id }}?"
+      },
+      "detail": {
+        "title": "Hiring Hours"
+      },
+      "id": "ID",
+      "hour": "Hour",
+      "tutor": "Tutor"
+    }
+  }
+}

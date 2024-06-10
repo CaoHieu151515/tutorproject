@@ -1,0 +1,25 @@
+{
+  "projectApp": {
+    "tutorTeach": {
+      "home": {
+        "title": "Tutor Teaches",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Tutor Teach",
+        "createOrEditLabel": "Create or edit a Tutor Teach",
+        "notFound": "No Tutor Teaches found"
+      },
+      "created": "A new Tutor Teach is created with identifier {{ param }}",
+      "updated": "A Tutor Teach is updated with identifier {{ param }}",
+      "deleted": "A Tutor Teach is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Tutor Teach {{ id }}?"
+      },
+      "detail": {
+        "title": "Tutor Teach"
+      },
+      "id": "ID",
+      "subject": "Subject",
+      "tutorDetails": "Tutor Details"
+    }
+  }
+}

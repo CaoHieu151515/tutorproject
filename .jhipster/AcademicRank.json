@@ -1,0 +1,26 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240610003928"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "Rank",
+      "fieldValues": "BACHELOR,MASTER,SECOND"
+    }
+  ],
+  "name": "AcademicRank",
+  "relationships": [
+    {
+      "otherEntityName": "media",
+      "relationshipName": "media",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

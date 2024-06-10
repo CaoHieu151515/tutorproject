@@ -1,0 +1,26 @@
+{
+  "projectApp": {
+    "academicRank": {
+      "home": {
+        "title": "Academic Ranks",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Academic Rank",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Academic Rank",
+        "notFound": "No Academic Ranks found"
+      },
+      "created": "Một Academic Rank mới được tạo với định danh {{ param }}",
+      "updated": "Một Academic Rank cập nhật với định danh {{ param }}",
+      "deleted": "Một Academic Rank đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Academic Rank {{ id }}?"
+      },
+      "detail": {
+        "title": "Academic Rank"
+      },
+      "id": "ID",
+      "type": "Type",
+      "media": "Media",
+      "userVerify": "User Verify"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "projectApp": {
+    "HireStatus": {
+      "null": "",
+      "DURING": "DURING",
+      "DONE": "DONE",
+      "CANCEL": "CANCEL"
+    }
+  }
+}

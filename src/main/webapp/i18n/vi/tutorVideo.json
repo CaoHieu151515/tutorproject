@@ -1,0 +1,25 @@
+{
+  "projectApp": {
+    "tutorVideo": {
+      "home": {
+        "title": "Tutor Videos",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Tutor Video",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Tutor Video",
+        "notFound": "No Tutor Videos found"
+      },
+      "created": "Một Tutor Video mới được tạo với định danh {{ param }}",
+      "updated": "Một Tutor Video cập nhật với định danh {{ param }}",
+      "deleted": "Một Tutor Video đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Tutor Video {{ id }}?"
+      },
+      "detail": {
+        "title": "Tutor Video"
+      },
+      "id": "ID",
+      "media": "Media",
+      "tutorDetails": "Tutor Details"
+    }
+  }
+}

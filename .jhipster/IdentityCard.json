@@ -1,0 +1,20 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240610003933"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [],
+  "name": "IdentityCard",
+  "relationships": [
+    {
+      "otherEntityName": "media",
+      "relationshipName": "media",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

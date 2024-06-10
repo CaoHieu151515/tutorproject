@@ -1,0 +1,10 @@
+{
+  "projectApp": {
+    "Contact": {
+      "null": "",
+      "MEET": "MEET",
+      "DISCORD": "DISCORD",
+      "ZOOM": "ZOOM"
+    }
+  }
+}

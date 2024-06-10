@@ -1,0 +1,29 @@
+{
+  "projectApp": {
+    "tutorDetails": {
+      "home": {
+        "title": "Tutor Details",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Tutor Details",
+        "createOrEditLabel": "Create or edit a Tutor Details",
+        "notFound": "No Tutor Details found"
+      },
+      "created": "A new Tutor Details is created with identifier {{ param }}",
+      "updated": "A Tutor Details is updated with identifier {{ param }}",
+      "deleted": "A Tutor Details is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Tutor Details {{ id }}?"
+      },
+      "detail": {
+        "title": "Tutor Details"
+      },
+      "id": "ID",
+      "contact": "Contact",
+      "information": "Information",
+      "tutorVideo": "Tutor Video",
+      "tutorTeach": "Tutor Teach",
+      "tutorImage": "Tutor Image",
+      "tutor": "Tutor"
+    }
+  }
+}

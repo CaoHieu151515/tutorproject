@@ -1,0 +1,28 @@
+{
+  "projectApp": {
+    "hireTutor": {
+      "home": {
+        "title": "Hire Tutors",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Hire Tutor",
+        "createOrEditLabel": "Create or edit a Hire Tutor",
+        "notFound": "No Hire Tutors found"
+      },
+      "created": "A new Hire Tutor is created with identifier {{ param }}",
+      "updated": "A Hire Tutor is updated with identifier {{ param }}",
+      "deleted": "A Hire Tutor is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Hire Tutor {{ id }}?"
+      },
+      "detail": {
+        "title": "Hire Tutor"
+      },
+      "id": "ID",
+      "timeHire": "Time Hire",
+      "totalPrice": "Total Price",
+      "status": "Status",
+      "appUser": "App User",
+      "tutor": "Tutor"
+    }
+  }
+}

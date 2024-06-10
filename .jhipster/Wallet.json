@@ -1,0 +1,33 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240610003942"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "amount",
+      "fieldType": "Double"
+    }
+  ],
+  "name": "Wallet",
+  "relationships": [
+    {
+      "otherEntityName": "appUser",
+      "otherEntityRelationshipName": "wallet",
+      "relationshipName": "appUser",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "walletTransaction",
+      "relationshipName": "transactions",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -1,0 +1,42 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240610003937"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "contact",
+      "fieldType": "Contact",
+      "fieldValues": "MEET,DISCORD,ZOOM"
+    },
+    {
+      "fieldName": "information",
+      "fieldType": "String"
+    }
+  ],
+  "name": "TutorDetails",
+  "relationships": [
+    {
+      "otherEntityName": "tutorVideo",
+      "relationshipName": "tutorVideo",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "tutorTeach",
+      "relationshipName": "tutorTeach",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tutorImage",
+      "relationshipName": "tutorImage",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

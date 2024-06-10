@@ -1,0 +1,31 @@
+{
+  "projectApp": {
+    "userVerify": {
+      "home": {
+        "title": "User Verifies",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new User Verify",
+        "createOrEditLabel": "Create or edit a User Verify",
+        "notFound": "No User Verifies found"
+      },
+      "created": "A new User Verify is created with identifier {{ param }}",
+      "updated": "A User Verify is updated with identifier {{ param }}",
+      "deleted": "A User Verify is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete User Verify {{ id }}?"
+      },
+      "detail": {
+        "title": "User Verify"
+      },
+      "id": "ID",
+      "rating": "Rating",
+      "school": "School",
+      "studentID": "Student ID",
+      "major": "Major",
+      "graduationYear": "Graduation Year",
+      "identityCard": "Identity Card",
+      "academicRank": "Academic Rank",
+      "appUser": "App User"
+    }
+  }
+}

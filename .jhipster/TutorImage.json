@@ -1,0 +1,20 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240610003938"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [],
+  "name": "TutorImage",
+  "relationships": [
+    {
+      "otherEntityName": "media",
+      "relationshipName": "media",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

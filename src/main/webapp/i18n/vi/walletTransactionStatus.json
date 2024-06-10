@@ -1,0 +1,10 @@
+{
+  "projectApp": {
+    "WalletTransactionStatus": {
+      "null": "",
+      "SUCCEED": "SUCCEED",
+      "FAILED": "FAILED",
+      "VERIFING": "VERIFING"
+    }
+  }
+}
