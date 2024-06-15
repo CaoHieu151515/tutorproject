@@ -5,6 +5,7 @@ import com.tutor.auth0r.domain.enumeration.TuStatus;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.tutor.auth0r.domain.Tutor} entity.
@@ -27,6 +28,8 @@ public class TutorDTO implements Serializable {
     private BigDecimal averageRating;
 
     private TutorDetailsDTO tutorDetails;
+
+    private Set<RatingDTO> Rating;
 
     public Long getId() {
         return id;
@@ -90,6 +93,14 @@ public class TutorDTO implements Serializable {
 
     public void setTutorDetails(TutorDetailsDTO tutorDetails) {
         this.tutorDetails = tutorDetails;
+    }
+
+    public Set<RatingDTO> getRating() {
+        return Rating;
+    }
+
+    public void setRating(Set<RatingDTO> Rating) {
+        this.Rating = Rating;
     }
 
     @Override
