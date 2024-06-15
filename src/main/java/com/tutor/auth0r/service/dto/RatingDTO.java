@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -26,7 +27,10 @@ public class RatingDTO implements Serializable {
     @NotNull
     private LocalDate date;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private TutorDTO tutor;
+
+    // Getters and setters...
 
     public Long getId() {
         return id;
@@ -97,16 +101,25 @@ public class RatingDTO implements Serializable {
         return Objects.hash(this.id);
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "RatingDTO{" +
-            "id=" + getId() +
-            ", rating=" + getRating() +
-            ", comment='" + getComment() + "'" +
-            ", hours=" + getHours() +
-            ", date='" + getDate() + "'" +
-            ", tutor=" + getTutor() +
-            "}";
+        return (
+            "RatingDTO{" +
+            "id=" +
+            getId() +
+            ", rating=" +
+            getRating() +
+            ", comment='" +
+            getComment() +
+            "'" +
+            ", hours=" +
+            getHours() +
+            ", date='" +
+            getDate() +
+            "'" +
+            ", tutor=" +
+            getTutor() +
+            "}"
+        );
     }
 }

@@ -15,7 +15,7 @@ public interface TutorVideoMapper extends EntityMapper<TutorVideoDTO, TutorVideo
     TutorVideoDTO toDto(TutorVideo s);
 
     @Named("mediaId")
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(ignoreByDefault = false)
     @Mapping(target = "id", source = "id")
     MediaDTO toDtoMediaId(Media media);
 }

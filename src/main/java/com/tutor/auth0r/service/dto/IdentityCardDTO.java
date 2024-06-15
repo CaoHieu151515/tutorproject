@@ -2,6 +2,7 @@ package com.tutor.auth0r.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.tutor.auth0r.domain.IdentityCard} entity.
@@ -11,6 +12,8 @@ public class IdentityCardDTO implements Serializable {
 
     private Long id;
 
+    // private Set<MediaDTO> media;
+
     public Long getId() {
         return id;
     }
@@ -18,6 +21,14 @@ public class IdentityCardDTO implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    // public Set<MediaDTO> getMedia() {
+    //     return media;
+    // }
+
+    // public void setMedia(Set<MediaDTO> media) {
+    //     this.media = media;
+    // }
 
     @Override
     public boolean equals(Object o) {

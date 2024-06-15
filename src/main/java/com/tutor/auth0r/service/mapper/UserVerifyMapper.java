@@ -15,7 +15,7 @@ public interface UserVerifyMapper extends EntityMapper<UserVerifyDTO, UserVerify
     UserVerifyDTO toDto(UserVerify s);
 
     @Named("identityCardId")
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(ignoreByDefault = false)
     @Mapping(target = "id", source = "id")
     IdentityCardDTO toDtoIdentityCardId(IdentityCard identityCard);
 }

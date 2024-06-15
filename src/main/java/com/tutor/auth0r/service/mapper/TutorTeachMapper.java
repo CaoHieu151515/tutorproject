@@ -15,7 +15,7 @@ public interface TutorTeachMapper extends EntityMapper<TutorTeachDTO, TutorTeach
     TutorTeachDTO toDto(TutorTeach s);
 
     @Named("tutorDetailsId")
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(ignoreByDefault = false)
     @Mapping(target = "id", source = "id")
     TutorDetailsDTO toDtoTutorDetailsId(TutorDetails tutorDetails);
 }

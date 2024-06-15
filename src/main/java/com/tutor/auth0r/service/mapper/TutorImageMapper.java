@@ -18,12 +18,12 @@ public interface TutorImageMapper extends EntityMapper<TutorImageDTO, TutorImage
     TutorImageDTO toDto(TutorImage s);
 
     @Named("mediaId")
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(ignoreByDefault = false)
     @Mapping(target = "id", source = "id")
     MediaDTO toDtoMediaId(Media media);
 
     @Named("tutorDetailsId")
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(ignoreByDefault = false)
     @Mapping(target = "id", source = "id")
     TutorDetailsDTO toDtoTutorDetailsId(TutorDetails tutorDetails);
 }

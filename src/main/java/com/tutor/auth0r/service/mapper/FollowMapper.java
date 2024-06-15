@@ -18,12 +18,12 @@ public interface FollowMapper extends EntityMapper<FollowDTO, Follow> {
     FollowDTO toDto(Follow s);
 
     @Named("appUserId")
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(ignoreByDefault = false)
     @Mapping(target = "id", source = "id")
     AppUserDTO toDtoAppUserId(AppUser appUser);
 
     @Named("tutorId")
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(ignoreByDefault = false)
     @Mapping(target = "id", source = "id")
     TutorDTO toDtoTutorId(Tutor tutor);
 }

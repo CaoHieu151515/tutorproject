@@ -15,7 +15,7 @@ public interface HiringHoursMapper extends EntityMapper<HiringHoursDTO, HiringHo
     HiringHoursDTO toDto(HiringHours s);
 
     @Named("tutorId")
-    @BeanMapping(ignoreByDefault = true)
+    @BeanMapping(ignoreByDefault = false)
     @Mapping(target = "id", source = "id")
     TutorDTO toDtoTutorId(Tutor tutor);
 }
