@@ -12,7 +12,7 @@ public class IdentityCardDTO implements Serializable {
 
     private Long id;
 
-    // private Set<MediaDTO> media;
+    private Set<MediaDTO> media;
 
     public Long getId() {
         return id;
@@ -22,13 +22,13 @@ public class IdentityCardDTO implements Serializable {
         this.id = id;
     }
 
-    // public Set<MediaDTO> getMedia() {
-    //     return media;
-    // }
+    public Set<MediaDTO> getMedia() {
+        return media;
+    }
 
-    // public void setMedia(Set<MediaDTO> media) {
-    //     this.media = media;
-    // }
+    public void setMedia(Set<MediaDTO> media) {
+        this.media = media;
+    }
 
     @Override
     public boolean equals(Object o) {

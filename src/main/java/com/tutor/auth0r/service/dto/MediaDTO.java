@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public class MediaDTO implements Serializable {
 
     private String url;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private IdentityCardDTO identityCard;
 
     public Long getId() {

@@ -8,18 +8,49 @@ import com.tutor.auth0r.service.dto.HiringHoursDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
 /**
  * Mapper for the entity {@link IdentityCard} and its DTO {@link IdentityCardDTO}.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { MediaMapper.class })
 public interface IdentityCardMapper extends EntityMapper<IdentityCardDTO, IdentityCard> {
-    // @Mapping(target = "media", source = "media", qualifiedByName = "mediaId")
-    // IdentityCardDTO toDto(IdentityCard s);
+    IdentityCardMapper INSTANCE = Mappers.getMapper(IdentityCardMapper.class);
 
-    // @Named("mediaId")
-    // @BeanMapping(ignoreByDefault = false)
-    // @Mapping(target = "id", source = "id")
-    // MediaDTO toDtoMediaId(Media media);
+    @Mapping(target = "media", source = "media", qualifiedByName = "mediaId")
+    IdentityCardDTO toDto(IdentityCard s);
+
+    @Named("mediaId")
+    static Set<MediaDTO> mapToMultimedia(Set<Media> mediaa) {
+        return mediaa
+            .stream()
+            .map(media -> {
+                if (media == null) {
+                    return null;
+                }
+                return MediaMapper.INSTANCE.toDto(media);
+            })
+            .collect(Collectors.toSet());
+    }
+
+    @Named("RemoveSelftoDTO")
+    @Mappings({ @Mapping(target = "media", source = "media", qualifiedByName = "RemoveSelfId") })
+    IdentityCardDTO RemoveSelftoDTO(IdentityCard s);
+
+    @Named("RemoveSelfId")
+    static Set<MediaDTO> RemoveSelfId(Set<Media> mediaa) {
+        return mediaa
+            .stream()
+            .map(media -> {
+                if (media == null) {
+                    return null;
+                }
+                media.setIdentityCard(null);
+                return MediaMapper.INSTANCE.toDto(media);
+            })
+            .collect(Collectors.toSet());
+    }
 }
