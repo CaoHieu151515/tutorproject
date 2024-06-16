@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tutor.auth0r.domain.enumeration.Devide;
 import com.tutor.auth0r.domain.enumeration.TuStatus;
 import java.io.Serializable;
@@ -29,6 +30,7 @@ public class TutorDTO implements Serializable {
 
     private TutorDetailsDTO tutorDetails;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<RatingDTO> Rating;
 
     public Long getId() {
