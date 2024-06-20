@@ -19,6 +19,8 @@ import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.dto.HireTutorDTO;
 import com.tutor.auth0r.service.mapper.HireTutorMapper;
+import com.tutor.auth0r.web.rest.errors.NotEnoughMoneyException;
+import com.tutor.auth0r.web.rest.errors.NotLoggedException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -147,6 +149,14 @@ public class HireTutorServiceImpl implements HireTutorService {
         Double serviceFee = hireTutor.getTotalPrice() * pricingProperties.getFreePercentage();
 
         Double tuTorGain = hireTutor.getTotalPrice() * pricingProperties.getfreePercentageHireGain();
+
+        if (!hirerOptional.isPresent()) {
+            throw new NotLoggedException();
+        }
+
+        if (hirerWallet.getAmount() < hireTutor.getTotalPrice()) {
+            throw new NotEnoughMoneyException();
+        }
 
         WalletTransaction hirerWalletTransaction = new WalletTransaction();
         hirerWalletTransaction.setAmount(hireTutor.getTotalPrice());
