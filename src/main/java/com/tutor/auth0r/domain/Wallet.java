@@ -1,6 +1,7 @@
 package com.tutor.auth0r.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tutor.auth0r.web.rest.errors.WalletAmountIsNotEnoughException;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -29,7 +30,7 @@ public class Wallet implements Serializable {
     @JoinColumn(unique = true)
     private AppUser appUser;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "wallet")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "wallet")
     @JsonIgnoreProperties(value = { "wallet" }, allowSetters = true)
     private Set<WalletTransaction> transactions = new HashSet<>();
 
@@ -96,6 +97,32 @@ public class Wallet implements Serializable {
     public Wallet addTransactions(WalletTransaction walletTransaction) {
         this.transactions.add(walletTransaction);
         walletTransaction.setWallet(this);
+
+        Double currentAmount = getAmount();
+
+        switch (walletTransaction.getType()) {
+            case WITHDRAWAL:
+                if (currentAmount < walletTransaction.getAmount()) {
+                    throw new WalletAmountIsNotEnoughException();
+                }
+
+                currentAmount -= walletTransaction.getAmount();
+                break;
+            case DEPOSIT, REFUND, TUTORGAIN:
+                currentAmount += walletTransaction.getAmount();
+                break;
+            case HIRE:
+                currentAmount -= walletTransaction.getAmount();
+                break;
+            case SERVICE_FEE_EARN:
+                currentAmount += walletTransaction.getAmount();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + walletTransaction.getType());
+        }
+
+        setAmount(currentAmount);
+
         return this;
     }
 

@@ -144,6 +144,16 @@ public class AppUserResource {
         return appUserService.findAll();
     }
 
+    @GetMapping("/GetAllRecommend")
+    public List<AppUserDTO> getAllAppUsersWithRecommend(@RequestParam(name = "filter", required = false) String filter) {
+        if ("wallet-is-null".equals(filter)) {
+            log.debug("REST request to get all AppUsers where wallet is null");
+            return appUserService.findAllWhereWalletIsNull();
+        }
+        log.debug("REST request to get all AppUsers");
+        return appUserService.AllAppUsersWithRecommend();
+    }
+
     /**
      * {@code GET  /app-users/:id} : get the "id" appUser.
      *

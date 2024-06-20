@@ -30,7 +30,9 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
 
     UserVerifyMapper verifyMapperins = Mappers.getMapper(UserVerifyMapper.class);
 
-    @Mapping(target = "tutor", source = "tutor", qualifiedByName = "tutorId")
+    TutorMapper tutorins = Mappers.getMapper(TutorMapper.class);
+
+    @Mapping(target = "tutor", source = "tutor", qualifiedByName = "tutorId_2")
     @Mapping(target = "userVerify", source = "userVerify", qualifiedByName = "userVerifyId_2")
     @Mapping(target = "user", source = "user", qualifiedByName = "userId")
     @Mapping(target = "rating", source = "rating", qualifiedByName = "ratingUnestTuTor")
@@ -72,5 +74,14 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
         }
 
         return UserVerifyMapper.INSTANCE.toDto(userVerify);
+    }
+
+    @Named("tutorId_2")
+    static TutorDTO tutorId_2(Tutor tutor) {
+        if (tutor == null) {
+            return null;
+        }
+
+        return TutorMapper.INSTANCE.toDto(tutor);
     }
 }

@@ -43,7 +43,7 @@ management:
           - liquibase
   endpoint:
     health:
-      show-details: when_authorized
+      show-details: when-authorized
       roles: 'ROLE_ADMIN'
       probes:
         enabled: true
@@ -210,3 +210,8 @@ jhipster:
 # ===================================================================
 
 # application:
+pricing:
+  freePercentage: 0.1
+  freePercentageHireGain: 0.9
+  discountPercentage: 15
+  maxDiscountAmount: 1000

@@ -59,6 +59,15 @@ public class HireTutorResource {
             .body(hireTutorDTO);
     }
 
+    @PostMapping("/hireTutor")
+    public ResponseEntity<HireTutorDTO> HireTutor(@RequestBody HireTutorDTO hireTutorDTO) throws URISyntaxException {
+        log.debug("REST request to save HireTutor : {}", hireTutorDTO);
+        hireTutorDTO = hireTutorService.Hire(hireTutorDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, hireTutorDTO.getId().toString()))
+            .body(hireTutorDTO);
+    }
+
     /**
      * {@code PUT  /hire-tutors/:id} : Updates an existing hireTutor.
      *

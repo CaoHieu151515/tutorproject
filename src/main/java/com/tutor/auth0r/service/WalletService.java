@@ -1,6 +1,8 @@
 package com.tutor.auth0r.service;
 
+import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.service.dto.WalletDTO;
+import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +10,16 @@ import java.util.Optional;
  * Service Interface for managing {@link com.tutor.auth0r.domain.Wallet}.
  */
 public interface WalletService {
+    Wallet getAdminWallet();
+
+    Wallet getWalletByUserLogin(String login);
+
+    Wallet getCurrentUserWallet();
+
+    List<WalletTransactionDTO> getWalletTransactionsByCurrentUserWallet();
+
+    Wallet save(Wallet wallet);
+
     /**
      * Save a wallet.
      *

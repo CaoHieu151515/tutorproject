@@ -9,4 +9,5 @@ public enum WalletTransactionType {
     HIRE,
     SERVICE_FEE_EARN,
     REFUND,
+    TUTORGAIN,
 }

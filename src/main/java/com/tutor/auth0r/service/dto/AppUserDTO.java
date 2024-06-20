@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tutor.auth0r.domain.enumeration.GenderType;
 import java.io.Serializable;
 import java.util.Objects;
@@ -28,6 +29,7 @@ public class AppUserDTO implements Serializable {
 
     private UserDTO user;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private RatingDTO rating;
 
     public Long getId() {

@@ -2,6 +2,7 @@ package com.tutor.auth0r;
 
 import com.tutor.auth0r.config.ApplicationProperties;
 import com.tutor.auth0r.config.CRLFLogConverter;
+import com.tutor.auth0r.config.PricingProperties;
 import jakarta.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -20,7 +21,7 @@ import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
-@EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class })
+@EnableConfigurationProperties({ LiquibaseProperties.class, ApplicationProperties.class, PricingProperties.class })
 public class ProjectApp {
 
     private static final Logger log = LoggerFactory.getLogger(ProjectApp.class);

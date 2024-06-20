@@ -12,6 +12,7 @@ import java.util.Set;
  * A DTO for the {@link com.tutor.auth0r.domain.Tutor} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class TutorDTO implements Serializable {
 
     private Long id;

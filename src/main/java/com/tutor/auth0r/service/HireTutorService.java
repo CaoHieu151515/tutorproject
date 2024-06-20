@@ -16,6 +16,8 @@ public interface HireTutorService {
      */
     HireTutorDTO save(HireTutorDTO hireTutorDTO);
 
+    HireTutorDTO Hire(HireTutorDTO hireTutorDTO);
+
     /**
      * Updates a hireTutor.
      *

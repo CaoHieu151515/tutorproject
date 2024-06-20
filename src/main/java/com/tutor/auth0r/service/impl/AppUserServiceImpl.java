@@ -96,4 +96,14 @@ public class AppUserServiceImpl implements AppUserService {
         log.debug("Request to delete AppUser : {}", id);
         appUserRepository.deleteById(id);
     }
+
+    @Override
+    public List<AppUserDTO> AllAppUsersWithRecommend() {
+        log.debug("Request to get all AppUsers");
+        return appUserRepository
+            .findAllAppUsersWithRecommendedTutors()
+            .stream()
+            .map(appUserMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
 }

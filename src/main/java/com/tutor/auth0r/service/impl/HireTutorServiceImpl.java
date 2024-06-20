@@ -1,8 +1,22 @@
 package com.tutor.auth0r.service.impl;
 
+import com.tutor.auth0r.config.PricingProperties;
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.HireTutor;
+import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.domain.User;
+import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.domain.WalletTransaction;
+import com.tutor.auth0r.domain.enumeration.HireStatus;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionStatus;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
+import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.HireTutorRepository;
+import com.tutor.auth0r.repository.TutorRepository;
+import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.HireTutorService;
+import com.tutor.auth0r.service.UserService;
+import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.dto.HireTutorDTO;
 import com.tutor.auth0r.service.mapper.HireTutorMapper;
 import java.util.LinkedList;
@@ -11,6 +25,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,10 +42,36 @@ public class HireTutorServiceImpl implements HireTutorService {
 
     private final HireTutorMapper hireTutorMapper;
 
-    public HireTutorServiceImpl(HireTutorRepository hireTutorRepository, HireTutorMapper hireTutorMapper) {
+    private final WalletService walletService;
+
+    private final UserService userService;
+
+    private final AppUserService appUserService;
+
+    private final AppUserRepository appUserRepository;
+
+    private final TutorRepository tutorRepository;
+
+    public HireTutorServiceImpl(
+        HireTutorRepository hireTutorRepository,
+        HireTutorMapper hireTutorMapper,
+        WalletService walletService,
+        UserService userService,
+        AppUserService appUserService,
+        AppUserRepository appUserRepository,
+        TutorRepository tutorRepository
+    ) {
         this.hireTutorRepository = hireTutorRepository;
         this.hireTutorMapper = hireTutorMapper;
+        this.walletService = walletService;
+        this.userService = userService;
+        this.appUserService = appUserService;
+        this.appUserRepository = appUserRepository;
+        this.tutorRepository = tutorRepository;
     }
+
+    @Autowired
+    private PricingProperties pricingProperties;
 
     @Override
     public HireTutorDTO save(HireTutorDTO hireTutorDTO) {
@@ -81,5 +122,58 @@ public class HireTutorServiceImpl implements HireTutorService {
     public void delete(Long id) {
         log.debug("Request to delete HireTutor : {}", id);
         hireTutorRepository.deleteById(id);
+    }
+
+    @Override
+    public HireTutorDTO Hire(HireTutorDTO hireTutorDTO) {
+        log.debug("Request to save HireTutor : {}", hireTutorDTO);
+        HireTutor hireTutor = hireTutorMapper.toEntity(hireTutorDTO);
+
+        Optional<AppUser> hirerOptionall = appUserRepository.findById(hireTutor.getAppUser().getId());
+        AppUser hirer = hirerOptionall.orElseThrow(() -> new RuntimeException("AppUser not found"));
+
+        Optional<Tutor> tutorOptionall = tutorRepository.findById(hireTutor.getTutor().getId());
+        Tutor tutor = tutorOptionall.orElseThrow(() -> new RuntimeException("tutor not found"));
+
+        hireTutor.setAppUser(hirer);
+        hireTutor.setTutor(tutor);
+
+        Optional<User> hirerOptional = userService.getUserWithAuthorities();
+
+        Wallet adminWallet = walletService.getAdminWallet();
+        Wallet tutorWallet = walletService.getWalletByUserLogin(hireTutor.getAppUser().getUser().getLogin());
+        Wallet hirerWallet = walletService.getWalletByUserLogin(hireTutor.getTutor().getAppUser().getUser().getLogin());
+
+        Double serviceFee = hireTutor.getTotalPrice() * pricingProperties.getFreePercentage();
+
+        Double tuTorGain = hireTutor.getTotalPrice() * pricingProperties.getfreePercentageHireGain();
+
+        WalletTransaction hirerWalletTransaction = new WalletTransaction();
+        hirerWalletTransaction.setAmount(hireTutor.getTotalPrice());
+        hirerWalletTransaction.setType(WalletTransactionType.HIRE);
+        hirerWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
+        hirerWallet.addTransactions(hirerWalletTransaction);
+
+        WalletTransaction tutorWalletTransaction = new WalletTransaction();
+        tutorWalletTransaction.setAmount(tuTorGain);
+        tutorWalletTransaction.setType(WalletTransactionType.TUTORGAIN);
+        tutorWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
+        tutorWallet.addTransactions(tutorWalletTransaction);
+
+        WalletTransaction adminWalletTransaction = new WalletTransaction();
+        adminWalletTransaction.setAmount(serviceFee);
+        adminWalletTransaction.setType(WalletTransactionType.SERVICE_FEE_EARN);
+        adminWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
+        adminWallet.addTransactions(adminWalletTransaction);
+
+        walletService.save(adminWallet);
+        walletService.save(tutorWallet);
+        walletService.save(hirerWallet);
+
+        hireTutor.setStatus(HireStatus.DURING);
+
+        hireTutor = hireTutorRepository.save(hireTutor);
+
+        return hireTutorMapper.toDto(hireTutor);
     }
 }

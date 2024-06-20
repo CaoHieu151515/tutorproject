@@ -47,48 +47,48 @@ public class RatingServiceImpl implements RatingService {
         log.debug("Request to save Rating : {}", ratingDTO);
         Rating rating = ratingMapper.toEntity(ratingDTO);
         rating = ratingRepository.save(rating);
-        Long tutor = rating.getTutor().getId();
-        if (tutor != null) {
-            updateAverageRating(tutor);
-        }
+        // Long tutor = rating.getTutor().getId();
+        // if (tutor != null) {
+        //     updateAverageRating(tutor);
+        // }
         return ratingMapper.toDto(rating);
     }
 
     /////////////////// Thực hiện thử bằng domain ????
-    private void updateAverageRating(Long id) {
-        Tutor tutor = tutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
-        Set<Rating> ratings = tutor.getRatings();
+    // private void updateAverageRating(Long id) {
+    //     Tutor tutor = tutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
+    //     Set<Rating> ratings = tutor.getRatings();
 
-        if (ratings != null && !ratings.isEmpty()) {
-            BigDecimal sumRatings = ratings
-                .stream()
-                .map(Rating::getRating)
-                .map(BigDecimal::valueOf)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-            log.debug("Request to save Rating : {}", sumRatings);
+    //     if (ratings != null && !ratings.isEmpty()) {
+    //         BigDecimal sumRatings = ratings
+    //             .stream()
+    //             .map(Rating::getRating)
+    //             .map(BigDecimal::valueOf)
+    //             .reduce(BigDecimal.ZERO, BigDecimal::add);
+    //         log.debug("Request to save Rating : {}", sumRatings);
 
-            int countRatings = ratings.size();
-            BigDecimal count = BigDecimal.valueOf(countRatings);
-            log.debug("Request to save Rating : {}", count);
+    //         int countRatings = ratings.size();
+    //         BigDecimal count = BigDecimal.valueOf(countRatings);
+    //         log.debug("Request to save Rating : {}", count);
 
-            BigDecimal averageRating = sumRatings.divide(count, 2, RoundingMode.HALF_UP);
-            tutor.setAverageRating(averageRating);
-        } else {
-            tutor.setAverageRating(BigDecimal.ZERO);
-        }
+    //         BigDecimal averageRating = sumRatings.divide(count, 2, RoundingMode.HALF_UP);
+    //         tutor.setAverageRating(averageRating);
+    //     } else {
+    //         tutor.setAverageRating(BigDecimal.ZERO);
+    //     }
 
-        tutorRepository.save(tutor);
-    }
+    //     tutorRepository.save(tutor);
+    // }
 
     @Override
     public RatingDTO update(RatingDTO ratingDTO) {
         log.debug("Request to update Rating : {}", ratingDTO);
         Rating rating = ratingMapper.toEntity(ratingDTO);
         rating = ratingRepository.save(rating);
-        Long tutor = rating.getTutor().getId();
-        if (tutor != null) {
-            updateAverageRating(tutor);
-        }
+        // Long tutor = rating.getTutor().getId();
+        // if (tutor != null) {
+        //     updateAverageRating(tutor);
+        // }
         return ratingMapper.toDto(rating);
     }
 
