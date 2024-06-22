@@ -16,6 +16,8 @@ public interface AppUserService {
      */
     AppUserDTO save(AppUserDTO appUserDTO);
 
+    Optional<AppUserDTO> getBycurrentUser();
+
     /**
      * Updates a appUser.
      *

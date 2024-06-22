@@ -1,6 +1,7 @@
 package com.tutor.auth0r.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.enumeration.GenderType;
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import java.util.Objects;
  * A DTO for the {@link com.tutor.auth0r.domain.AppUser} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AppUserDTO implements Serializable {
 
     private Long id;
@@ -27,9 +29,10 @@ public class AppUserDTO implements Serializable {
 
     private UserVerifyDTO userVerify;
 
+    private WalletDTO wallet;
+
     private UserDTO user;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private RatingDTO rating;
 
     public Long getId() {
@@ -102,6 +105,14 @@ public class AppUserDTO implements Serializable {
 
     public void setUser(UserDTO user) {
         this.user = user;
+    }
+
+    public WalletDTO getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(WalletDTO wallet) {
+        this.wallet = wallet;
     }
 
     public RatingDTO getRating() {

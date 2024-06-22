@@ -6,12 +6,14 @@ import com.tutor.auth0r.domain.Rating;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
+import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.RatingDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
+import com.tutor.auth0r.service.dto.WalletDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.*;
@@ -31,12 +33,26 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     UserVerifyMapper verifyMapperins = Mappers.getMapper(UserVerifyMapper.class);
 
     TutorMapper tutorins = Mappers.getMapper(TutorMapper.class);
+    WalletMapper walletins = Mappers.getMapper(WalletMapper.class);
 
     @Mapping(target = "tutor", source = "tutor", qualifiedByName = "tutorId_2")
     @Mapping(target = "userVerify", source = "userVerify", qualifiedByName = "userVerifyId_2")
     @Mapping(target = "user", source = "user", qualifiedByName = "userId")
     @Mapping(target = "rating", source = "rating", qualifiedByName = "ratingUnestTuTor")
+    @Mapping(target = "wallet", source = "wallet", qualifiedByName = "walletmapper")
     AppUserDTO toDto(AppUser s);
+
+    @Named("currenttoDTO")
+    @Mappings(
+        {
+            @Mapping(target = "tutor", ignore = true),
+            @Mapping(target = "userVerify", source = "userVerify", qualifiedByName = "userVerifyId_2"),
+            @Mapping(target = "user", source = "user", qualifiedByName = "userId"),
+            @Mapping(target = "rating", ignore = true),
+            @Mapping(target = "wallet", source = "wallet", qualifiedByName = "walletmapper"),
+        }
+    )
+    AppUserDTO currenttoDTO(AppUser s);
 
     @Named("tutorId")
     @BeanMapping(ignoreByDefault = false)
@@ -83,5 +99,13 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
         }
 
         return TutorMapper.INSTANCE.toDto(tutor);
+    }
+
+    @Named("walletmapper")
+    static WalletDTO walletmapper(Wallet wallet) {
+        if (wallet == null) {
+            return null;
+        }
+        return WalletMapper.INSTANCE.RemoveSelftoDTO(wallet);
     }
 }

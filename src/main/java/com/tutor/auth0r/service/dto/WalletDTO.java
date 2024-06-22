@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -7,6 +8,7 @@ import java.util.Objects;
  * A DTO for the {@link com.tutor.auth0r.domain.Wallet} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class WalletDTO implements Serializable {
 
     private Long id;

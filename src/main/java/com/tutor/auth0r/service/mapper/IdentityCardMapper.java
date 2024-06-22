@@ -48,7 +48,6 @@ public interface IdentityCardMapper extends EntityMapper<IdentityCardDTO, Identi
                 if (media == null) {
                     return null;
                 }
-                media.setIdentityCard(null);
                 return MediaMapper.INSTANCE.toDto(media);
             })
             .collect(Collectors.toSet());

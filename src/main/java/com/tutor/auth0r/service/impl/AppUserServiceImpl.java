@@ -3,6 +3,7 @@ package com.tutor.auth0r.service.impl;
 import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.service.AppUserService;
+import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.mapper.AppUserMapper;
 import java.util.LinkedList;
@@ -27,10 +28,12 @@ public class AppUserServiceImpl implements AppUserService {
     private final AppUserRepository appUserRepository;
 
     private final AppUserMapper appUserMapper;
+    private final UserService userService;
 
-    public AppUserServiceImpl(AppUserRepository appUserRepository, AppUserMapper appUserMapper) {
+    public AppUserServiceImpl(AppUserRepository appUserRepository, AppUserMapper appUserMapper, UserService userService) {
         this.appUserRepository = appUserRepository;
         this.appUserMapper = appUserMapper;
+        this.userService = userService;
     }
 
     @Override
@@ -105,5 +108,15 @@ public class AppUserServiceImpl implements AppUserService {
             .stream()
             .map(appUserMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    @Override
+    public Optional<AppUserDTO> getBycurrentUser() {
+        return userService
+            .getCurrentUser()
+            .flatMap(user -> {
+                Optional<AppUser> appUserOptional = Optional.ofNullable(appUserRepository.findByUser(user));
+                return appUserOptional.map(appUserMapper::currenttoDTO);
+            });
     }
 }
