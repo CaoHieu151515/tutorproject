@@ -18,12 +18,12 @@ public interface HireTutorMapper extends EntityMapper<HireTutorDTO, HireTutor> {
     HireTutorDTO toDto(HireTutor s);
 
     @Named("appUserId")
-    @BeanMapping(ignoreByDefault = false)
+    @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     AppUserDTO toDtoAppUserId(AppUser appUser);
 
     @Named("tutorId")
-    @BeanMapping(ignoreByDefault = false)
+    @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     TutorDTO toDtoTutorId(Tutor tutor);
 }

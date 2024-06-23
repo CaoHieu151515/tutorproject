@@ -16,6 +16,12 @@ public class UserDTO implements Serializable {
 
     private String imageUrl;
 
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -50,12 +56,41 @@ public class UserDTO implements Serializable {
         this.imageUrl = imageUrl;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    // Getter and Setter for lastName
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    // Getter and Setter for email
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
         return "UserDTO{" +
             "id='" + id + '\'' +
             ", login='" + login + '\'' +
-            "}";
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", email='" + email + '\'' +
+            '}';
     }
 }
