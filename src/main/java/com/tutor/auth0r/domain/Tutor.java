@@ -6,6 +6,7 @@ import com.tutor.auth0r.domain.enumeration.TuStatus;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -57,7 +58,7 @@ public class Tutor implements Serializable {
     @JsonIgnoreProperties(value = { "tutor" }, allowSetters = true)
     private Set<HiringHours> hiringHours = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tutor")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tutor")
     @JsonIgnoreProperties(value = { "tutor", "appUser" }, allowSetters = true)
     private Set<Rating> ratings = new HashSet<>();
 
@@ -247,6 +248,16 @@ public class Tutor implements Serializable {
         this.ratings = ratings;
     }
 
+    public void updateAverageRating() {
+        if (this.ratings.isEmpty()) {
+            this.averageRating = BigDecimal.ZERO;
+        } else {
+            double sum = this.ratings.stream().mapToDouble(rating -> rating.getRating() != null ? rating.getRating() : 0.0).sum();
+            double avg = sum / this.ratings.size();
+            this.averageRating = BigDecimal.valueOf(avg).setScale(2, RoundingMode.HALF_UP);
+        }
+    }
+
     public Tutor ratings(Set<Rating> ratings) {
         this.setRatings(ratings);
         return this;
@@ -255,6 +266,7 @@ public class Tutor implements Serializable {
     public Tutor addRating(Rating rating) {
         this.ratings.add(rating);
         rating.setTutor(this);
+
         return this;
     }
 

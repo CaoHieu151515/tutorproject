@@ -5,10 +5,13 @@ import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.repository.RatingRepository;
 import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.service.RatingService;
+import com.tutor.auth0r.service.TutorService;
 import com.tutor.auth0r.service.dto.RatingDTO;
 import com.tutor.auth0r.service.mapper.RatingMapper;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -34,61 +37,52 @@ public class RatingServiceImpl implements RatingService {
 
     private final TutorRepository tutorRepository;
 
+    private final TutorService tutorService;
+
     private final RatingMapper ratingMapper;
 
-    public RatingServiceImpl(RatingRepository ratingRepository, RatingMapper ratingMapper, TutorRepository tutorRepository) {
+    public RatingServiceImpl(
+        RatingRepository ratingRepository,
+        RatingMapper ratingMapper,
+        TutorRepository tutorRepository,
+        TutorService tutorService
+    ) {
         this.ratingRepository = ratingRepository;
         this.ratingMapper = ratingMapper;
         this.tutorRepository = tutorRepository;
+        this.tutorService = tutorService;
     }
 
     @Override
     public RatingDTO save(RatingDTO ratingDTO) {
         log.debug("Request to save Rating : {}", ratingDTO);
         Rating rating = ratingMapper.toEntity(ratingDTO);
+
+        rating.setDate(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
+        Tutor tutor = tutorRepository.findById(rating.getTutor().getId()).orElseThrow(() -> new RuntimeException("Tutor not found"));
+        rating.setTutor(tutor);
         rating = ratingRepository.save(rating);
-        // Long tutor = rating.getTutor().getId();
-        // if (tutor != null) {
-        //     updateAverageRating(tutor);
-        // }
+
+        tutor.addRating(rating);
+        tutor.updateAverageRating();
+
+        tutorRepository.save(tutor);
+
         return ratingMapper.toDto(rating);
     }
-
-    /////////////////// Thực hiện thử bằng domain ????
-    // private void updateAverageRating(Long id) {
-    //     Tutor tutor = tutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
-    //     Set<Rating> ratings = tutor.getRatings();
-
-    //     if (ratings != null && !ratings.isEmpty()) {
-    //         BigDecimal sumRatings = ratings
-    //             .stream()
-    //             .map(Rating::getRating)
-    //             .map(BigDecimal::valueOf)
-    //             .reduce(BigDecimal.ZERO, BigDecimal::add);
-    //         log.debug("Request to save Rating : {}", sumRatings);
-
-    //         int countRatings = ratings.size();
-    //         BigDecimal count = BigDecimal.valueOf(countRatings);
-    //         log.debug("Request to save Rating : {}", count);
-
-    //         BigDecimal averageRating = sumRatings.divide(count, 2, RoundingMode.HALF_UP);
-    //         tutor.setAverageRating(averageRating);
-    //     } else {
-    //         tutor.setAverageRating(BigDecimal.ZERO);
-    //     }
-
-    //     tutorRepository.save(tutor);
-    // }
 
     @Override
     public RatingDTO update(RatingDTO ratingDTO) {
         log.debug("Request to update Rating : {}", ratingDTO);
         Rating rating = ratingMapper.toEntity(ratingDTO);
-        rating = ratingRepository.save(rating);
-        // Long tutor = rating.getTutor().getId();
-        // if (tutor != null) {
-        //     updateAverageRating(tutor);
-        // }
+
+        // rating = ratingRepository.save(rating);
+
+        Tutor tutor = tutorRepository.findById(rating.getTutor().getId()).orElseThrow(() -> new RuntimeException("Tutor not found"));
+        tutor.addRating(rating);
+        tutor.updateAverageRating();
+        tutorService.save(tutor);
+
         return ratingMapper.toDto(rating);
     }
 

@@ -4,7 +4,6 @@ import com.tutor.auth0r.config.PricingProperties;
 import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.HireTutor;
 import com.tutor.auth0r.domain.Tutor;
-import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.domain.enumeration.HireStatus;
@@ -13,7 +12,6 @@ import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.HireTutorRepository;
 import com.tutor.auth0r.repository.TutorRepository;
-import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.HireTutorService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.WalletService;
@@ -50,8 +48,6 @@ public class HireTutorServiceImpl implements HireTutorService {
 
     private final UserService userService;
 
-    private final AppUserService appUserService;
-
     private final AppUserRepository appUserRepository;
 
     private final TutorRepository tutorRepository;
@@ -61,7 +57,6 @@ public class HireTutorServiceImpl implements HireTutorService {
         HireTutorMapper hireTutorMapper,
         WalletService walletService,
         UserService userService,
-        AppUserService appUserService,
         AppUserRepository appUserRepository,
         TutorRepository tutorRepository
     ) {
@@ -69,7 +64,6 @@ public class HireTutorServiceImpl implements HireTutorService {
         this.hireTutorMapper = hireTutorMapper;
         this.walletService = walletService;
         this.userService = userService;
-        this.appUserService = appUserService;
         this.appUserRepository = appUserRepository;
         this.tutorRepository = tutorRepository;
     }

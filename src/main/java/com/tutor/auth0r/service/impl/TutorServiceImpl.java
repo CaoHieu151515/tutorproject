@@ -96,4 +96,11 @@ public class TutorServiceImpl implements TutorService {
         log.debug("Request to delete Tutor : {}", id);
         tutorRepository.deleteById(id);
     }
+
+    @Override
+    public Tutor save(Tutor tutor) {
+        log.debug("Request to save Wallet : {}", tutor);
+        tutor = tutorRepository.save(tutor);
+        return tutor;
+    }
 }

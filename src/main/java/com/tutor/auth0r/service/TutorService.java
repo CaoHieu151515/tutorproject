@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service;
 
+import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,8 @@ public interface TutorService {
      * @return the persisted entity.
      */
     TutorDTO save(TutorDTO tutorDTO);
+
+    Tutor save(Tutor tutor);
 
     /**
      * Updates a tutor.
