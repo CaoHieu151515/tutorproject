@@ -151,6 +151,15 @@ public class HireTutorServiceImpl implements HireTutorService {
         }
     }
 
+    @Override
+    public HireTutorDTO updatesTatus(Long id) {
+        log.debug("Request to update HireTutor : {}", id);
+        HireTutor hireTutor = hireTutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
+        hireTutor.setStatus(HireStatus.DONE);
+        hireTutor = hireTutorRepository.save(hireTutor);
+        return hireTutorMapper.toDto(hireTutor);
+    }
+
     private void processWalletTransactions(HireTutor hireTutor) {
         Double trueAmount = hireTutor.getTutor().getPrice() * hireTutor.getTimeHire();
 

@@ -26,6 +26,8 @@ public interface HireTutorService {
      */
     HireTutorDTO update(HireTutorDTO hireTutorDTO);
 
+    HireTutorDTO updatesTatus(Long id);
+
     /**
      * Partially updates a hireTutor.
      *

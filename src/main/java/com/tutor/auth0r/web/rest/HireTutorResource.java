@@ -175,4 +175,13 @@ public class HireTutorResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @PutMapping("/{id}/updateStatus")
+    public ResponseEntity<Void> updateHireTutorStatus(@PathVariable(value = "id", required = false) final Long id)
+        throws URISyntaxException {
+        hireTutorService.updatesTatus(id);
+        return ResponseEntity.noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
+    }
 }
