@@ -3,7 +3,9 @@ package com.tutor.auth0r.service.impl;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.service.TutorService;
+import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
+import com.tutor.auth0r.service.mapper.CustomTutorMapper;
 import com.tutor.auth0r.service.mapper.TutorMapper;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,9 +30,12 @@ public class TutorServiceImpl implements TutorService {
 
     private final TutorMapper tutorMapper;
 
-    public TutorServiceImpl(TutorRepository tutorRepository, TutorMapper tutorMapper) {
+    private final CustomTutorMapper customTutorMapper;
+
+    public TutorServiceImpl(TutorRepository tutorRepository, TutorMapper tutorMapper, CustomTutorMapper customTutorMapper) {
         this.tutorRepository = tutorRepository;
         this.tutorMapper = tutorMapper;
+        this.customTutorMapper = customTutorMapper;
     }
 
     @Override
@@ -102,5 +107,10 @@ public class TutorServiceImpl implements TutorService {
         log.debug("Request to save Wallet : {}", tutor);
         tutor = tutorRepository.save(tutor);
         return tutor;
+    }
+
+    @Override
+    public Optional<TuTorCusTomDTO> findOneCustom(Long id) {
+        return tutorRepository.findById(id).map(customTutorMapper::toDto);
     }
 }

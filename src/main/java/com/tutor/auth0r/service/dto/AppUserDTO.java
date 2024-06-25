@@ -1,7 +1,6 @@
 package com.tutor.auth0r.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.enumeration.GenderType;
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,0 +1,29 @@
+{
+  "properties": [
+    {
+      "name": "spring.devtools.restart.enabled",
+      "type": "java.lang.String",
+      "description": "A description for 'spring.devtools.restart.enabled'"
+    },
+    {
+      "name": "spring.devtools.livereload.enabled",
+      "type": "java.lang.String",
+      "description": "A description for 'spring.devtools.livereload.enabled'"
+    },
+    {
+      "name": "jhipster.cors.allowed-origin-patterns",
+      "type": "java.lang.String",
+      "description": "A description for 'jhipster.cors.allowed-origin-patterns'"
+    },
+    {
+      "name": "spring.devtools.restart.additional-exclude",
+      "type": "java.lang.String",
+      "description": "A description for 'spring.devtools.restart.additional-exclude'"
+    },
+    {
+      "name": "spring.liquibase.hibernate.ddl-auto",
+      "type": "java.lang.String",
+      "description": "A description for 'spring.liquibase.hibernate.ddl-auto'"
+    }
+  ]
+}

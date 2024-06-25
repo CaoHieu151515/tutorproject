@@ -1,6 +1,7 @@
 package com.tutor.auth0r.service;
 
 import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import java.util.List;
 import java.util.Optional;
@@ -56,6 +57,8 @@ public interface TutorService {
      * @return the entity.
      */
     Optional<TutorDTO> findOne(Long id);
+
+    Optional<TuTorCusTomDTO> findOneCustom(Long id);
 
     /**
      * Delete the "id" tutor.

@@ -3,6 +3,7 @@ package com.tutor.auth0r.web.rest;
 import com.tutor.auth0r.repository.WalletRepository;
 import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.dto.WalletDTO;
+import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -165,5 +166,10 @@ public class WalletResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/transactions")
+    public ResponseEntity<List<WalletTransactionDTO>> getWalletTransactions() {
+        return ResponseEntity.ok().body(walletService.getWalletTransactionsByCurrentUserWallet());
     }
 }

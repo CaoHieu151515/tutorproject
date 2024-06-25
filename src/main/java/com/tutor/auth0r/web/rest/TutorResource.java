@@ -2,6 +2,7 @@ package com.tutor.auth0r.web.rest;
 
 import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.service.TutorService;
+import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -170,5 +171,12 @@ public class TutorResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/GetCustom/{id}")
+    public ResponseEntity<TuTorCusTomDTO> getTutorCustom(@PathVariable("id") Long id) {
+        log.debug("REST request to get Tutor : {}", id);
+        Optional<TuTorCusTomDTO> TuTorCusTomDTO = tutorService.findOneCustom(id);
+        return ResponseUtil.wrapOrNotFound(TuTorCusTomDTO);
     }
 }

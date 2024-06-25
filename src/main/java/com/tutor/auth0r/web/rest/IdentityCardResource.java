@@ -1,6 +1,5 @@
 package com.tutor.auth0r.web.rest;
 
-import com.tutor.auth0r.repository.IdentityCardRepository;
 import com.tutor.auth0r.service.IdentityCardService;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
@@ -32,11 +31,8 @@ public class IdentityCardResource {
 
     private final IdentityCardService identityCardService;
 
-    private final IdentityCardRepository identityCardRepository;
-
-    public IdentityCardResource(IdentityCardService identityCardService, IdentityCardRepository identityCardRepository) {
+    public IdentityCardResource(IdentityCardService identityCardService) {
         this.identityCardService = identityCardService;
-        this.identityCardRepository = identityCardRepository;
     }
 
     /**
