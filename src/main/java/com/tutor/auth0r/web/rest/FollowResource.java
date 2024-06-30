@@ -2,7 +2,9 @@ package com.tutor.auth0r.web.rest;
 
 import com.tutor.auth0r.repository.FollowRepository;
 import com.tutor.auth0r.service.FollowService;
+import com.tutor.auth0r.service.dto.FollowCustomDTO;
 import com.tutor.auth0r.service.dto.FollowDTO;
+import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -165,5 +167,19 @@ public class FollowResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/FollowAndUnFollow/{id}")
+    public ResponseEntity<Void> FollowAndUnFollow(@PathVariable("id") Long id) {
+        followService.FollowAndUnFollow(id);
+        return ResponseEntity.noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
+    }
+
+    @GetMapping("/getAllFollowedTutor")
+    public List<FollowCustomDTO> getAllFollowedTutor() {
+        log.debug("REST request to get all Follows");
+        return followService.viewListOfFollowedTutors();
     }
 }

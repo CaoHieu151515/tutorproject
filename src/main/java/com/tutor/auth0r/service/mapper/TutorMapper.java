@@ -34,4 +34,8 @@ public interface TutorMapper extends EntityMapper<TutorDTO, Tutor> {
         }
         return RatingMapper.INSTANCE.toDto(rating);
     }
+
+    @Named("FollowShortDto")
+    @Mappings({ @Mapping(target = "tutorDetails", ignore = true), @Mapping(target = "rating", ignore = true) })
+    TutorDTO FollowShortDto(Tutor s);
 }

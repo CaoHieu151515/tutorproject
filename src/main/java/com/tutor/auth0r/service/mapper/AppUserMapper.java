@@ -1,21 +1,17 @@
 package com.tutor.auth0r.service.mapper;
 
 import com.tutor.auth0r.domain.AppUser;
-import com.tutor.auth0r.domain.IdentityCard;
 import com.tutor.auth0r.domain.Rating;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.service.dto.AppUserDTO;
-import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.RatingDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -54,10 +50,10 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     )
     AppUserDTO currenttoDTO(AppUser s);
 
-    @Named("tutorId")
-    @BeanMapping(ignoreByDefault = false)
-    @Mapping(target = "id", source = "id")
-    TutorDTO toDtoTutorId(Tutor tutor);
+    // @Named("tutorId")
+    // @BeanMapping(ignoreByDefault = false)
+    // @Mapping(target = "id", source = "id")
+    // TutorDTO toDtoTutorId(Tutor tutor);
 
     @Named("userVerifyId")
     @BeanMapping(ignoreByDefault = false)
@@ -69,10 +65,10 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     @Mapping(target = "id", source = "id")
     UserDTO toDtoUserId(User user);
 
-    @Named("ratingId")
-    @BeanMapping(ignoreByDefault = false)
-    @Mapping(target = "id", source = "id")
-    RatingDTO toDtoRatingId(Rating rating);
+    // @Named("ratingId")
+    // @BeanMapping(ignoreByDefault = false)
+    // @Mapping(target = "id", source = "id")
+    // RatingDTO toDtoRatingId(Rating rating);
 
     @Named("ratingUnestTuTor")
     static RatingDTO ratingUnestTuTor(Rating rating) {

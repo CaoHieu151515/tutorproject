@@ -1,6 +1,8 @@
 package com.tutor.auth0r.service;
 
+import com.tutor.auth0r.service.dto.FollowCustomDTO;
 import com.tutor.auth0r.service.dto.FollowDTO;
+import com.tutor.auth0r.service.dto.TutorDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,4 +55,8 @@ public interface FollowService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    void FollowAndUnFollow(Long id);
+
+    List<FollowCustomDTO> viewListOfFollowedTutors();
 }

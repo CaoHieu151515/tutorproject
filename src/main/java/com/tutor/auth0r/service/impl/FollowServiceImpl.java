@@ -1,10 +1,24 @@
 package com.tutor.auth0r.service.impl;
 
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Follow;
+import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.domain.User;
+import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.FollowRepository;
+import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.service.FollowService;
+import com.tutor.auth0r.service.UserService;
+import com.tutor.auth0r.service.dto.FollowCustomDTO;
 import com.tutor.auth0r.service.dto.FollowDTO;
+import com.tutor.auth0r.service.dto.TutorDTO;
+import com.tutor.auth0r.service.mapper.AppUserMapper;
+import com.tutor.auth0r.service.mapper.FollowCustomMapper;
 import com.tutor.auth0r.service.mapper.FollowMapper;
+import com.tutor.auth0r.service.mapper.TutorMapper;
+import com.tutor.auth0r.web.rest.errors.NotLoggedException;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -27,9 +41,36 @@ public class FollowServiceImpl implements FollowService {
 
     private final FollowMapper followMapper;
 
-    public FollowServiceImpl(FollowRepository followRepository, FollowMapper followMapper) {
+    private final UserService userService;
+
+    private final TutorRepository tutorRepository;
+
+    private final AppUserRepository appUserRepository;
+
+    private final TutorMapper tutorMapper;
+
+    private final AppUserMapper appUserMapper;
+
+    private final FollowCustomMapper followCustomMapper;
+
+    public FollowServiceImpl(
+        FollowRepository followRepository,
+        FollowMapper followMapper,
+        UserService userService,
+        TutorRepository tutorRepository,
+        AppUserRepository appUserRepository,
+        TutorMapper tutorMapper,
+        AppUserMapper appUserMapper,
+        FollowCustomMapper followCustomMapper
+    ) {
         this.followRepository = followRepository;
         this.followMapper = followMapper;
+        this.userService = userService;
+        this.tutorRepository = tutorRepository;
+        this.appUserRepository = appUserRepository;
+        this.tutorMapper = tutorMapper;
+        this.appUserMapper = appUserMapper;
+        this.followCustomMapper = followCustomMapper;
     }
 
     @Override
@@ -81,5 +122,43 @@ public class FollowServiceImpl implements FollowService {
     public void delete(Long id) {
         log.debug("Request to delete Follow : {}", id);
         followRepository.deleteById(id);
+    }
+
+    @Override
+    public void FollowAndUnFollow(Long id) {
+        Optional<User> userOptional = userService.getUserWithAuthorities();
+        if (!userOptional.isPresent()) {
+            throw new NotLoggedException();
+        }
+        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+
+        AppUser appUser = appUserRepository.findByUser(user);
+        Tutor tutor = tutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
+
+        Optional<Follow> existingFollow = followRepository.findByFollowerAppUserAndFollowedTutor(appUser, tutor);
+
+        if (existingFollow.isPresent()) {
+            followRepository.delete(existingFollow.get());
+        } else {
+            Follow follow = new Follow();
+            follow.setFollowerAppUser(appUser);
+            follow.setFollowedTutor(tutor);
+            follow.setCreateDate(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
+            followRepository.save(follow);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FollowCustomDTO> viewListOfFollowedTutors() {
+        Optional<User> userOptional = userService.getUserWithAuthorities();
+        if (!userOptional.isPresent()) {
+            throw new NotLoggedException();
+        }
+        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+
+        AppUser appUser = appUserRepository.findByUser(user);
+        List<Follow> follows = followRepository.findByFollowerAppUser(appUser);
+        return follows.stream().map(Follow::getFollowedTutor).map(followCustomMapper::toFollowCustomDTO).collect(Collectors.toList());
     }
 }
