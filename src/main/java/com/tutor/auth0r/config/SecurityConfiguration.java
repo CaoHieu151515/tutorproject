@@ -73,6 +73,7 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/register")).permitAll()
                     .requestMatchers(mvc.pattern("/api/activate")).permitAll()
                     .requestMatchers(mvc.pattern("/api/app-users/GetAllRecommend")).permitAll()//
+                    .requestMatchers(mvc.pattern("/api/tutors/GetCustom/*")).permitAll()//
                     .requestMatchers(mvc.pattern("/api/app-users/*")).permitAll()//
                     .requestMatchers(mvc.pattern("/api/hire-tutors/hireTutor")).permitAll()//
                     .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()

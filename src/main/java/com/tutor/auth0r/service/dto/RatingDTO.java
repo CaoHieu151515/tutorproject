@@ -1,6 +1,7 @@
 package com.tutor.auth0r.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tutor.auth0r.domain.AppUser;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -29,6 +30,8 @@ public class RatingDTO implements Serializable {
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private TutorDTO tutor;
+
+    private AppUserDTO appUser;
 
     // Getters and setters...
 
@@ -78,6 +81,14 @@ public class RatingDTO implements Serializable {
 
     public void setTutor(TutorDTO tutor) {
         this.tutor = tutor;
+    }
+
+    public AppUserDTO getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUserDTO appUser) {
+        this.appUser = appUser;
     }
 
     @Override
