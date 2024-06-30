@@ -22,7 +22,7 @@ public class Wallet implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private Double amount;
 
     @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "rating", "hireTutors", "wallet" }, allowSetters = true)

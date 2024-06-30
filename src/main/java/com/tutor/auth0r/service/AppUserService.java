@@ -56,6 +56,8 @@ public interface AppUserService {
      */
     Optional<AppUserDTO> findOne(Long id);
 
+    AppUserDTO AdminConFirmTutor(Long id);
+
     /**
      * Delete the "id" appUser.
      *
@@ -64,4 +66,6 @@ public interface AppUserService {
     void delete(Long id);
 
     List<AppUserDTO> AllAppUsersWithRecommend();
+
+    AppUserDTO updateVerify(AppUserDTO appUserDTO);
 }

@@ -22,7 +22,7 @@ public class IdentityCard implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "identityCard")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "identityCard")
     @JsonIgnoreProperties(value = { "academicRank", "identityCard", "tutorImage", "tutorVideo" }, allowSetters = true)
     private Set<Media> media = new HashSet<>();
 

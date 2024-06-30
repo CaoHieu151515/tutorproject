@@ -44,7 +44,7 @@ public class AppUser implements Serializable {
     private Tutor tutor;
 
     @JsonIgnoreProperties(value = { "identityCard", "academicRanks", "appUser" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(unique = true)
     private UserVerify userVerify;
 
@@ -62,7 +62,7 @@ public class AppUser implements Serializable {
     private Set<HireTutor> hireTutors = new HashSet<>();
 
     @JsonIgnoreProperties(value = { "appUser", "transactions" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "appUser")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "appUser")
     private Wallet wallet;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

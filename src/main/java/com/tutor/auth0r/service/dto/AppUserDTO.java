@@ -1,6 +1,6 @@
 package com.tutor.auth0r.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+// import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tutor.auth0r.domain.enumeration.GenderType;
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,7 +9,7 @@ import java.util.Objects;
  * A DTO for the {@link com.tutor.auth0r.domain.AppUser} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+// @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AppUserDTO implements Serializable {
 
     private Long id;

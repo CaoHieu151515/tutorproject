@@ -1,8 +1,13 @@
 package com.tutor.auth0r.service;
 
 import com.tutor.auth0r.config.Constants;
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Authority;
+import com.tutor.auth0r.domain.IdentityCard;
 import com.tutor.auth0r.domain.User;
+import com.tutor.auth0r.domain.UserVerify;
+import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.AuthorityRepository;
 import com.tutor.auth0r.repository.UserRepository;
 import com.tutor.auth0r.security.AuthoritiesConstants;
@@ -38,10 +43,18 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
+    private final AppUserRepository appUserRepository;
+
+    public UserService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        AuthorityRepository authorityRepository,
+        AppUserRepository appUserRepository
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -117,6 +130,21 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
+
+        AppUser appuser = new AppUser();
+        appuser.setBeTutor(false);
+
+        Wallet wallet = new Wallet();
+        wallet.setAmount(0.0);
+        wallet.setAppUser(appuser);
+
+        UserVerify userVerify = new UserVerify();
+
+        appuser.setUser(newUser);
+        appuser.setWallet(wallet);
+        appuser.setUserVerify(userVerify);
+        appUserRepository.save(appuser);
+
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
