@@ -244,4 +244,20 @@ public class AppUserServiceImpl implements AppUserService {
                 return appUserOptional.map(appUserMapper::toUserProfileDTO);
             });
     }
+
+    @Override
+    public Optional<UserProfileDTO> updateUserProfile(UserProfileDTO userProfileDTO) {
+        return userService
+            .getCurrentUser()
+            .flatMap(user -> {
+                Optional<AppUser> appUserOptional = Optional.ofNullable(appUserRepository.findByUser(user));
+                if (appUserOptional.isPresent()) {
+                    AppUser appUser = appUserOptional.get();
+                    appUserMapper.updateAppUserFromDto(userProfileDTO, appUser);
+                    appUserRepository.save(appUser);
+                    return Optional.of(appUserMapper.toUserProfileDTO(appUser));
+                }
+                return Optional.empty();
+            });
+    }
 }

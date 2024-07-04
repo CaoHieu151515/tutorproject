@@ -171,4 +171,18 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
         }
     )
     UserProfileDTO toUserProfileDTO(AppUser appUser);
+
+    @Mappings(
+        {
+            @Mapping(target = "id", source = "appUserID"),
+            @Mapping(target = "user.firstName", source = "firstName"),
+            @Mapping(target = "user.lastName", source = "lastName"),
+            @Mapping(target = "gender", source = "gender"),
+            @Mapping(target = "user.imageUrl", source = "imgUrl"),
+            @Mapping(target = "user.email", source = "email"),
+            @Mapping(target = "bankAccountNumber", source = "bankNumber"),
+            @Mapping(target = "bankName", source = "bankName"),
+        }
+    )
+    void updateAppUserFromDto(UserProfileDTO userProfileDTO, @MappingTarget AppUser appUser);
 }

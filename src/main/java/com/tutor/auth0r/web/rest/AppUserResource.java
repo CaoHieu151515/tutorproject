@@ -242,4 +242,10 @@ public class AppUserResource {
         Optional<UserProfileDTO> UpdatecertificateDTO = appUserService.findUserProfile();
         return ResponseUtil.wrapOrNotFound(UpdatecertificateDTO);
     }
+
+    @PutMapping("/updateUserProfile")
+    public ResponseEntity<UserProfileDTO> updateUserProfile(@RequestBody UserProfileDTO userProfileDTO) {
+        Optional<UserProfileDTO> updatedUserProfileDTO = appUserService.updateUserProfile(userProfileDTO);
+        return ResponseUtil.wrapOrNotFound(updatedUserProfileDTO);
+    }
 }

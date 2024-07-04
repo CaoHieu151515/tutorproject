@@ -78,4 +78,6 @@ public interface AppUserService {
     Optional<UpdatecertificateDTO> findOneWithAllCetitycate();
 
     Optional<UserProfileDTO> findUserProfile();
+
+    Optional<UserProfileDTO> updateUserProfile(UserProfileDTO userProfileDTO);
 }
