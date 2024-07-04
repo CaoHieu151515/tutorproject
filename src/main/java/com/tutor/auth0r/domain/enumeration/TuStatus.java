@@ -7,4 +7,5 @@ public enum TuStatus {
     READY,
     BUSY,
     OFFLINE,
+    CONFIRMING,
 }
