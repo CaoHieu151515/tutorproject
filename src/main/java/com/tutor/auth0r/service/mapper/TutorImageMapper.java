@@ -13,17 +13,25 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface TutorImageMapper extends EntityMapper<TutorImageDTO, TutorImage> {
-    @Mapping(target = "media", source = "media", qualifiedByName = "mediaId")
+    @Mapping(target = "media", source = "media", qualifiedByName = "mediaId2")
     @Mapping(target = "tutorDetails", source = "tutorDetails", qualifiedByName = "tutorDetailsId")
     TutorImageDTO toDto(TutorImage s);
 
     @Named("mediaId")
-    @BeanMapping(ignoreByDefault = false)
+    @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     MediaDTO toDtoMediaId(Media media);
 
     @Named("tutorDetailsId")
-    @BeanMapping(ignoreByDefault = false)
+    @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     TutorDetailsDTO toDtoTutorDetailsId(TutorDetails tutorDetails);
+
+    @Named("mediaId2")
+    static MediaDTO mediamapper(Media media) {
+        if (media == null) {
+            return null;
+        }
+        return MediaMapper.INSTANCE.skiptoDTO(media);
+    }
 }

@@ -18,14 +18,10 @@ const apiUrl = 'api/identity-cards';
 
 // Actions
 
-export const getEntities = createAsyncThunk(
-  'identityCard/fetch_entity_list',
-  async ({ sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-    return axios.get<IIdentityCardMySuffix[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError },
-);
+export const getEntities = createAsyncThunk('identityCard/fetch_entity_list', async ({ sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+  return axios.get<IIdentityCardMySuffix[]>(requestUrl);
+});
 
 export const getEntity = createAsyncThunk(
   'identityCard/fetch_entity',

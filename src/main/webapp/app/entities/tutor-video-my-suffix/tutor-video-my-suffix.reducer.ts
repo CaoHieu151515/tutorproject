@@ -18,14 +18,10 @@ const apiUrl = 'api/tutor-videos';
 
 // Actions
 
-export const getEntities = createAsyncThunk(
-  'tutorVideo/fetch_entity_list',
-  async ({ sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-    return axios.get<ITutorVideoMySuffix[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError },
-);
+export const getEntities = createAsyncThunk('tutorVideo/fetch_entity_list', async ({ sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+  return axios.get<ITutorVideoMySuffix[]>(requestUrl);
+});
 
 export const getEntity = createAsyncThunk(
   'tutorVideo/fetch_entity',

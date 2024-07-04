@@ -16,5 +16,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="tutor"
                                  />
+
+        <addForeignKeyConstraint baseColumnNames="app_user_id"
+                                 baseTableName="rating"
+                                 constraintName="fk_rating__app_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="app_user"
+                                 />
     </changeSet>
 </databaseChangeLog>

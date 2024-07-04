@@ -51,13 +51,6 @@
       "relationshipWithBuiltInEntity": true
     },
     {
-      "otherEntityName": "rating",
-      "otherEntityRelationshipName": "appUser",
-      "relationshipName": "rating",
-      "relationshipSide": "left",
-      "relationshipType": "one-to-one"
-    },
-    {
       "otherEntityName": "hireTutor",
       "relationshipName": "hireTutor",
       "relationshipSide": "left",
@@ -72,6 +65,13 @@
       "relationshipName": "wallet",
       "relationshipSide": "right",
       "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "rating",
+      "otherEntityRelationshipName": "appUser",
+      "relationshipName": "rating",
+      "relationshipSide": "right",
+      "relationshipType": "one-to-many"
     }
   ],
   "searchEngine": "no",

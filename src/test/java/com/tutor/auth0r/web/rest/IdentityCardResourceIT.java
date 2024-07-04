@@ -15,7 +15,6 @@ import com.tutor.auth0r.service.mapper.IdentityCardMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +55,6 @@ class IdentityCardResourceIT {
 
     private IdentityCard identityCard;
 
-    private IdentityCard insertedIdentityCard;
-
     /**
      * Create an entity for this test.
      *
@@ -85,14 +82,6 @@ class IdentityCardResourceIT {
         identityCard = createEntity(em);
     }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedIdentityCard != null) {
-            identityCardRepository.delete(insertedIdentityCard);
-            insertedIdentityCard = null;
-        }
-    }
-
     @Test
     @Transactional
     void createIdentityCard() throws Exception {
@@ -113,8 +102,6 @@ class IdentityCardResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedIdentityCard = identityCardMapper.toEntity(returnedIdentityCardDTO);
         assertIdentityCardUpdatableFieldsEquals(returnedIdentityCard, getPersistedIdentityCard(returnedIdentityCard));
-
-        insertedIdentityCard = returnedIdentityCard;
     }
 
     @Test
@@ -139,7 +126,7 @@ class IdentityCardResourceIT {
     @Transactional
     void getAllIdentityCards() throws Exception {
         // Initialize the database
-        insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
+        identityCardRepository.saveAndFlush(identityCard);
 
         // Get all the identityCardList
         restIdentityCardMockMvc
@@ -153,7 +140,7 @@ class IdentityCardResourceIT {
     @Transactional
     void getIdentityCard() throws Exception {
         // Initialize the database
-        insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
+        identityCardRepository.saveAndFlush(identityCard);
 
         // Get the identityCard
         restIdentityCardMockMvc
@@ -174,7 +161,7 @@ class IdentityCardResourceIT {
     @Transactional
     void deleteIdentityCard() throws Exception {
         // Initialize the database
-        insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
+        identityCardRepository.saveAndFlush(identityCard);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

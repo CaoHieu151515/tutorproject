@@ -106,6 +106,9 @@ export const RatingMySuffix = () => {
                 <th>
                   <Translate contentKey="projectApp.rating.tutor">Tutor</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  <Translate contentKey="projectApp.rating.appUser">App User</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -122,6 +125,7 @@ export const RatingMySuffix = () => {
                   <td>{rating.hours}</td>
                   <td>{rating.date ? <TextFormat type="date" value={rating.date} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
                   <td>{rating.tutor ? <Link to={`/tutor-my-suffix/${rating.tutor.id}`}>{rating.tutor.id}</Link> : ''}</td>
+                  <td>{rating.appUser ? <Link to={`/app-user-my-suffix/${rating.appUser.id}`}>{rating.appUser.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/rating-my-suffix/${rating.id}`} color="info" size="sm" data-cy="entityDetailsButton">

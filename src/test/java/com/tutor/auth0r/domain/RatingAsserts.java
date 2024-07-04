@@ -62,6 +62,7 @@ public class RatingAsserts {
     public static void assertRatingUpdatableRelationshipsEquals(Rating expected, Rating actual) {
         assertThat(expected)
             .as("Verify Rating relationships")
-            .satisfies(e -> assertThat(e.getTutor()).as("check tutor").isEqualTo(actual.getTutor()));
+            .satisfies(e -> assertThat(e.getTutor()).as("check tutor").isEqualTo(actual.getTutor()))
+            .satisfies(e -> assertThat(e.getAppUser()).as("check appUser").isEqualTo(actual.getAppUser()));
     }
 }

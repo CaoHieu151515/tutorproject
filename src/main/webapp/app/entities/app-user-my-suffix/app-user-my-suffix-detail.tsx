@@ -73,10 +73,6 @@ export const AppUserMySuffixDetail = () => {
             <Translate contentKey="projectApp.appUser.user">User</Translate>
           </dt>
           <dd>{appUserEntity.user ? appUserEntity.user.id : ''}</dd>
-          <dt>
-            <Translate contentKey="projectApp.appUser.rating">Rating</Translate>
-          </dt>
-          <dd>{appUserEntity.rating ? appUserEntity.rating.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/app-user-my-suffix" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

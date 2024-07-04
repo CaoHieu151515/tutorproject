@@ -121,9 +121,6 @@ export const AppUserMySuffix = () => {
                 <th>
                   <Translate contentKey="projectApp.appUser.user">User</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
-                <th>
-                  <Translate contentKey="projectApp.appUser.rating">Rating</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
                 <th />
               </tr>
             </thead>
@@ -147,7 +144,6 @@ export const AppUserMySuffix = () => {
                     {appUser.userVerify ? <Link to={`/user-verify-my-suffix/${appUser.userVerify.id}`}>{appUser.userVerify.id}</Link> : ''}
                   </td>
                   <td>{appUser.user ? appUser.user.id : ''}</td>
-                  <td>{appUser.rating ? <Link to={`/rating-my-suffix/${appUser.rating.id}`}>{appUser.rating.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/app-user-my-suffix/${appUser.id}`} color="info" size="sm" data-cy="entityDetailsButton">

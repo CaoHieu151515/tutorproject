@@ -127,7 +127,7 @@ public class AppUserServiceImpl implements AppUserService {
         return appUserRepository
             .findAllAppUsersWithRecommendedTutors()
             .stream()
-            .map(appUserMapper::toDto)
+            .map(appUserMapper::toRecommedDTO)
             .collect(Collectors.toCollection(LinkedList::new));
     }
 

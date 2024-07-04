@@ -1,7 +1,9 @@
 package com.tutor.auth0r.service.mapper;
 
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.IdentityCard;
 import com.tutor.auth0r.domain.Media;
+import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import org.mapstruct.*;
@@ -13,6 +15,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface MediaMapper extends EntityMapper<MediaDTO, Media> {
     MediaMapper INSTANCE = Mappers.getMapper(MediaMapper.class);
+    TutorVideoMapper tuorVideoIns = Mappers.getMapper(TutorVideoMapper.class);
 
     @Mapping(target = "identityCard", source = "identityCard", qualifiedByName = "identityCardId")
     MediaDTO toDto(Media s);
@@ -21,4 +24,8 @@ public interface MediaMapper extends EntityMapper<MediaDTO, Media> {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     IdentityCardDTO toDtoIdentityCardId(IdentityCard identityCard);
+
+    @Named("skiptoDTO")
+    @Mappings({ @Mapping(target = "identityCard", ignore = true) })
+    MediaDTO skiptoDTO(Media s);
 }

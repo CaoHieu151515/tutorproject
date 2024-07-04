@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { ITutorMySuffix } from 'app/shared/model/tutor-my-suffix.model';
 import { getEntities as getTutors } from 'app/entities/tutor-my-suffix/tutor-my-suffix.reducer';
+import { IAppUserMySuffix } from 'app/shared/model/app-user-my-suffix.model';
+import { getEntities as getAppUsers } from 'app/entities/app-user-my-suffix/app-user-my-suffix.reducer';
 import { IRatingMySuffix } from 'app/shared/model/rating-my-suffix.model';
 import { getEntity, updateEntity, createEntity, reset } from './rating-my-suffix.reducer';
 
@@ -22,6 +24,7 @@ export const RatingMySuffixUpdate = () => {
   const isNew = id === undefined;
 
   const tutors = useAppSelector(state => state.tutor.entities);
+  const appUsers = useAppSelector(state => state.appUser.entities);
   const ratingEntity = useAppSelector(state => state.rating.entity);
   const loading = useAppSelector(state => state.rating.loading);
   const updating = useAppSelector(state => state.rating.updating);
@@ -39,6 +42,7 @@ export const RatingMySuffixUpdate = () => {
     }
 
     dispatch(getTutors({}));
+    dispatch(getAppUsers({}));
   }, []);
 
   useEffect(() => {
@@ -63,6 +67,7 @@ export const RatingMySuffixUpdate = () => {
       ...ratingEntity,
       ...values,
       tutor: tutors.find(it => it.id.toString() === values.tutor?.toString()),
+      appUser: appUsers.find(it => it.id.toString() === values.appUser?.toString()),
     };
 
     if (isNew) {
@@ -78,6 +83,7 @@ export const RatingMySuffixUpdate = () => {
       : {
           ...ratingEntity,
           tutor: ratingEntity?.tutor?.id,
+          appUser: ratingEntity?.appUser?.id,
         };
 
   return (
@@ -155,6 +161,22 @@ export const RatingMySuffixUpdate = () => {
                 <option value="" key="0" />
                 {tutors
                   ? tutors.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                id="rating-my-suffix-appUser"
+                name="appUser"
+                data-cy="appUser"
+                label={translate('projectApp.rating.appUser')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {appUsers
+                  ? appUsers.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

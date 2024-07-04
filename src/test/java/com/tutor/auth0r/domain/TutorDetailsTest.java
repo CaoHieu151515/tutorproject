@@ -29,7 +29,7 @@ class TutorDetailsTest {
     }
 
     @Test
-    void tutorVideoTest() {
+    void tutorVideoTest() throws Exception {
         TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
         TutorVideo tutorVideoBack = getTutorVideoRandomSampleGenerator();
 
@@ -41,7 +41,7 @@ class TutorDetailsTest {
     }
 
     @Test
-    void tutorTeachTest() {
+    void tutorTeachTest() throws Exception {
         TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
         TutorTeach tutorTeachBack = getTutorTeachRandomSampleGenerator();
 
@@ -63,7 +63,7 @@ class TutorDetailsTest {
     }
 
     @Test
-    void tutorImageTest() {
+    void tutorImageTest() throws Exception {
         TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
         TutorImage tutorImageBack = getTutorImageRandomSampleGenerator();
 
@@ -85,7 +85,7 @@ class TutorDetailsTest {
     }
 
     @Test
-    void tutorTest() {
+    void tutorTest() throws Exception {
         TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 

@@ -1,7 +1,6 @@
 import { ITutorMySuffix } from 'app/shared/model/tutor-my-suffix.model';
 import { IUserVerifyMySuffix } from 'app/shared/model/user-verify-my-suffix.model';
 import { IUser } from 'app/shared/model/user.model';
-import { IRatingMySuffix } from 'app/shared/model/rating-my-suffix.model';
 import { GenderType } from 'app/shared/model/enumerations/gender-type.model';
 
 export interface IAppUserMySuffix {
@@ -14,7 +13,6 @@ export interface IAppUserMySuffix {
   tutor?: ITutorMySuffix | null;
   userVerify?: IUserVerifyMySuffix | null;
   user?: IUser | null;
-  rating?: IRatingMySuffix | null;
 }
 
 export const defaultValue: Readonly<IAppUserMySuffix> = {

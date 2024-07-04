@@ -30,7 +30,7 @@ class AppUserTest {
     }
 
     @Test
-    void tutorTest() {
+    void tutorTest() throws Exception {
         AppUser appUser = getAppUserRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 
@@ -42,7 +42,7 @@ class AppUserTest {
     }
 
     @Test
-    void userVerifyTest() {
+    void userVerifyTest() throws Exception {
         AppUser appUser = getAppUserRandomSampleGenerator();
         UserVerify userVerifyBack = getUserVerifyRandomSampleGenerator();
 
@@ -54,19 +54,7 @@ class AppUserTest {
     }
 
     @Test
-    void ratingTest() {
-        AppUser appUser = getAppUserRandomSampleGenerator();
-        Rating ratingBack = getRatingRandomSampleGenerator();
-
-        appUser.setRating(ratingBack);
-        assertThat(appUser.getRating()).isEqualTo(ratingBack);
-
-        appUser.rating(null);
-        assertThat(appUser.getRating()).isNull();
-    }
-
-    @Test
-    void hireTutorTest() {
+    void hireTutorTest() throws Exception {
         AppUser appUser = getAppUserRandomSampleGenerator();
         HireTutor hireTutorBack = getHireTutorRandomSampleGenerator();
 
@@ -88,7 +76,7 @@ class AppUserTest {
     }
 
     @Test
-    void walletTest() {
+    void walletTest() throws Exception {
         AppUser appUser = getAppUserRandomSampleGenerator();
         Wallet walletBack = getWalletRandomSampleGenerator();
 
@@ -99,5 +87,27 @@ class AppUserTest {
         appUser.wallet(null);
         assertThat(appUser.getWallet()).isNull();
         assertThat(walletBack.getAppUser()).isNull();
+    }
+
+    @Test
+    void ratingTest() throws Exception {
+        AppUser appUser = getAppUserRandomSampleGenerator();
+        Rating ratingBack = getRatingRandomSampleGenerator();
+
+        appUser.addRating(ratingBack);
+        assertThat(appUser.getRatings()).containsOnly(ratingBack);
+        assertThat(ratingBack.getAppUser()).isEqualTo(appUser);
+
+        appUser.removeRating(ratingBack);
+        assertThat(appUser.getRatings()).doesNotContain(ratingBack);
+        assertThat(ratingBack.getAppUser()).isNull();
+
+        appUser.ratings(new HashSet<>(Set.of(ratingBack)));
+        assertThat(appUser.getRatings()).containsOnly(ratingBack);
+        assertThat(ratingBack.getAppUser()).isEqualTo(appUser);
+
+        appUser.setRatings(new HashSet<>());
+        assertThat(appUser.getRatings()).doesNotContain(ratingBack);
+        assertThat(ratingBack.getAppUser()).isNull();
     }
 }

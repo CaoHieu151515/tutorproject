@@ -25,7 +25,7 @@ class FollowTest {
     }
 
     @Test
-    void followerAppUserTest() {
+    void followerAppUserTest() throws Exception {
         Follow follow = getFollowRandomSampleGenerator();
         AppUser appUserBack = getAppUserRandomSampleGenerator();
 
@@ -37,7 +37,7 @@ class FollowTest {
     }
 
     @Test
-    void followedTutorTest() {
+    void followedTutorTest() throws Exception {
         Follow follow = getFollowRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 

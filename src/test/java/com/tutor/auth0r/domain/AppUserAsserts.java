@@ -64,7 +64,6 @@ public class AppUserAsserts {
         assertThat(expected)
             .as("Verify AppUser relationships")
             .satisfies(e -> assertThat(e.getTutor()).as("check tutor").isEqualTo(actual.getTutor()))
-            .satisfies(e -> assertThat(e.getUserVerify()).as("check userVerify").isEqualTo(actual.getUserVerify()))
-            .satisfies(e -> assertThat(e.getRating()).as("check rating").isEqualTo(actual.getRating()));
+            .satisfies(e -> assertThat(e.getUserVerify()).as("check userVerify").isEqualTo(actual.getUserVerify()));
     }
 }

@@ -25,7 +25,7 @@ class RatingTest {
     }
 
     @Test
-    void tutorTest() {
+    void tutorTest() throws Exception {
         Rating rating = getRatingRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 
@@ -37,16 +37,14 @@ class RatingTest {
     }
 
     @Test
-    void appUserTest() {
+    void appUserTest() throws Exception {
         Rating rating = getRatingRandomSampleGenerator();
         AppUser appUserBack = getAppUserRandomSampleGenerator();
 
         rating.setAppUser(appUserBack);
         assertThat(rating.getAppUser()).isEqualTo(appUserBack);
-        assertThat(appUserBack.getRating()).isEqualTo(rating);
 
         rating.appUser(null);
         assertThat(rating.getAppUser()).isNull();
-        assertThat(appUserBack.getRating()).isNull();
     }
 }

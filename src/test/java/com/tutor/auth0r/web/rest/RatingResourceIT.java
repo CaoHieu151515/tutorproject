@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,8 +70,6 @@ class RatingResourceIT {
 
     private Rating rating;
 
-    private Rating insertedRating;
-
     /**
      * Create an entity for this test.
      *
@@ -100,14 +97,6 @@ class RatingResourceIT {
         rating = createEntity(em);
     }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedRating != null) {
-            ratingRepository.delete(insertedRating);
-            insertedRating = null;
-        }
-    }
-
     @Test
     @Transactional
     void createRating() throws Exception {
@@ -128,8 +117,6 @@ class RatingResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedRating = ratingMapper.toEntity(returnedRatingDTO);
         assertRatingUpdatableFieldsEquals(returnedRating, getPersistedRating(returnedRating));
-
-        insertedRating = returnedRating;
     }
 
     @Test
@@ -188,7 +175,7 @@ class RatingResourceIT {
     @Transactional
     void getAllRatings() throws Exception {
         // Initialize the database
-        insertedRating = ratingRepository.saveAndFlush(rating);
+        ratingRepository.saveAndFlush(rating);
 
         // Get all the ratingList
         restRatingMockMvc
@@ -206,7 +193,7 @@ class RatingResourceIT {
     @Transactional
     void getRating() throws Exception {
         // Initialize the database
-        insertedRating = ratingRepository.saveAndFlush(rating);
+        ratingRepository.saveAndFlush(rating);
 
         // Get the rating
         restRatingMockMvc
@@ -231,7 +218,7 @@ class RatingResourceIT {
     @Transactional
     void putExistingRating() throws Exception {
         // Initialize the database
-        insertedRating = ratingRepository.saveAndFlush(rating);
+        ratingRepository.saveAndFlush(rating);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -317,7 +304,7 @@ class RatingResourceIT {
     @Transactional
     void partialUpdateRatingWithPatch() throws Exception {
         // Initialize the database
-        insertedRating = ratingRepository.saveAndFlush(rating);
+        ratingRepository.saveAndFlush(rating);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -345,7 +332,7 @@ class RatingResourceIT {
     @Transactional
     void fullUpdateRatingWithPatch() throws Exception {
         // Initialize the database
-        insertedRating = ratingRepository.saveAndFlush(rating);
+        ratingRepository.saveAndFlush(rating);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -435,7 +422,7 @@ class RatingResourceIT {
     @Transactional
     void deleteRating() throws Exception {
         // Initialize the database
-        insertedRating = ratingRepository.saveAndFlush(rating);
+        ratingRepository.saveAndFlush(rating);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

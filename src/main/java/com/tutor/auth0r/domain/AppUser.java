@@ -52,11 +52,6 @@ public class AppUser implements Serializable {
     @JoinColumn(unique = true)
     private User user;
 
-    @JsonIgnoreProperties(value = { "tutor", "appUser" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
-    private Rating rating;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
     @JsonIgnoreProperties(value = { "appUser", "tutor" }, allowSetters = true)
     private Set<HireTutor> hireTutors = new HashSet<>();
@@ -64,6 +59,10 @@ public class AppUser implements Serializable {
     @JsonIgnoreProperties(value = { "appUser", "transactions" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "appUser")
     private Wallet wallet;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
+    @JsonIgnoreProperties(value = { "tutor", "appUser" }, allowSetters = true)
+    private Set<Rating> ratings = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -184,19 +183,6 @@ public class AppUser implements Serializable {
         return this;
     }
 
-    public Rating getRating() {
-        return this.rating;
-    }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
-    }
-
-    public AppUser rating(Rating rating) {
-        this.setRating(rating);
-        return this;
-    }
-
     public Set<HireTutor> getHireTutors() {
         return this.hireTutors;
     }
@@ -244,6 +230,37 @@ public class AppUser implements Serializable {
 
     public AppUser wallet(Wallet wallet) {
         this.setWallet(wallet);
+        return this;
+    }
+
+    public Set<Rating> getRatings() {
+        return this.ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        if (this.ratings != null) {
+            this.ratings.forEach(i -> i.setAppUser(null));
+        }
+        if (ratings != null) {
+            ratings.forEach(i -> i.setAppUser(this));
+        }
+        this.ratings = ratings;
+    }
+
+    public AppUser ratings(Set<Rating> ratings) {
+        this.setRatings(ratings);
+        return this;
+    }
+
+    public AppUser addRating(Rating rating) {
+        this.ratings.add(rating);
+        rating.setAppUser(this);
+        return this;
+    }
+
+    public AppUser removeRating(Rating rating) {
+        this.ratings.remove(rating);
+        rating.setAppUser(null);
         return this;
     }
 

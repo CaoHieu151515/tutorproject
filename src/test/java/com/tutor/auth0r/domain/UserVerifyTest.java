@@ -28,7 +28,7 @@ class UserVerifyTest {
     }
 
     @Test
-    void identityCardTest() {
+    void identityCardTest() throws Exception {
         UserVerify userVerify = getUserVerifyRandomSampleGenerator();
         IdentityCard identityCardBack = getIdentityCardRandomSampleGenerator();
 
@@ -40,7 +40,7 @@ class UserVerifyTest {
     }
 
     @Test
-    void academicRankTest() {
+    void academicRankTest() throws Exception {
         UserVerify userVerify = getUserVerifyRandomSampleGenerator();
         AcademicRank academicRankBack = getAcademicRankRandomSampleGenerator();
 
@@ -62,7 +62,7 @@ class UserVerifyTest {
     }
 
     @Test
-    void appUserTest() {
+    void appUserTest() throws Exception {
         UserVerify userVerify = getUserVerifyRandomSampleGenerator();
         AppUser appUserBack = getAppUserRandomSampleGenerator();
 

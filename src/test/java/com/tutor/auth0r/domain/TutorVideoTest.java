@@ -25,7 +25,7 @@ class TutorVideoTest {
     }
 
     @Test
-    void mediaTest() {
+    void mediaTest() throws Exception {
         TutorVideo tutorVideo = getTutorVideoRandomSampleGenerator();
         Media mediaBack = getMediaRandomSampleGenerator();
 
@@ -37,7 +37,7 @@ class TutorVideoTest {
     }
 
     @Test
-    void tutorDetailsTest() {
+    void tutorDetailsTest() throws Exception {
         TutorVideo tutorVideo = getTutorVideoRandomSampleGenerator();
         TutorDetails tutorDetailsBack = getTutorDetailsRandomSampleGenerator();
 

@@ -18,12 +18,12 @@ public interface AcademicRankMapper extends EntityMapper<AcademicRankDTO, Academ
     AcademicRankDTO toDto(AcademicRank s);
 
     @Named("mediaId")
-    @BeanMapping(ignoreByDefault = false)
+    @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     MediaDTO toDtoMediaId(Media media);
 
     @Named("userVerifyId")
-    @BeanMapping(ignoreByDefault = false)
+    @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     UserVerifyDTO toDtoUserVerifyId(UserVerify userVerify);
 }

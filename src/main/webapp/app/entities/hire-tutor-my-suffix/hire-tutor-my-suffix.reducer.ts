@@ -18,14 +18,10 @@ const apiUrl = 'api/hire-tutors';
 
 // Actions
 
-export const getEntities = createAsyncThunk(
-  'hireTutor/fetch_entity_list',
-  async ({ sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-    return axios.get<IHireTutorMySuffix[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError },
-);
+export const getEntities = createAsyncThunk('hireTutor/fetch_entity_list', async ({ sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+  return axios.get<IHireTutorMySuffix[]>(requestUrl);
+});
 
 export const getEntity = createAsyncThunk(
   'hireTutor/fetch_entity',

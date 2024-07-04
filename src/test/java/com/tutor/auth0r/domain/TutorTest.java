@@ -30,7 +30,7 @@ class TutorTest {
     }
 
     @Test
-    void tutorDetailsTest() {
+    void tutorDetailsTest() throws Exception {
         Tutor tutor = getTutorRandomSampleGenerator();
         TutorDetails tutorDetailsBack = getTutorDetailsRandomSampleGenerator();
 
@@ -42,7 +42,7 @@ class TutorTest {
     }
 
     @Test
-    void hireTutorTest() {
+    void hireTutorTest() throws Exception {
         Tutor tutor = getTutorRandomSampleGenerator();
         HireTutor hireTutorBack = getHireTutorRandomSampleGenerator();
 
@@ -64,7 +64,7 @@ class TutorTest {
     }
 
     @Test
-    void hiringHoursTest() {
+    void hiringHoursTest() throws Exception {
         Tutor tutor = getTutorRandomSampleGenerator();
         HiringHours hiringHoursBack = getHiringHoursRandomSampleGenerator();
 
@@ -86,7 +86,7 @@ class TutorTest {
     }
 
     @Test
-    void ratingTest() {
+    void ratingTest() throws Exception {
         Tutor tutor = getTutorRandomSampleGenerator();
         Rating ratingBack = getRatingRandomSampleGenerator();
 
@@ -108,7 +108,7 @@ class TutorTest {
     }
 
     @Test
-    void appUserTest() {
+    void appUserTest() throws Exception {
         Tutor tutor = getTutorRandomSampleGenerator();
         AppUser appUserBack = getAppUserRandomSampleGenerator();
 

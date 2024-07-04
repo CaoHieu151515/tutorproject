@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +61,6 @@ class FollowResourceIT {
 
     private Follow follow;
 
-    private Follow insertedFollow;
-
     /**
      * Create an entity for this test.
      *
@@ -91,14 +88,6 @@ class FollowResourceIT {
         follow = createEntity(em);
     }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedFollow != null) {
-            followRepository.delete(insertedFollow);
-            insertedFollow = null;
-        }
-    }
-
     @Test
     @Transactional
     void createFollow() throws Exception {
@@ -119,8 +108,6 @@ class FollowResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedFollow = followMapper.toEntity(returnedFollowDTO);
         assertFollowUpdatableFieldsEquals(returnedFollow, getPersistedFollow(returnedFollow));
-
-        insertedFollow = returnedFollow;
     }
 
     @Test
@@ -145,7 +132,7 @@ class FollowResourceIT {
     @Transactional
     void getAllFollows() throws Exception {
         // Initialize the database
-        insertedFollow = followRepository.saveAndFlush(follow);
+        followRepository.saveAndFlush(follow);
 
         // Get all the followList
         restFollowMockMvc
@@ -160,7 +147,7 @@ class FollowResourceIT {
     @Transactional
     void getFollow() throws Exception {
         // Initialize the database
-        insertedFollow = followRepository.saveAndFlush(follow);
+        followRepository.saveAndFlush(follow);
 
         // Get the follow
         restFollowMockMvc
@@ -182,7 +169,7 @@ class FollowResourceIT {
     @Transactional
     void putExistingFollow() throws Exception {
         // Initialize the database
-        insertedFollow = followRepository.saveAndFlush(follow);
+        followRepository.saveAndFlush(follow);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -268,7 +255,7 @@ class FollowResourceIT {
     @Transactional
     void partialUpdateFollowWithPatch() throws Exception {
         // Initialize the database
-        insertedFollow = followRepository.saveAndFlush(follow);
+        followRepository.saveAndFlush(follow);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -296,7 +283,7 @@ class FollowResourceIT {
     @Transactional
     void fullUpdateFollowWithPatch() throws Exception {
         // Initialize the database
-        insertedFollow = followRepository.saveAndFlush(follow);
+        followRepository.saveAndFlush(follow);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -386,7 +373,7 @@ class FollowResourceIT {
     @Transactional
     void deleteFollow() throws Exception {
         // Initialize the database
-        insertedFollow = followRepository.saveAndFlush(follow);
+        followRepository.saveAndFlush(follow);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

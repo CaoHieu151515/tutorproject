@@ -1,8 +1,10 @@
 package com.tutor.auth0r.service.mapper;
 
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Rating;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.TutorDetails;
+import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.RatingDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.TutorDetailsDTO;
@@ -23,7 +25,7 @@ public interface TutorMapper extends EntityMapper<TutorDTO, Tutor> {
     TutorDTO toDto(Tutor s);
 
     @Named("tutorDetailsId")
-    @BeanMapping(ignoreByDefault = false)
+    @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     TutorDetailsDTO toDtoTutorDetailsId(TutorDetails tutorDetails);
 
@@ -38,4 +40,13 @@ public interface TutorMapper extends EntityMapper<TutorDTO, Tutor> {
     @Named("FollowShortDto")
     @Mappings({ @Mapping(target = "tutorDetails", ignore = true), @Mapping(target = "rating", ignore = true) })
     TutorDTO FollowShortDto(Tutor s);
+
+    @Named("tosimpleDTO")
+    @Mappings(
+        {
+            @Mapping(target = "rating", ignore = true),
+            @Mapping(target = "tutorDetails", source = "tutorDetails", qualifiedByName = "tutorDetailsId"),
+        }
+    )
+    TutorDTO tosimpleDTO(Tutor s);
 }

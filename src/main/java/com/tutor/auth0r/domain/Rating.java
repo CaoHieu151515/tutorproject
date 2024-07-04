@@ -42,8 +42,8 @@ public class Rating implements Serializable {
     @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "ratings", "appUser" }, allowSetters = true)
     private Tutor tutor;
 
-    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "rating", "hireTutors", "wallet" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "rating")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "wallet", "ratings" }, allowSetters = true)
     private AppUser appUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -131,12 +131,6 @@ public class Rating implements Serializable {
     }
 
     public void setAppUser(AppUser appUser) {
-        if (this.appUser != null) {
-            this.appUser.setRating(null);
-        }
-        if (appUser != null) {
-            appUser.setRating(this);
-        }
         this.appUser = appUser;
     }
 

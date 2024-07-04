@@ -31,13 +31,13 @@ public interface IdentityCardMapper extends EntityMapper<IdentityCardDTO, Identi
                 if (media == null) {
                     return null;
                 }
-                return MediaMapper.INSTANCE.toDto(media);
+                return MediaMapper.INSTANCE.skiptoDTO(media);
             })
             .collect(Collectors.toSet());
     }
 
     @Named("RemoveSelftoDTO")
-    @Mappings({ @Mapping(target = "media", source = "media", qualifiedByName = "RemoveSelfId") })
+    @Mappings({ @Mapping(target = "media", ignore = true) })
     IdentityCardDTO RemoveSelftoDTO(IdentityCard s);
 
     @Named("RemoveSelfId")

@@ -18,14 +18,10 @@ const apiUrl = 'api/follows';
 
 // Actions
 
-export const getEntities = createAsyncThunk(
-  'follow/fetch_entity_list',
-  async ({ sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-    return axios.get<IFollowMySuffix[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError },
-);
+export const getEntities = createAsyncThunk('follow/fetch_entity_list', async ({ sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+  return axios.get<IFollowMySuffix[]>(requestUrl);
+});
 
 export const getEntity = createAsyncThunk(
   'follow/fetch_entity',

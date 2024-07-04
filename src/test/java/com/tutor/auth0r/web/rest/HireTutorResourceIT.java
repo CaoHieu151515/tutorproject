@@ -17,7 +17,6 @@ import com.tutor.auth0r.service.mapper.HireTutorMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +66,6 @@ class HireTutorResourceIT {
 
     private HireTutor hireTutor;
 
-    private HireTutor insertedHireTutor;
-
     /**
      * Create an entity for this test.
      *
@@ -96,14 +93,6 @@ class HireTutorResourceIT {
         hireTutor = createEntity(em);
     }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedHireTutor != null) {
-            hireTutorRepository.delete(insertedHireTutor);
-            insertedHireTutor = null;
-        }
-    }
-
     @Test
     @Transactional
     void createHireTutor() throws Exception {
@@ -124,8 +113,6 @@ class HireTutorResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedHireTutor = hireTutorMapper.toEntity(returnedHireTutorDTO);
         assertHireTutorUpdatableFieldsEquals(returnedHireTutor, getPersistedHireTutor(returnedHireTutor));
-
-        insertedHireTutor = returnedHireTutor;
     }
 
     @Test
@@ -150,7 +137,7 @@ class HireTutorResourceIT {
     @Transactional
     void getAllHireTutors() throws Exception {
         // Initialize the database
-        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
+        hireTutorRepository.saveAndFlush(hireTutor);
 
         // Get all the hireTutorList
         restHireTutorMockMvc
@@ -167,7 +154,7 @@ class HireTutorResourceIT {
     @Transactional
     void getHireTutor() throws Exception {
         // Initialize the database
-        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
+        hireTutorRepository.saveAndFlush(hireTutor);
 
         // Get the hireTutor
         restHireTutorMockMvc
@@ -191,7 +178,7 @@ class HireTutorResourceIT {
     @Transactional
     void putExistingHireTutor() throws Exception {
         // Initialize the database
-        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
+        hireTutorRepository.saveAndFlush(hireTutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -281,7 +268,7 @@ class HireTutorResourceIT {
     @Transactional
     void partialUpdateHireTutorWithPatch() throws Exception {
         // Initialize the database
-        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
+        hireTutorRepository.saveAndFlush(hireTutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -312,7 +299,7 @@ class HireTutorResourceIT {
     @Transactional
     void fullUpdateHireTutorWithPatch() throws Exception {
         // Initialize the database
-        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
+        hireTutorRepository.saveAndFlush(hireTutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -402,7 +389,7 @@ class HireTutorResourceIT {
     @Transactional
     void deleteHireTutor() throws Exception {
         // Initialize the database
-        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
+        hireTutorRepository.saveAndFlush(hireTutor);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

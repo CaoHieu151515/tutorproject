@@ -34,7 +34,6 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     @Mapping(target = "tutor", source = "tutor", qualifiedByName = "tutorId_2")
     @Mapping(target = "userVerify", source = "userVerify", qualifiedByName = "userVerifyId_2")
     @Mapping(target = "user", source = "user", qualifiedByName = "userId")
-    @Mapping(target = "rating", source = "rating", qualifiedByName = "ratingUnestTuTor")
     @Mapping(target = "wallet", source = "wallet", qualifiedByName = "walletmapper")
     AppUserDTO toDto(AppUser s);
 
@@ -44,7 +43,6 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
             @Mapping(target = "tutor", ignore = true),
             @Mapping(target = "userVerify", source = "userVerify", qualifiedByName = "userVerifyId_2"),
             @Mapping(target = "user", source = "user", qualifiedByName = "userId"),
-            @Mapping(target = "rating", ignore = true),
             @Mapping(target = "wallet", source = "wallet", qualifiedByName = "walletmapper"),
         }
     )
@@ -70,15 +68,6 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     // @Mapping(target = "id", source = "id")
     // RatingDTO toDtoRatingId(Rating rating);
 
-    @Named("ratingUnestTuTor")
-    static RatingDTO ratingUnestTuTor(Rating rating) {
-        if (rating == null) {
-            return null;
-        }
-        rating.setTutor(null);
-        return RatingMapper.INSTANCE.toDto(rating);
-    }
-
     @Named("userVerifyId_2")
     static UserVerifyDTO ratingUnestTuTor(UserVerify userVerify) {
         if (userVerify == null) {
@@ -97,6 +86,15 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
         return TutorMapper.INSTANCE.toDto(tutor);
     }
 
+    @Named("tutorId_3")
+    static TutorDTO tutorId_3(Tutor tutor) {
+        if (tutor == null) {
+            return null;
+        }
+
+        return TutorMapper.INSTANCE.tosimpleDTO(tutor);
+    }
+
     @Named("walletmapper")
     static WalletDTO walletmapper(Wallet wallet) {
         if (wallet == null) {
@@ -104,4 +102,16 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
         }
         return WalletMapper.INSTANCE.RemoveSelftoDTO(wallet);
     }
+
+    @Named("toRecommed")
+    @Mappings(
+        {
+            @Mapping(target = "tutor", source = "tutor", qualifiedByName = "tutorId_3"),
+            @Mapping(target = "userVerify", ignore = true),
+            @Mapping(target = "user", source = "user", qualifiedByName = "userId"),
+            @Mapping(target = "rating", ignore = true),
+            @Mapping(target = "wallet", ignore = true),
+        }
+    )
+    AppUserDTO toRecommedDTO(AppUser s);
 }

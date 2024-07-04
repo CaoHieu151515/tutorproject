@@ -17,7 +17,6 @@ import com.tutor.auth0r.service.mapper.TutorTeachMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +60,6 @@ class TutorTeachResourceIT {
 
     private TutorTeach tutorTeach;
 
-    private TutorTeach insertedTutorTeach;
-
     /**
      * Create an entity for this test.
      *
@@ -90,14 +87,6 @@ class TutorTeachResourceIT {
         tutorTeach = createEntity(em);
     }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedTutorTeach != null) {
-            tutorTeachRepository.delete(insertedTutorTeach);
-            insertedTutorTeach = null;
-        }
-    }
-
     @Test
     @Transactional
     void createTutorTeach() throws Exception {
@@ -118,8 +107,6 @@ class TutorTeachResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedTutorTeach = tutorTeachMapper.toEntity(returnedTutorTeachDTO);
         assertTutorTeachUpdatableFieldsEquals(returnedTutorTeach, getPersistedTutorTeach(returnedTutorTeach));
-
-        insertedTutorTeach = returnedTutorTeach;
     }
 
     @Test
@@ -144,7 +131,7 @@ class TutorTeachResourceIT {
     @Transactional
     void getAllTutorTeaches() throws Exception {
         // Initialize the database
-        insertedTutorTeach = tutorTeachRepository.saveAndFlush(tutorTeach);
+        tutorTeachRepository.saveAndFlush(tutorTeach);
 
         // Get all the tutorTeachList
         restTutorTeachMockMvc
@@ -159,7 +146,7 @@ class TutorTeachResourceIT {
     @Transactional
     void getTutorTeach() throws Exception {
         // Initialize the database
-        insertedTutorTeach = tutorTeachRepository.saveAndFlush(tutorTeach);
+        tutorTeachRepository.saveAndFlush(tutorTeach);
 
         // Get the tutorTeach
         restTutorTeachMockMvc
@@ -181,7 +168,7 @@ class TutorTeachResourceIT {
     @Transactional
     void putExistingTutorTeach() throws Exception {
         // Initialize the database
-        insertedTutorTeach = tutorTeachRepository.saveAndFlush(tutorTeach);
+        tutorTeachRepository.saveAndFlush(tutorTeach);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -271,7 +258,7 @@ class TutorTeachResourceIT {
     @Transactional
     void partialUpdateTutorTeachWithPatch() throws Exception {
         // Initialize the database
-        insertedTutorTeach = tutorTeachRepository.saveAndFlush(tutorTeach);
+        tutorTeachRepository.saveAndFlush(tutorTeach);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -300,7 +287,7 @@ class TutorTeachResourceIT {
     @Transactional
     void fullUpdateTutorTeachWithPatch() throws Exception {
         // Initialize the database
-        insertedTutorTeach = tutorTeachRepository.saveAndFlush(tutorTeach);
+        tutorTeachRepository.saveAndFlush(tutorTeach);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -390,7 +377,7 @@ class TutorTeachResourceIT {
     @Transactional
     void deleteTutorTeach() throws Exception {
         // Initialize the database
-        insertedTutorTeach = tutorTeachRepository.saveAndFlush(tutorTeach);
+        tutorTeachRepository.saveAndFlush(tutorTeach);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

@@ -18,14 +18,10 @@ const apiUrl = 'api/tutor-images';
 
 // Actions
 
-export const getEntities = createAsyncThunk(
-  'tutorImage/fetch_entity_list',
-  async ({ sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-    return axios.get<ITutorImageMySuffix[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError },
-);
+export const getEntities = createAsyncThunk('tutorImage/fetch_entity_list', async ({ sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+  return axios.get<ITutorImageMySuffix[]>(requestUrl);
+});
 
 export const getEntity = createAsyncThunk(
   'tutorImage/fetch_entity',

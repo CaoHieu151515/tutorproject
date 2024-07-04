@@ -157,6 +157,7 @@ relationship ManyToOne {
     Follow{followerAppUser} to AppUser
     Follow{followedTutor} to Tutor
     Rating to Tutor
+    Rating to AppUser
 }
 
 relationship OneToOne {
@@ -170,7 +171,6 @@ relationship OneToOne {
     TutorVideo{media} to Media,
     TutorImage{media} to Media,
     AppUser{user} to User{appUser} with builtInEntity,
-    AppUser to Rating
 }
 
 // Sử dụng Data Transfer Objects (DTO)

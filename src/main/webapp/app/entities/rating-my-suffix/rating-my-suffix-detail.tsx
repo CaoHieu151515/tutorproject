@@ -60,6 +60,10 @@ export const RatingMySuffixDetail = () => {
             <Translate contentKey="projectApp.rating.tutor">Tutor</Translate>
           </dt>
           <dd>{ratingEntity.tutor ? ratingEntity.tutor.id : ''}</dd>
+          <dt>
+            <Translate contentKey="projectApp.rating.appUser">App User</Translate>
+          </dt>
+          <dd>{ratingEntity.appUser ? ratingEntity.appUser.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/rating-my-suffix" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

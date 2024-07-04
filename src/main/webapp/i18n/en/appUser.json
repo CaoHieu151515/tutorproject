@@ -26,9 +26,9 @@
       "tutor": "Tutor",
       "userVerify": "User Verify",
       "user": "User",
-      "rating": "Rating",
       "hireTutor": "Hire Tutor",
-      "wallet": "Wallet"
+      "wallet": "Wallet",
+      "rating": "Rating"
     }
   }
 }

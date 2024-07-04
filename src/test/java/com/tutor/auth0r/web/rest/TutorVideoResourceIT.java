@@ -16,7 +16,6 @@ import com.tutor.auth0r.service.mapper.TutorVideoMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +56,6 @@ class TutorVideoResourceIT {
 
     private TutorVideo tutorVideo;
 
-    private TutorVideo insertedTutorVideo;
-
     /**
      * Create an entity for this test.
      *
@@ -86,14 +83,6 @@ class TutorVideoResourceIT {
         tutorVideo = createEntity(em);
     }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedTutorVideo != null) {
-            tutorVideoRepository.delete(insertedTutorVideo);
-            insertedTutorVideo = null;
-        }
-    }
-
     @Test
     @Transactional
     void createTutorVideo() throws Exception {
@@ -114,8 +103,6 @@ class TutorVideoResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedTutorVideo = tutorVideoMapper.toEntity(returnedTutorVideoDTO);
         assertTutorVideoUpdatableFieldsEquals(returnedTutorVideo, getPersistedTutorVideo(returnedTutorVideo));
-
-        insertedTutorVideo = returnedTutorVideo;
     }
 
     @Test
@@ -140,7 +127,7 @@ class TutorVideoResourceIT {
     @Transactional
     void getAllTutorVideos() throws Exception {
         // Initialize the database
-        insertedTutorVideo = tutorVideoRepository.saveAndFlush(tutorVideo);
+        tutorVideoRepository.saveAndFlush(tutorVideo);
 
         // Get all the tutorVideoList
         restTutorVideoMockMvc
@@ -154,7 +141,7 @@ class TutorVideoResourceIT {
     @Transactional
     void getTutorVideo() throws Exception {
         // Initialize the database
-        insertedTutorVideo = tutorVideoRepository.saveAndFlush(tutorVideo);
+        tutorVideoRepository.saveAndFlush(tutorVideo);
 
         // Get the tutorVideo
         restTutorVideoMockMvc
@@ -175,7 +162,7 @@ class TutorVideoResourceIT {
     @Transactional
     void putExistingTutorVideo() throws Exception {
         // Initialize the database
-        insertedTutorVideo = tutorVideoRepository.saveAndFlush(tutorVideo);
+        tutorVideoRepository.saveAndFlush(tutorVideo);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -264,7 +251,7 @@ class TutorVideoResourceIT {
     @Transactional
     void partialUpdateTutorVideoWithPatch() throws Exception {
         // Initialize the database
-        insertedTutorVideo = tutorVideoRepository.saveAndFlush(tutorVideo);
+        tutorVideoRepository.saveAndFlush(tutorVideo);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -293,7 +280,7 @@ class TutorVideoResourceIT {
     @Transactional
     void fullUpdateTutorVideoWithPatch() throws Exception {
         // Initialize the database
-        insertedTutorVideo = tutorVideoRepository.saveAndFlush(tutorVideo);
+        tutorVideoRepository.saveAndFlush(tutorVideo);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -381,7 +368,7 @@ class TutorVideoResourceIT {
     @Transactional
     void deleteTutorVideo() throws Exception {
         // Initialize the database
-        insertedTutorVideo = tutorVideoRepository.saveAndFlush(tutorVideo);
+        tutorVideoRepository.saveAndFlush(tutorVideo);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

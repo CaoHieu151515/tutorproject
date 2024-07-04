@@ -16,7 +16,6 @@ import com.tutor.auth0r.service.mapper.HiringHoursMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +59,6 @@ class HiringHoursResourceIT {
 
     private HiringHours hiringHours;
 
-    private HiringHours insertedHiringHours;
-
     /**
      * Create an entity for this test.
      *
@@ -89,14 +86,6 @@ class HiringHoursResourceIT {
         hiringHours = createEntity(em);
     }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedHiringHours != null) {
-            hiringHoursRepository.delete(insertedHiringHours);
-            insertedHiringHours = null;
-        }
-    }
-
     @Test
     @Transactional
     void createHiringHours() throws Exception {
@@ -117,8 +106,6 @@ class HiringHoursResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedHiringHours = hiringHoursMapper.toEntity(returnedHiringHoursDTO);
         assertHiringHoursUpdatableFieldsEquals(returnedHiringHours, getPersistedHiringHours(returnedHiringHours));
-
-        insertedHiringHours = returnedHiringHours;
     }
 
     @Test
@@ -143,7 +130,7 @@ class HiringHoursResourceIT {
     @Transactional
     void getAllHiringHours() throws Exception {
         // Initialize the database
-        insertedHiringHours = hiringHoursRepository.saveAndFlush(hiringHours);
+        hiringHoursRepository.saveAndFlush(hiringHours);
 
         // Get all the hiringHoursList
         restHiringHoursMockMvc
@@ -158,7 +145,7 @@ class HiringHoursResourceIT {
     @Transactional
     void getHiringHours() throws Exception {
         // Initialize the database
-        insertedHiringHours = hiringHoursRepository.saveAndFlush(hiringHours);
+        hiringHoursRepository.saveAndFlush(hiringHours);
 
         // Get the hiringHours
         restHiringHoursMockMvc
@@ -180,7 +167,7 @@ class HiringHoursResourceIT {
     @Transactional
     void putExistingHiringHours() throws Exception {
         // Initialize the database
-        insertedHiringHours = hiringHoursRepository.saveAndFlush(hiringHours);
+        hiringHoursRepository.saveAndFlush(hiringHours);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -270,7 +257,7 @@ class HiringHoursResourceIT {
     @Transactional
     void partialUpdateHiringHoursWithPatch() throws Exception {
         // Initialize the database
-        insertedHiringHours = hiringHoursRepository.saveAndFlush(hiringHours);
+        hiringHoursRepository.saveAndFlush(hiringHours);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -301,7 +288,7 @@ class HiringHoursResourceIT {
     @Transactional
     void fullUpdateHiringHoursWithPatch() throws Exception {
         // Initialize the database
-        insertedHiringHours = hiringHoursRepository.saveAndFlush(hiringHours);
+        hiringHoursRepository.saveAndFlush(hiringHours);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -391,7 +378,7 @@ class HiringHoursResourceIT {
     @Transactional
     void deleteHiringHours() throws Exception {
         // Initialize the database
-        insertedHiringHours = hiringHoursRepository.saveAndFlush(hiringHours);
+        hiringHoursRepository.saveAndFlush(hiringHours);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

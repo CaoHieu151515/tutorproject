@@ -24,7 +24,7 @@ class WalletTransactionTest {
     }
 
     @Test
-    void walletTest() {
+    void walletTest() throws Exception {
         WalletTransaction walletTransaction = getWalletTransactionRandomSampleGenerator();
         Wallet walletBack = getWalletRandomSampleGenerator();
 

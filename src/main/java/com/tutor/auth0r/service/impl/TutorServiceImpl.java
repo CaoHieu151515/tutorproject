@@ -109,6 +109,7 @@ public class TutorServiceImpl implements TutorService {
         return tutor;
     }
 
+    @Transactional
     @Override
     public Optional<TuTorCusTomDTO> findOneCustom(Long id) {
         return tutorRepository.findById(id).map(customTutorMapper::toDto);

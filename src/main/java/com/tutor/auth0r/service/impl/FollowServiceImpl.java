@@ -126,27 +126,41 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public void FollowAndUnFollow(Long id) {
-        Optional<User> userOptional = userService.getUserWithAuthorities();
-        if (!userOptional.isPresent()) {
-            throw new NotLoggedException();
-        }
-        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userService.getUserWithAuthorities().orElseThrow(NotLoggedException::new);
 
         AppUser appUser = appUserRepository.findByUser(user);
         Tutor tutor = tutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
 
-        Optional<Follow> existingFollow = followRepository.findByFollowerAppUserAndFollowedTutor(appUser, tutor);
-
-        if (existingFollow.isPresent()) {
-            followRepository.delete(existingFollow.get());
-        } else {
-            Follow follow = new Follow();
-            follow.setFollowerAppUser(appUser);
-            follow.setFollowedTutor(tutor);
-            follow.setCreateDate(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
-            followRepository.save(follow);
-        }
+        followRepository
+            .findByFollowerAppUserAndFollowedTutor(appUser, tutor)
+            .ifPresentOrElse(followRepository::delete, () -> {
+                Follow follow = new Follow();
+                follow.setFollowerAppUser(appUser);
+                follow.setFollowedTutor(tutor);
+                follow.setCreateDate(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
+                followRepository.save(follow);
+            });
     }
+
+    // @Override
+    // public void FollowAndUnFollow(Long id) {
+    //     User user = userService.getUserWithAuthorities().orElseThrow(NotLoggedException::new);
+
+    //     AppUser appUser = appUserRepository.findByUser(user);
+    //     Tutor tutor = tutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
+
+    //     Optional<Follow> existingFollow = followRepository.findByFollowerAppUserAndFollowedTutor(appUser, tutor);
+
+    //     if (existingFollow.isPresent()) {
+    //         followRepository.delete(existingFollow.get());
+    //     } else {
+    //         Follow follow = new Follow();
+    //         follow.setFollowerAppUser(appUser);
+    //         follow.setFollowedTutor(tutor);
+    //         follow.setCreateDate(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
+    //         followRepository.save(follow);
+    //     }
+    // }
 
     @Override
     @Transactional(readOnly = true)

@@ -18,14 +18,10 @@ const apiUrl = 'api/user-verifies';
 
 // Actions
 
-export const getEntities = createAsyncThunk(
-  'userVerify/fetch_entity_list',
-  async ({ sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-    return axios.get<IUserVerifyMySuffix[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError },
-);
+export const getEntities = createAsyncThunk('userVerify/fetch_entity_list', async ({ sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+  return axios.get<IUserVerifyMySuffix[]>(requestUrl);
+});
 
 export const getEntity = createAsyncThunk(
   'userVerify/fetch_entity',

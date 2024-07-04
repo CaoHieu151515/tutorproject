@@ -17,7 +17,6 @@ import com.tutor.auth0r.service.mapper.TutorDetailsMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +63,6 @@ class TutorDetailsResourceIT {
 
     private TutorDetails tutorDetails;
 
-    private TutorDetails insertedTutorDetails;
-
     /**
      * Create an entity for this test.
      *
@@ -93,14 +90,6 @@ class TutorDetailsResourceIT {
         tutorDetails = createEntity(em);
     }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedTutorDetails != null) {
-            tutorDetailsRepository.delete(insertedTutorDetails);
-            insertedTutorDetails = null;
-        }
-    }
-
     @Test
     @Transactional
     void createTutorDetails() throws Exception {
@@ -121,8 +110,6 @@ class TutorDetailsResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedTutorDetails = tutorDetailsMapper.toEntity(returnedTutorDetailsDTO);
         assertTutorDetailsUpdatableFieldsEquals(returnedTutorDetails, getPersistedTutorDetails(returnedTutorDetails));
-
-        insertedTutorDetails = returnedTutorDetails;
     }
 
     @Test
@@ -147,7 +134,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void getAllTutorDetails() throws Exception {
         // Initialize the database
-        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
+        tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         // Get all the tutorDetailsList
         restTutorDetailsMockMvc
@@ -163,7 +150,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void getTutorDetails() throws Exception {
         // Initialize the database
-        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
+        tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         // Get the tutorDetails
         restTutorDetailsMockMvc
@@ -186,7 +173,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void putExistingTutorDetails() throws Exception {
         // Initialize the database
-        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
+        tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -276,7 +263,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void partialUpdateTutorDetailsWithPatch() throws Exception {
         // Initialize the database
-        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
+        tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -305,7 +292,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void fullUpdateTutorDetailsWithPatch() throws Exception {
         // Initialize the database
-        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
+        tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -395,7 +382,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void deleteTutorDetails() throws Exception {
         // Initialize the database
-        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
+        tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

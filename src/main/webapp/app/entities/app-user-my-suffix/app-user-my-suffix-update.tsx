@@ -14,8 +14,6 @@ import { IUserVerifyMySuffix } from 'app/shared/model/user-verify-my-suffix.mode
 import { getEntities as getUserVerifies } from 'app/entities/user-verify-my-suffix/user-verify-my-suffix.reducer';
 import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
-import { IRatingMySuffix } from 'app/shared/model/rating-my-suffix.model';
-import { getEntities as getRatings } from 'app/entities/rating-my-suffix/rating-my-suffix.reducer';
 import { IAppUserMySuffix } from 'app/shared/model/app-user-my-suffix.model';
 import { GenderType } from 'app/shared/model/enumerations/gender-type.model';
 import { getEntity, updateEntity, createEntity, reset } from './app-user-my-suffix.reducer';
@@ -31,7 +29,6 @@ export const AppUserMySuffixUpdate = () => {
   const tutors = useAppSelector(state => state.tutor.entities);
   const userVerifies = useAppSelector(state => state.userVerify.entities);
   const users = useAppSelector(state => state.userManagement.users);
-  const ratings = useAppSelector(state => state.rating.entities);
   const appUserEntity = useAppSelector(state => state.appUser.entity);
   const loading = useAppSelector(state => state.appUser.loading);
   const updating = useAppSelector(state => state.appUser.updating);
@@ -52,7 +49,6 @@ export const AppUserMySuffixUpdate = () => {
     dispatch(getTutors({}));
     dispatch(getUserVerifies({}));
     dispatch(getUsers({}));
-    dispatch(getRatings({}));
   }, []);
 
   useEffect(() => {
@@ -73,7 +69,6 @@ export const AppUserMySuffixUpdate = () => {
       tutor: tutors.find(it => it.id.toString() === values.tutor?.toString()),
       userVerify: userVerifies.find(it => it.id.toString() === values.userVerify?.toString()),
       user: users.find(it => it.id.toString() === values.user?.toString()),
-      rating: ratings.find(it => it.id.toString() === values.rating?.toString()),
     };
 
     if (isNew) {
@@ -92,7 +87,6 @@ export const AppUserMySuffixUpdate = () => {
           tutor: appUserEntity?.tutor?.id,
           userVerify: appUserEntity?.userVerify?.id,
           user: appUserEntity?.user?.id,
-          rating: appUserEntity?.rating?.id,
         };
 
   return (
@@ -204,22 +198,6 @@ export const AppUserMySuffixUpdate = () => {
                 <option value="" key="0" />
                 {users
                   ? users.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <ValidatedField
-                id="app-user-my-suffix-rating"
-                name="rating"
-                data-cy="rating"
-                label={translate('projectApp.appUser.rating')}
-                type="select"
-              >
-                <option value="" key="0" />
-                {ratings
-                  ? ratings.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

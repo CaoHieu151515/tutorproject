@@ -24,7 +24,7 @@ class TutorTeachTest {
     }
 
     @Test
-    void tutorDetailsTest() {
+    void tutorDetailsTest() throws Exception {
         TutorTeach tutorTeach = getTutorTeachRandomSampleGenerator();
         TutorDetails tutorDetailsBack = getTutorDetailsRandomSampleGenerator();
 

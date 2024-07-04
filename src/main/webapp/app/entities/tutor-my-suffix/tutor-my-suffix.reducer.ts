@@ -18,14 +18,10 @@ const apiUrl = 'api/tutors';
 
 // Actions
 
-export const getEntities = createAsyncThunk(
-  'tutor/fetch_entity_list',
-  async ({ sort }: IQueryParams) => {
-    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-    return axios.get<ITutorMySuffix[]>(requestUrl);
-  },
-  { serializeError: serializeAxiosError },
-);
+export const getEntities = createAsyncThunk('tutor/fetch_entity_list', async ({ sort }: IQueryParams) => {
+  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+  return axios.get<ITutorMySuffix[]>(requestUrl);
+});
 
 export const getEntity = createAsyncThunk(
   'tutor/fetch_entity',
