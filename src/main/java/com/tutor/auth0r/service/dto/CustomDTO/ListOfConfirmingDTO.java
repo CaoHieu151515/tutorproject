@@ -2,16 +2,16 @@ package com.tutor.auth0r.service.dto.CustomDTO;
 
 public class ListOfConfirmingDTO {
 
-    long id;
+    long AppUserid;
     String login;
     String email;
 
-    public long getId() {
-        return id;
+    public long getAppUserid() {
+        return AppUserid;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setAppUserid(long AppUserid) {
+        this.AppUserid = AppUserid;
     }
 
     public String getLogin() {

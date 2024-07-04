@@ -46,7 +46,7 @@ public class Tutor implements Serializable {
     private BigDecimal averageRating;
 
     @JsonIgnoreProperties(value = { "tutorVideo", "tutorTeaches", "tutorImages", "tutor" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private TutorDetails tutorDetails;
 

@@ -12,6 +12,7 @@ import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
@@ -221,5 +222,15 @@ public class AppUserServiceImpl implements AppUserService {
             .stream()
             .map(appUserMapper::toListOfConfirmingDTO)
             .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    @Override
+    public Optional<UpdatecertificateDTO> findOneWithAllCetitycate() {
+        return userService
+            .getCurrentUser()
+            .flatMap(user -> {
+                Optional<AppUser> appUserOptional = Optional.ofNullable(appUserRepository.findByUser(user));
+                return appUserOptional.map(appUserMapper::toDetailsOfConfirmingDTO);
+            });
     }
 }

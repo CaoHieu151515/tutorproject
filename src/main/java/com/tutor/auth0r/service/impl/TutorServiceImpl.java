@@ -1,12 +1,15 @@
 package com.tutor.auth0r.service.impl;
 
 import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.domain.enumeration.Teach;
 import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.service.TutorService;
+import com.tutor.auth0r.service.dto.CustomDTO.ListOfTutorDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.mapper.CustomTutorMapper;
 import com.tutor.auth0r.service.mapper.TutorMapper;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -113,5 +116,28 @@ public class TutorServiceImpl implements TutorService {
     @Override
     public Optional<TuTorCusTomDTO> findOneCustom(Long id) {
         return tutorRepository.findById(id).map(customTutorMapper::toDto);
+    }
+
+    @Override
+    public List<ListOfTutorDTO> getTutorsBySubject(String subject) {
+        List<Teach> subjects;
+        switch (subject.toUpperCase()) {
+            case "MATH":
+                subjects = Arrays.asList(Teach.MATH_10, Teach.MATH_11, Teach.MATH_12);
+                break;
+            case "PHYSIC":
+                subjects = Arrays.asList(Teach.PHYSIC_10, Teach.PHYSIC_11, Teach.PHYSIC_12);
+                break;
+            case "CHEMISTRY":
+                subjects = Arrays.asList(Teach.CHEMISTRY_10, Teach.CHEMISTRY_11, Teach.CHEMISTRY_12);
+                break;
+            case "ENGLISH":
+                subjects = Arrays.asList(Teach.ENGLISH_10, Teach.ENGLISH_11, Teach.ENGLISH_12);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid subject: " + subject);
+        }
+        List<Tutor> tutors = tutorRepository.findBySubjects(subjects);
+        return tutors.stream().map(tutorMapper::toListDTO).collect(Collectors.toList());
     }
 }

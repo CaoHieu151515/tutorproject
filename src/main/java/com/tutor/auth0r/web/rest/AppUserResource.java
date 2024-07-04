@@ -4,6 +4,8 @@ import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -226,5 +228,11 @@ public class AppUserResource {
     public List<ListOfConfirmingDTO> GetAllConfirming() {
         log.debug("REST request to get all AppUsers");
         return appUserService.GetAllConfirming();
+    }
+
+    @GetMapping("/getAllCertifycate")
+    public ResponseEntity<UpdatecertificateDTO> getAllCertifycate() {
+        Optional<UpdatecertificateDTO> UpdatecertificateDTO = appUserService.findOneWithAllCetitycate();
+        return ResponseUtil.wrapOrNotFound(UpdatecertificateDTO);
     }
 }

@@ -2,6 +2,7 @@ package com.tutor.auth0r.web.rest;
 
 import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.service.TutorService;
+import com.tutor.auth0r.service.dto.CustomDTO.ListOfTutorDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
@@ -178,5 +179,10 @@ public class TutorResource {
         log.debug("REST request to get Tutor : {}", id);
         Optional<TuTorCusTomDTO> TuTorCusTomDTO = tutorService.findOneCustom(id);
         return ResponseUtil.wrapOrNotFound(TuTorCusTomDTO);
+    }
+
+    @GetMapping("/tutors/by-subject")
+    public List<ListOfTutorDTO> getTutorsBySubject(@RequestParam String subject) {
+        return tutorService.getTutorsBySubject(subject);
     }
 }

@@ -34,7 +34,7 @@ public class TutorDetails implements Serializable {
     @JoinColumn(unique = true)
     private TutorVideo tutorVideo;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tutorDetails")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tutorDetails")
     @JsonIgnoreProperties(value = { "tutorDetails" }, allowSetters = true)
     private Set<TutorTeach> tutorTeaches = new HashSet<>();
 

@@ -1,6 +1,7 @@
 package com.tutor.auth0r.service;
 
 import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.service.dto.CustomDTO.ListOfTutorDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import java.util.List;
@@ -66,4 +67,6 @@ public interface TutorService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<ListOfTutorDTO> getTutorsBySubject(String subject);
 }

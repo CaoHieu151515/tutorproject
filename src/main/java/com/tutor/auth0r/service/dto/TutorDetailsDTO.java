@@ -18,6 +18,8 @@ public class TutorDetailsDTO implements Serializable {
 
     private TutorVideoDTO tutorVideo;
 
+    private TutorTeachDTO tutorTeach;
+
     public Long getId() {
         return id;
     }
@@ -48,6 +50,14 @@ public class TutorDetailsDTO implements Serializable {
 
     public void setTutorVideo(TutorVideoDTO tutorVideo) {
         this.tutorVideo = tutorVideo;
+    }
+
+    public TutorTeachDTO getTutorTeacho() {
+        return tutorTeach;
+    }
+
+    public void setTutorTeach(TutorTeachDTO tutorTeach) {
+        this.tutorTeach = tutorTeach;
     }
 
     @Override

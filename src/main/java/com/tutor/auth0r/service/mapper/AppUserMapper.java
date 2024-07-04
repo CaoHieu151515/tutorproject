@@ -1,16 +1,24 @@
 package com.tutor.auth0r.service.mapper;
 
+import com.tutor.auth0r.domain.AcademicRank;
 import com.tutor.auth0r.domain.AppUser;
+import com.tutor.auth0r.domain.Media;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.service.dto.AcademicRankDTO;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
+import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -116,10 +124,36 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
 
     @Mappings(
         {
-            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "id", target = "appUserid"),
             @Mapping(source = "user.login", target = "login"),
             @Mapping(source = "user.email", target = "email"),
         }
     )
     ListOfConfirmingDTO toListOfConfirmingDTO(AppUser appUser);
+
+    @Mappings(
+        {
+            @Mapping(source = "id", target = "appUserid"),
+            @Mapping(source = "userVerify.school", target = "school"),
+            @Mapping(source = "userVerify.studentID", target = "studentID"),
+            @Mapping(source = "userVerify.major", target = "major"),
+            @Mapping(source = "userVerify.graduationYear", target = "year"),
+            @Mapping(source = "userVerify.academicRanks", target = "rankwithImage", qualifiedByName = "academicRankmap"),
+        }
+    )
+    UpdatecertificateDTO toDetailsOfConfirmingDTO(AppUser appUser);
+
+    @Named("academicRankmap")
+    static Set<RankwithImageDTO> academicRankmap(Set<AcademicRank> academicRanks) {
+        return academicRanks
+            .stream()
+            .map(rank -> {
+                if (rank == null) {
+                    return null;
+                }
+                AcademicRankMapper mapper = Mappers.getMapper(AcademicRankMapper.class);
+                return mapper.toRankwithImageDTO(rank);
+            })
+            .collect(Collectors.toSet());
+    }
 }

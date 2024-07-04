@@ -5,6 +5,7 @@ import com.tutor.auth0r.domain.Rating;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.TutorDetails;
 import com.tutor.auth0r.service.dto.AppUserDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ListOfTutorDTO;
 import com.tutor.auth0r.service.dto.RatingDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.TutorDetailsDTO;
@@ -49,4 +50,15 @@ public interface TutorMapper extends EntityMapper<TutorDTO, Tutor> {
         }
     )
     TutorDTO tosimpleDTO(Tutor s);
+
+    @Named("toListDTO")
+    @Mappings(
+        {
+            @Mapping(source = "id", target = "tutorID"),
+            @Mapping(source = "appUser.user.firstName", target = "firstName"),
+            @Mapping(source = "appUser.user.lastName", target = "lastName"),
+            @Mapping(source = "appUser.user.imageUrl", target = "urlImage"),
+        }
+    )
+    ListOfTutorDTO toListDTO(Tutor s);
 }
