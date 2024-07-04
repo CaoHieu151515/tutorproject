@@ -4,6 +4,7 @@ import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,4 +76,6 @@ public interface AppUserService {
     AppUserDTO updateVerify(AppUserDTO appUserDTO);
 
     Optional<UpdatecertificateDTO> findOneWithAllCetitycate();
+
+    Optional<UserProfileDTO> findUserProfile();
 }

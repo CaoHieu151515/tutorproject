@@ -12,6 +12,7 @@ import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
@@ -156,4 +157,18 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
             })
             .collect(Collectors.toSet());
     }
+
+    @Mappings(
+        {
+            @Mapping(source = "id", target = "appUserID"),
+            @Mapping(source = "user.firstName", target = "firstName"),
+            @Mapping(source = "user.lastName", target = "lastName"),
+            @Mapping(source = "gender", target = "gender"),
+            @Mapping(source = "user.imageUrl", target = "imgUrl"),
+            @Mapping(source = "user.email", target = "email"),
+            @Mapping(source = "bankAccountNumber", target = "bankNumber"),
+            @Mapping(source = "bankName", target = "bankName"),
+        }
+    )
+    UserProfileDTO toUserProfileDTO(AppUser appUser);
 }
