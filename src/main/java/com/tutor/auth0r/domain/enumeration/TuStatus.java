@@ -8,4 +8,5 @@ public enum TuStatus {
     BUSY,
     OFFLINE,
     CONFIRMING,
+    NOT_TUTOR,
 }

@@ -1,6 +1,7 @@
 package com.tutor.auth0r.service;
 
 import com.tutor.auth0r.service.dto.AppUserDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,8 @@ public interface AppUserService {
     void delete(Long id);
 
     List<AppUserDTO> AllAppUsersWithRecommend();
+
+    List<ListOfConfirmingDTO> GetAllConfirming();
 
     AppUserDTO updateVerify(AppUserDTO appUserDTO);
 }

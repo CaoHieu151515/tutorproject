@@ -4,12 +4,14 @@ import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.IdentityCard;
 import com.tutor.auth0r.domain.Media;
 import com.tutor.auth0r.domain.UserVerify;
+import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.IdentityCardRepository;
 import com.tutor.auth0r.repository.MediaRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
@@ -210,5 +212,14 @@ public class AppUserServiceImpl implements AppUserService {
         identityCard.setMedia(existingMedia);
 
         identityCardRepository.save(identityCard);
+    }
+
+    public List<ListOfConfirmingDTO> GetAllConfirming() {
+        log.debug("Request to get all AppUsers with Tutors in CONFIRMING status");
+        return appUserRepository
+            .findByTutorStatus(TuStatus.CONFIRMING)
+            .stream()
+            .map(appUserMapper::toListOfConfirmingDTO)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 }

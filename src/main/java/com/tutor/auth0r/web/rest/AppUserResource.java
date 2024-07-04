@@ -3,6 +3,7 @@ package com.tutor.auth0r.web.rest;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -219,5 +220,11 @@ public class AppUserResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appUserDTO.getId().toString()))
             .body(appUserDTO);
+    }
+
+    @GetMapping("/GetAllConfirming")
+    public List<ListOfConfirmingDTO> GetAllConfirming() {
+        log.debug("REST request to get all AppUsers");
+        return appUserService.GetAllConfirming();
     }
 }

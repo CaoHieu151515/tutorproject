@@ -4,9 +4,11 @@ import com.tutor.auth0r.config.Constants;
 import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Authority;
 import com.tutor.auth0r.domain.IdentityCard;
+import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.AuthorityRepository;
 import com.tutor.auth0r.repository.UserRepository;
@@ -140,9 +142,14 @@ public class UserService {
 
         UserVerify userVerify = new UserVerify();
 
+        Tutor tutor = new Tutor();
+        tutor.setStatus(TuStatus.NOT_TUTOR);
+
         appuser.setUser(newUser);
         appuser.setWallet(wallet);
         appuser.setUserVerify(userVerify);
+        appuser.setTutor(tutor);
+
         appUserRepository.save(appuser);
 
         userRepository.save(newUser);

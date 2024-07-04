@@ -1,13 +1,12 @@
 package com.tutor.auth0r.service.mapper;
 
 import com.tutor.auth0r.domain.AppUser;
-import com.tutor.auth0r.domain.Rating;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.service.dto.AppUserDTO;
-import com.tutor.auth0r.service.dto.RatingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
@@ -114,4 +113,13 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
         }
     )
     AppUserDTO toRecommedDTO(AppUser s);
+
+    @Mappings(
+        {
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "user.login", target = "login"),
+            @Mapping(source = "user.email", target = "email"),
+        }
+    )
+    ListOfConfirmingDTO toListOfConfirmingDTO(AppUser appUser);
 }
