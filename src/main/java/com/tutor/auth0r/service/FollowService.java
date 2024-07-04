@@ -2,7 +2,6 @@ package com.tutor.auth0r.service;
 
 import com.tutor.auth0r.service.dto.FollowCustomDTO;
 import com.tutor.auth0r.service.dto.FollowDTO;
-import com.tutor.auth0r.service.dto.TutorDTO;
 import java.util.List;
 import java.util.Optional;
 

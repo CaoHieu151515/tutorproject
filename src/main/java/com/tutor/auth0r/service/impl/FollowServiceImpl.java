@@ -11,11 +11,8 @@ import com.tutor.auth0r.service.FollowService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.FollowCustomDTO;
 import com.tutor.auth0r.service.dto.FollowDTO;
-import com.tutor.auth0r.service.dto.TutorDTO;
-import com.tutor.auth0r.service.mapper.AppUserMapper;
 import com.tutor.auth0r.service.mapper.FollowCustomMapper;
 import com.tutor.auth0r.service.mapper.FollowMapper;
-import com.tutor.auth0r.service.mapper.TutorMapper;
 import com.tutor.auth0r.web.rest.errors.NotLoggedException;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -47,10 +44,6 @@ public class FollowServiceImpl implements FollowService {
 
     private final AppUserRepository appUserRepository;
 
-    private final TutorMapper tutorMapper;
-
-    private final AppUserMapper appUserMapper;
-
     private final FollowCustomMapper followCustomMapper;
 
     public FollowServiceImpl(
@@ -59,8 +52,6 @@ public class FollowServiceImpl implements FollowService {
         UserService userService,
         TutorRepository tutorRepository,
         AppUserRepository appUserRepository,
-        TutorMapper tutorMapper,
-        AppUserMapper appUserMapper,
         FollowCustomMapper followCustomMapper
     ) {
         this.followRepository = followRepository;
@@ -68,8 +59,6 @@ public class FollowServiceImpl implements FollowService {
         this.userService = userService;
         this.tutorRepository = tutorRepository;
         this.appUserRepository = appUserRepository;
-        this.tutorMapper = tutorMapper;
-        this.appUserMapper = appUserMapper;
         this.followCustomMapper = followCustomMapper;
     }
 

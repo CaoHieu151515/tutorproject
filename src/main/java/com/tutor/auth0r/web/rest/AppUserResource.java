@@ -4,7 +4,6 @@ import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
-import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;

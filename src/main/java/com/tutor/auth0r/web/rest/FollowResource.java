@@ -4,7 +4,6 @@ import com.tutor.auth0r.repository.FollowRepository;
 import com.tutor.auth0r.service.FollowService;
 import com.tutor.auth0r.service.dto.FollowCustomDTO;
 import com.tutor.auth0r.service.dto.FollowDTO;
-import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;

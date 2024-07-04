@@ -3,7 +3,6 @@ package com.tutor.auth0r.service;
 import com.tutor.auth0r.config.Constants;
 import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Authority;
-import com.tutor.auth0r.domain.IdentityCard;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
