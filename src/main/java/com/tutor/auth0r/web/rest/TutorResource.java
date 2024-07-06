@@ -185,4 +185,16 @@ public class TutorResource {
     public List<ListOfTutorDTO> getTutorsBySubject(@RequestParam String subject) {
         return tutorService.getTutorsBySubject(subject);
     }
+
+    @PostMapping("/tutors/{login}/status/online")
+    public ResponseEntity<Void> updateTutorStatusOnline(@PathVariable String login) {
+        tutorService.updateTutorStatusOnline(login);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/tutors/{login}/status/offline")
+    public ResponseEntity<Void> updateTutorStatusOffline(@PathVariable String login) {
+        tutorService.updateTutorStatusOffline(login);
+        return ResponseEntity.ok().build();
+    }
 }

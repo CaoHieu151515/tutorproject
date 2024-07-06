@@ -4,6 +4,7 @@ import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.enumeration.TuStatus;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     AppUser findByUser(User user);
 
     List<AppUser> findByTutorStatus(TuStatus status);
+
+    Optional<AppUser> findOneByUser(User user);
 }

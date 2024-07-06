@@ -1,8 +1,13 @@
 package com.tutor.auth0r.service.impl;
 
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.enumeration.Teach;
+import com.tutor.auth0r.domain.enumeration.TuStatus;
+import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.TutorRepository;
+import com.tutor.auth0r.repository.UserRepository;
 import com.tutor.auth0r.service.TutorService;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfTutorDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
@@ -35,10 +40,22 @@ public class TutorServiceImpl implements TutorService {
 
     private final CustomTutorMapper customTutorMapper;
 
-    public TutorServiceImpl(TutorRepository tutorRepository, TutorMapper tutorMapper, CustomTutorMapper customTutorMapper) {
+    private final UserRepository userRepository;
+
+    private final AppUserRepository appUserRepository;
+
+    public TutorServiceImpl(
+        TutorRepository tutorRepository,
+        TutorMapper tutorMapper,
+        CustomTutorMapper customTutorMapper,
+        UserRepository userRepository,
+        AppUserRepository appUserRepository
+    ) {
         this.tutorRepository = tutorRepository;
         this.tutorMapper = tutorMapper;
         this.customTutorMapper = customTutorMapper;
+        this.userRepository = userRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     @Override
@@ -139,5 +156,49 @@ public class TutorServiceImpl implements TutorService {
         }
         List<Tutor> tutors = tutorRepository.findBySubjects(subjects);
         return tutors.stream().map(tutorMapper::toListDTO).collect(Collectors.toList());
+    }
+
+    // public void updateTutorStatusOnline(String login) {
+    //     Optional<User> userOptional = userRepository.findOneByLogin(login);
+    //     userOptional.ifPresent(user -> {
+    //         Optional<AppUser> appUserOptional = appUserRepository.findOneByUser(user);
+    //         appUserOptional.ifPresent(appUser -> {
+    //             Optional<Tutor> tutorOptional = tutorRepository.findByAppUser(appUser);
+    //             tutorOptional.ifPresent(tutor -> {
+    //                 tutor.setStatus(TuStatus.READY);
+    //                 tutorRepository.save(tutor);
+    //             });
+    //         });
+    //     });
+    // }
+
+    // public void updateTutorStatusOffline(String login) {
+    //     Optional<User> userOptional = userRepository.findOneByLogin(login);
+    //     userOptional.ifPresent(user -> {
+    //         Optional<AppUser> appUserOptional = appUserRepository.findOneByUser(user);
+    //         appUserOptional.ifPresent(appUser -> {
+    //             Optional<Tutor> tutorOptional = tutorRepository.findByAppUser(appUser);
+    //             tutorOptional.ifPresent(tutor -> {
+    //                 tutor.setStatus(TuStatus.OFFLINE);
+    //                 tutorRepository.save(tutor);
+    //             });
+    //         });
+    //     });
+    // }
+
+    public void updateTutorStatusOnline(String login) {
+        Optional<Tutor> tutorOptional = tutorRepository.findTutorByUserLogin(login);
+        tutorOptional.ifPresent(tutor -> {
+            tutor.setStatus(TuStatus.READY);
+            tutorRepository.save(tutor);
+        });
+    }
+
+    public void updateTutorStatusOffline(String login) {
+        Optional<Tutor> tutorOptional = tutorRepository.findTutorByUserLogin(login);
+        tutorOptional.ifPresent(tutor -> {
+            tutor.setStatus(TuStatus.OFFLINE);
+            tutorRepository.save(tutor);
+        });
     }
 }

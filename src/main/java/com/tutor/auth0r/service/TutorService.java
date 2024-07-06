@@ -69,4 +69,8 @@ public interface TutorService {
     void delete(Long id);
 
     List<ListOfTutorDTO> getTutorsBySubject(String subject);
+
+    void updateTutorStatusOnline(String login);
+
+    void updateTutorStatusOffline(String login);
 }
