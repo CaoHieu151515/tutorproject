@@ -14,7 +14,6 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,7 +26,7 @@ import tech.jhipster.config.JHipsterProperties;
 @Configuration
 public class WebConfigurer implements ServletContextInitializer, WebServerFactoryCustomizer<WebServerFactory> {
 
-    private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
+    private static final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
     private final Environment env;
 
@@ -91,16 +90,6 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
             source.registerCorsConfiguration("/management/**", config);
             source.registerCorsConfiguration("/v3/api-docs", config);
             source.registerCorsConfiguration("/swagger-ui/**", config);
-
-            config.setAllowCredentials(true);
-            config.addAllowedOriginPattern("*"); // Đảm bảo tất cả các nguồn đều được phép
-            config.addAllowedOrigin("http://localhost:3000");
-            config.addAllowedOrigin("http://xpalworld.duckdns.org");
-            config.addAllowedHeader("*");
-            config.addAllowedMethod(HttpMethod.GET);
-            config.addAllowedMethod(HttpMethod.POST);
-            config.addAllowedMethod(HttpMethod.PUT);
-            config.addAllowedMethod(HttpMethod.DELETE);
         }
         return new CorsFilter(source);
     }

@@ -3,7 +3,6 @@ package com.tutor.auth0r.web.rest;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.UserDTO;
 import java.util.*;
-import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -24,7 +23,7 @@ public class PublicUserResource {
         Arrays.asList("id", "login", "firstName", "lastName", "email", "activated", "langKey")
     );
 
-    private final Logger log = LoggerFactory.getLogger(PublicUserResource.class);
+    private static final Logger log = LoggerFactory.getLogger(PublicUserResource.class);
 
     private final UserService userService;
 

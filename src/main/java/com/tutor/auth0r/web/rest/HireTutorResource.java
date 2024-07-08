@@ -24,7 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/hire-tutors")
 public class HireTutorResource {
 
-    private final Logger log = LoggerFactory.getLogger(HireTutorResource.class);
+    private static final Logger log = LoggerFactory.getLogger(HireTutorResource.class);
 
     private static final String ENTITY_NAME = "hireTutor";
 

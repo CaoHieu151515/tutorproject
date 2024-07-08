@@ -27,7 +27,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/app-users")
 public class AppUserResource {
 
-    private final Logger log = LoggerFactory.getLogger(AppUserResource.class);
+    private static final Logger log = LoggerFactory.getLogger(AppUserResource.class);
 
     private static final String ENTITY_NAME = "appUser";
 

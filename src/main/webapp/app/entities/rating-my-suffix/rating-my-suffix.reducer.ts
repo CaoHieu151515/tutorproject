@@ -18,10 +18,14 @@ const apiUrl = 'api/ratings';
 
 // Actions
 
-export const getEntities = createAsyncThunk('rating/fetch_entity_list', async ({ sort }: IQueryParams) => {
-  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-  return axios.get<IRatingMySuffix[]>(requestUrl);
-});
+export const getEntities = createAsyncThunk(
+  'rating/fetch_entity_list',
+  async ({ sort }: IQueryParams) => {
+    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IRatingMySuffix[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
 
 export const getEntity = createAsyncThunk(
   'rating/fetch_entity',

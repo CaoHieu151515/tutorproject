@@ -2,9 +2,11 @@ package com.tutor.auth0r.service.impl;
 
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.repository.WalletRepository;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.WalletService;
+import com.tutor.auth0r.service.dto.CustomDTO.WalletHistoryDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import com.tutor.auth0r.service.mapper.WalletMapper;
@@ -15,6 +17,7 @@ import com.tutor.auth0r.web.rest.errors.UserNotExistException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -178,5 +181,31 @@ public class WalletServiceImpl implements WalletService {
         log.debug("Request to save Wallet : {}", wallet);
         wallet = walletRepository.save(wallet);
         return wallet;
+    }
+
+    @Override
+    public WalletHistoryDTO getWalletHistoryByCurrentUser() {
+        Wallet wallet = getCurrentUserWallet();
+
+        Set<WalletTransactionDTO> hireTrans = wallet
+            .getTransactions()
+            .stream()
+            .filter(transaction -> transaction.getType().equals(WalletTransactionType.HIRE))
+            .map(walletTransactionMapper::toDto)
+            .collect(Collectors.toSet());
+
+        Set<WalletTransactionDTO> depositTrans = wallet
+            .getTransactions()
+            .stream()
+            .filter(transaction -> transaction.getType().equals(WalletTransactionType.DEPOSIT))
+            .map(walletTransactionMapper::toDto)
+            .collect(Collectors.toSet());
+
+        WalletHistoryDTO walletHistoryDTO = new WalletHistoryDTO();
+        walletHistoryDTO.setAmount(wallet.getAmount());
+        walletHistoryDTO.setHireTrans(hireTrans);
+        walletHistoryDTO.setDepositTrans(depositTrans);
+
+        return walletHistoryDTO;
     }
 }

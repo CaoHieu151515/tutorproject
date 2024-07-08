@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useLocation } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';
@@ -14,6 +14,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import { sendActivity } from 'app/config/websocket-middleware';
 
 const loading = <div>loading ...</div>;
 
@@ -27,6 +28,10 @@ const Admin = Loadable({
   loading: () => loading,
 });
 const AppRoutes = () => {
+  const pageLocation = useLocation();
+  React.useEffect(() => {
+    sendActivity(pageLocation.pathname);
+  }, [pageLocation]);
   return (
     <div className="view-routes">
       <ErrorBoundaryRoutes>

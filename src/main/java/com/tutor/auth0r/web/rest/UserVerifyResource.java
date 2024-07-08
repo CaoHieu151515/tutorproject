@@ -24,7 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/user-verifies")
 public class UserVerifyResource {
 
-    private final Logger log = LoggerFactory.getLogger(UserVerifyResource.class);
+    private static final Logger log = LoggerFactory.getLogger(UserVerifyResource.class);
 
     private static final String ENTITY_NAME = "userVerify";
 

@@ -24,7 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/academic-ranks")
 public class AcademicRankResource {
 
-    private final Logger log = LoggerFactory.getLogger(AcademicRankResource.class);
+    private static final Logger log = LoggerFactory.getLogger(AcademicRankResource.class);
 
     private static final String ENTITY_NAME = "academicRank";
 

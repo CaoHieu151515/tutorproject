@@ -18,10 +18,14 @@ const apiUrl = 'api/academic-ranks';
 
 // Actions
 
-export const getEntities = createAsyncThunk('academicRank/fetch_entity_list', async ({ sort }: IQueryParams) => {
-  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-  return axios.get<IAcademicRankMySuffix[]>(requestUrl);
-});
+export const getEntities = createAsyncThunk(
+  'academicRank/fetch_entity_list',
+  async ({ sort }: IQueryParams) => {
+    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IAcademicRankMySuffix[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
 
 export const getEntity = createAsyncThunk(
   'academicRank/fetch_entity',

@@ -1,6 +1,5 @@
 package com.tutor.auth0r.config;
 
-import static com.tutor.auth0r.security.SecurityUtils.AUTHORITIES_KEY;
 import static com.tutor.auth0r.security.SecurityUtils.JWT_ALGORITHM;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
@@ -17,13 +16,13 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 
 @Configuration
 public class SecurityJwtConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(SecurityJwtConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(SecurityJwtConfiguration.class);
 
     @Value("${jhipster.security.authentication.jwt.base64-secret}")
     private String jwtKey;
@@ -59,14 +58,10 @@ public class SecurityJwtConfiguration {
     }
 
     @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthorityPrefix("");
-        grantedAuthoritiesConverter.setAuthoritiesClaimName(AUTHORITIES_KEY);
-
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-        return jwtAuthenticationConverter;
+    public BearerTokenResolver bearerTokenResolver() {
+        var bearerTokenResolver = new DefaultBearerTokenResolver();
+        bearerTokenResolver.setAllowUriQueryParameter(true);
+        return bearerTokenResolver;
     }
 
     private SecretKey getSecretKey() {

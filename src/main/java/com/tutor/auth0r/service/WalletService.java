@@ -1,6 +1,7 @@
 package com.tutor.auth0r.service;
 
 import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.service.dto.CustomDTO.WalletHistoryDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import java.util.List;
@@ -65,4 +66,6 @@ public interface WalletService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    WalletHistoryDTO getWalletHistoryByCurrentUser();
 }

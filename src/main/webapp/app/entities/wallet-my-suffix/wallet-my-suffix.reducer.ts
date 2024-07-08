@@ -18,10 +18,14 @@ const apiUrl = 'api/wallets';
 
 // Actions
 
-export const getEntities = createAsyncThunk('wallet/fetch_entity_list', async ({ sort }: IQueryParams) => {
-  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-  return axios.get<IWalletMySuffix[]>(requestUrl);
-});
+export const getEntities = createAsyncThunk(
+  'wallet/fetch_entity_list',
+  async ({ sort }: IQueryParams) => {
+    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IWalletMySuffix[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
 
 export const getEntity = createAsyncThunk(
   'wallet/fetch_entity',

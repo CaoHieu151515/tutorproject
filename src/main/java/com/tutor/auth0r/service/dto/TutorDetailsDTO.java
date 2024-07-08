@@ -3,6 +3,7 @@ package com.tutor.auth0r.service.dto;
 import com.tutor.auth0r.domain.enumeration.Contact;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.tutor.auth0r.domain.TutorDetails} entity.
@@ -18,7 +19,7 @@ public class TutorDetailsDTO implements Serializable {
 
     private TutorVideoDTO tutorVideo;
 
-    private TutorTeachDTO tutorTeach;
+    private Set<TutorTeachDTO> tutorTeach;
 
     public Long getId() {
         return id;
@@ -52,11 +53,11 @@ public class TutorDetailsDTO implements Serializable {
         this.tutorVideo = tutorVideo;
     }
 
-    public TutorTeachDTO getTutorTeacho() {
+    public Set<TutorTeachDTO> getTutorTeach() {
         return tutorTeach;
     }
 
-    public void setTutorTeach(TutorTeachDTO tutorTeach) {
+    public void setTutorTeach(Set<TutorTeachDTO> tutorTeach) {
         this.tutorTeach = tutorTeach;
     }
 

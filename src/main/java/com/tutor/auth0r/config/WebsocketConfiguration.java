@@ -27,20 +27,9 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
         this.jHipsterProperties = jHipsterProperties;
     }
 
-    // @Override
-    // public void registerStompEndpoints(StompEndpointRegistry registry) {
-    //     registry.addEndpoint("/websocket").setAllowedOrigins("*").withSockJS();
-    // }
-
-    // @Override
-    // public void configureMessageBroker(org.springframework.messaging.simp.config.MessageBrokerRegistry registry) {
-    //     registry.enableSimpleBroker("/topic");
-    //     registry.setApplicationDestinationPrefixes("/app");
-    // }
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic", "/queue");
+        config.enableSimpleBroker("/topic");
     }
 
     @Override
@@ -50,8 +39,15 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
             .orElse(new String[0]);
         registry
             .addEndpoint("/websocket/tracker")
-            .setAllowedOrigins(allowedOrigins)
             .setHandshakeHandler(defaultHandshakeHandler())
+            .setAllowedOrigins(allowedOrigins)
+            .withSockJS()
+            .setInterceptors(httpSessionHandshakeInterceptor());
+
+        registry
+            .addEndpoint("/websocket/tutor")
+            .setHandshakeHandler(defaultHandshakeHandler())
+            .setAllowedOrigins(allowedOrigins)
             .withSockJS()
             .setInterceptors(httpSessionHandshakeInterceptor());
     }

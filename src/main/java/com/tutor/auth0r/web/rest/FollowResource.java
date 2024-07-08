@@ -25,7 +25,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/follows")
 public class FollowResource {
 
-    private final Logger log = LoggerFactory.getLogger(FollowResource.class);
+    private static final Logger log = LoggerFactory.getLogger(FollowResource.class);
 
     private static final String ENTITY_NAME = "follow";
 

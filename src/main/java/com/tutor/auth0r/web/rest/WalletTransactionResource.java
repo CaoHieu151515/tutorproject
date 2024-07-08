@@ -24,7 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/wallet-transactions")
 public class WalletTransactionResource {
 
-    private final Logger log = LoggerFactory.getLogger(WalletTransactionResource.class);
+    private static final Logger log = LoggerFactory.getLogger(WalletTransactionResource.class);
 
     private static final String ENTITY_NAME = "walletTransaction";
 

@@ -24,7 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/tutor-videos")
 public class TutorVideoResource {
 
-    private final Logger log = LoggerFactory.getLogger(TutorVideoResource.class);
+    private static final Logger log = LoggerFactory.getLogger(TutorVideoResource.class);
 
     private static final String ENTITY_NAME = "tutorVideo";
 

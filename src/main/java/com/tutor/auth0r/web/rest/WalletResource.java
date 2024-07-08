@@ -2,6 +2,7 @@ package com.tutor.auth0r.web.rest;
 
 import com.tutor.auth0r.repository.WalletRepository;
 import com.tutor.auth0r.service.WalletService;
+import com.tutor.auth0r.service.dto.CustomDTO.WalletHistoryDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
@@ -25,7 +26,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/wallets")
 public class WalletResource {
 
-    private final Logger log = LoggerFactory.getLogger(WalletResource.class);
+    private static final Logger log = LoggerFactory.getLogger(WalletResource.class);
 
     private static final String ENTITY_NAME = "wallet";
 
@@ -171,5 +172,10 @@ public class WalletResource {
     @GetMapping("/transactions")
     public ResponseEntity<List<WalletTransactionDTO>> getWalletTransactions() {
         return ResponseEntity.ok().body(walletService.getWalletTransactionsByCurrentUserWallet());
+    }
+
+    @GetMapping("/Historytransactions")
+    public ResponseEntity<WalletHistoryDTO> getWalletHistoryTransactions() {
+        return ResponseEntity.ok().body(walletService.getWalletHistoryByCurrentUser());
     }
 }

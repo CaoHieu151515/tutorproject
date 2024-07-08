@@ -24,7 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/media")
 public class MediaResource {
 
-    private final Logger log = LoggerFactory.getLogger(MediaResource.class);
+    private static final Logger log = LoggerFactory.getLogger(MediaResource.class);
 
     private static final String ENTITY_NAME = "media";
 

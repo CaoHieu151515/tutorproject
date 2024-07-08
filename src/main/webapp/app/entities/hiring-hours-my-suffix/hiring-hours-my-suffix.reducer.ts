@@ -18,10 +18,14 @@ const apiUrl = 'api/hiring-hours';
 
 // Actions
 
-export const getEntities = createAsyncThunk('hiringHours/fetch_entity_list', async ({ sort }: IQueryParams) => {
-  const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
-  return axios.get<IHiringHoursMySuffix[]>(requestUrl);
-});
+export const getEntities = createAsyncThunk(
+  'hiringHours/fetch_entity_list',
+  async ({ sort }: IQueryParams) => {
+    const requestUrl = `${apiUrl}?${sort ? `sort=${sort}&` : ''}cacheBuster=${new Date().getTime()}`;
+    return axios.get<IHiringHoursMySuffix[]>(requestUrl);
+  },
+  { serializeError: serializeAxiosError },
+);
 
 export const getEntity = createAsyncThunk(
   'hiringHours/fetch_entity',

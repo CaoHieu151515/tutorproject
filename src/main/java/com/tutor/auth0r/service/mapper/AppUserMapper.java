@@ -39,6 +39,8 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     TutorMapper tutorins = Mappers.getMapper(TutorMapper.class);
     WalletMapper walletins = Mappers.getMapper(WalletMapper.class);
 
+    TutorTeachMapper teachINS = Mappers.getMapper(TutorTeachMapper.class);
+
     @Mapping(target = "tutor", source = "tutor", qualifiedByName = "tutorId_2")
     @Mapping(target = "userVerify", source = "userVerify", qualifiedByName = "userVerifyId_2")
     @Mapping(target = "user", source = "user", qualifiedByName = "userId")

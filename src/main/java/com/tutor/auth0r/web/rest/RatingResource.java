@@ -26,7 +26,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/ratings")
 public class RatingResource {
 
-    private final Logger log = LoggerFactory.getLogger(RatingResource.class);
+    private static final Logger log = LoggerFactory.getLogger(RatingResource.class);
 
     private static final String ENTITY_NAME = "rating";
 

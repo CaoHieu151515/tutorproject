@@ -24,7 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/tutor-images")
 public class TutorImageResource {
 
-    private final Logger log = LoggerFactory.getLogger(TutorImageResource.class);
+    private static final Logger log = LoggerFactory.getLogger(TutorImageResource.class);
 
     private static final String ENTITY_NAME = "tutorImage";
 

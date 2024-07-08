@@ -24,7 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/hiring-hours")
 public class HiringHoursResource {
 
-    private final Logger log = LoggerFactory.getLogger(HiringHoursResource.class);
+    private static final Logger log = LoggerFactory.getLogger(HiringHoursResource.class);
 
     private static final String ENTITY_NAME = "hiringHours";
 

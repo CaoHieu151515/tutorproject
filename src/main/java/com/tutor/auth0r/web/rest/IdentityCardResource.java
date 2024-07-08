@@ -22,7 +22,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api/identity-cards")
 public class IdentityCardResource {
 
-    private final Logger log = LoggerFactory.getLogger(IdentityCardResource.class);
+    private static final Logger log = LoggerFactory.getLogger(IdentityCardResource.class);
 
     private static final String ENTITY_NAME = "identityCard";
 
