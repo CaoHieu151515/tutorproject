@@ -92,10 +92,6 @@ export const TutorDetailsMySuffix = () => {
                 <th className="hand" onClick={sort('id')}>
                   <Translate contentKey="projectApp.tutorDetails.id">ID</Translate> <FontAwesomeIcon icon={getSortIconByFieldName('id')} />
                 </th>
-                <th className="hand" onClick={sort('contact')}>
-                  <Translate contentKey="projectApp.tutorDetails.contact">Contact</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('contact')} />
-                </th>
                 <th className="hand" onClick={sort('information')}>
                   <Translate contentKey="projectApp.tutorDetails.information">Information</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('information')} />
@@ -113,9 +109,6 @@ export const TutorDetailsMySuffix = () => {
                     <Button tag={Link} to={`/tutor-details-my-suffix/${tutorDetails.id}`} color="link" size="sm">
                       {tutorDetails.id}
                     </Button>
-                  </td>
-                  <td>
-                    <Translate contentKey={`projectApp.Contact.${tutorDetails.contact}`} />
                   </td>
                   <td>{tutorDetails.information}</td>
                   <td>

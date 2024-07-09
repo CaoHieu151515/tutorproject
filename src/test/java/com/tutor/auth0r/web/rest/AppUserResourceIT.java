@@ -12,11 +12,13 @@ import com.tutor.auth0r.IntegrationTest;
 import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.enumeration.GenderType;
 import com.tutor.auth0r.repository.AppUserRepository;
+import com.tutor.auth0r.repository.UserRepository;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.mapper.AppUserMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,9 @@ class AppUserResourceIT {
     private AppUserRepository appUserRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private AppUserMapper appUserMapper;
 
     @Autowired
@@ -71,6 +76,8 @@ class AppUserResourceIT {
     private MockMvc restAppUserMockMvc;
 
     private AppUser appUser;
+
+    private AppUser insertedAppUser;
 
     /**
      * Create an entity for this test.
@@ -109,6 +116,14 @@ class AppUserResourceIT {
         appUser = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedAppUser != null) {
+            appUserRepository.delete(insertedAppUser);
+            insertedAppUser = null;
+        }
+    }
+
     @Test
     @Transactional
     void createAppUser() throws Exception {
@@ -129,6 +144,8 @@ class AppUserResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedAppUser = appUserMapper.toEntity(returnedAppUserDTO);
         assertAppUserUpdatableFieldsEquals(returnedAppUser, getPersistedAppUser(returnedAppUser));
+
+        insertedAppUser = returnedAppUser;
     }
 
     @Test
@@ -153,7 +170,7 @@ class AppUserResourceIT {
     @Transactional
     void getAllAppUsers() throws Exception {
         // Initialize the database
-        appUserRepository.saveAndFlush(appUser);
+        insertedAppUser = appUserRepository.saveAndFlush(appUser);
 
         // Get all the appUserList
         restAppUserMockMvc
@@ -172,7 +189,7 @@ class AppUserResourceIT {
     @Transactional
     void getAppUser() throws Exception {
         // Initialize the database
-        appUserRepository.saveAndFlush(appUser);
+        insertedAppUser = appUserRepository.saveAndFlush(appUser);
 
         // Get the appUser
         restAppUserMockMvc
@@ -198,7 +215,7 @@ class AppUserResourceIT {
     @Transactional
     void putExistingAppUser() throws Exception {
         // Initialize the database
-        appUserRepository.saveAndFlush(appUser);
+        insertedAppUser = appUserRepository.saveAndFlush(appUser);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -289,15 +306,13 @@ class AppUserResourceIT {
     @Transactional
     void partialUpdateAppUserWithPatch() throws Exception {
         // Initialize the database
-        appUserRepository.saveAndFlush(appUser);
+        insertedAppUser = appUserRepository.saveAndFlush(appUser);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the appUser using partial update
         AppUser partialUpdatedAppUser = new AppUser();
         partialUpdatedAppUser.setId(appUser.getId());
-
-        partialUpdatedAppUser.bankAccountNumber(UPDATED_BANK_ACCOUNT_NUMBER).walletAddress(UPDATED_WALLET_ADDRESS);
 
         restAppUserMockMvc
             .perform(
@@ -317,7 +332,7 @@ class AppUserResourceIT {
     @Transactional
     void fullUpdateAppUserWithPatch() throws Exception {
         // Initialize the database
-        appUserRepository.saveAndFlush(appUser);
+        insertedAppUser = appUserRepository.saveAndFlush(appUser);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -412,7 +427,7 @@ class AppUserResourceIT {
     @Transactional
     void deleteAppUser() throws Exception {
         // Initialize the database
-        appUserRepository.saveAndFlush(appUser);
+        insertedAppUser = appUserRepository.saveAndFlush(appUser);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

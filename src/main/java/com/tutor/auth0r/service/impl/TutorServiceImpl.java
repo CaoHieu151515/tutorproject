@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TutorServiceImpl implements TutorService {
 
-    private final Logger log = LoggerFactory.getLogger(TutorServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TutorServiceImpl.class);
 
     private final TutorRepository tutorRepository;
 

@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FollowServiceImpl implements FollowService {
 
-    private final Logger log = LoggerFactory.getLogger(FollowServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(FollowServiceImpl.class);
 
     private final FollowRepository followRepository;
 

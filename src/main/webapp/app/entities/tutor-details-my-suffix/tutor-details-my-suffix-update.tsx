@@ -72,7 +72,6 @@ export const TutorDetailsMySuffixUpdate = () => {
     isNew
       ? {}
       : {
-          contact: 'MEET',
           ...tutorDetailsEntity,
           tutorVideo: tutorDetailsEntity?.tutorVideo?.id,
         };
@@ -102,19 +101,6 @@ export const TutorDetailsMySuffixUpdate = () => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField
-                label={translate('projectApp.tutorDetails.contact')}
-                id="tutor-details-my-suffix-contact"
-                name="contact"
-                data-cy="contact"
-                type="select"
-              >
-                {contactValues.map(contact => (
-                  <option value={contact} key={contact}>
-                    {translate('projectApp.Contact.' + contact)}
-                  </option>
-                ))}
-              </ValidatedField>
               <ValidatedField
                 label={translate('projectApp.tutorDetails.information')}
                 id="tutor-details-my-suffix-information"

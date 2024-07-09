@@ -4,7 +4,9 @@
       "null": "",
       "READY": "READY",
       "BUSY": "BUSY",
-      "OFFLINE": "OFFLINE"
+      "OFFLINE": "OFFLINE",
+      "CONFIRMING": "CONFIRMING",
+      "NOT_TUTOR": "NOT_TUTOR"
     }
   }
 }

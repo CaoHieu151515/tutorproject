@@ -4,4 +4,8 @@ export enum TuStatus {
   BUSY = 'BUSY',
 
   OFFLINE = 'OFFLINE',
+
+  CONFIRMING = 'CONFIRMING',
+
+  NOT_TUTOR = 'NOT_TUTOR',
 }

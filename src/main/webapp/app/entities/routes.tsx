@@ -19,6 +19,8 @@ import TutorVideoMySuffix from './tutor-video-my-suffix';
 import UserVerifyMySuffix from './user-verify-my-suffix';
 import WalletMySuffix from './wallet-my-suffix';
 import WalletTransactionMySuffix from './wallet-transaction-my-suffix';
+import TuTorContactWithMySuffix from './tu-tor-contact-with-my-suffix';
+import ReportMySuffix from './report-my-suffix';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -42,6 +44,8 @@ export default () => {
         <Route path="user-verify-my-suffix/*" element={<UserVerifyMySuffix />} />
         <Route path="wallet-my-suffix/*" element={<WalletMySuffix />} />
         <Route path="wallet-transaction-my-suffix/*" element={<WalletTransactionMySuffix />} />
+        <Route path="tu-tor-contact-with-my-suffix/*" element={<TuTorContactWithMySuffix />} />
+        <Route path="report-my-suffix/*" element={<ReportMySuffix />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>

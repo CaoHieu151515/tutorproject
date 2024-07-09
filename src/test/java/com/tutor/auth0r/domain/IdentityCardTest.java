@@ -27,7 +27,7 @@ class IdentityCardTest {
     }
 
     @Test
-    void hashCodeVerifier() throws Exception {
+    void hashCodeVerifier() {
         IdentityCard identityCard = new IdentityCard();
         assertThat(identityCard.hashCode()).isZero();
 
@@ -37,7 +37,7 @@ class IdentityCardTest {
     }
 
     @Test
-    void mediaTest() throws Exception {
+    void mediaTest() {
         IdentityCard identityCard = getIdentityCardRandomSampleGenerator();
         Media mediaBack = getMediaRandomSampleGenerator();
 
@@ -59,7 +59,7 @@ class IdentityCardTest {
     }
 
     @Test
-    void userVerifyTest() throws Exception {
+    void userVerifyTest() {
         IdentityCard identityCard = getIdentityCardRandomSampleGenerator();
         UserVerify userVerifyBack = getUserVerifyRandomSampleGenerator();
 

@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service.dto;
 
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,6 +12,9 @@ public class HiringHoursDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
+    @Min(value = 1)
+    @Max(value = 5)
     private Integer hour;
 
     private TutorDTO tutor;

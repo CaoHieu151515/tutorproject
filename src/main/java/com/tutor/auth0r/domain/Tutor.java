@@ -45,7 +45,7 @@ public class Tutor implements Serializable {
     @Column(name = "average_rating", precision = 21, scale = 2)
     private BigDecimal averageRating;
 
-    @JsonIgnoreProperties(value = { "tutorVideo", "tutorTeaches", "tutorImages", "tutor" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutorVideo", "tutorTeaches", "tutorContacts", "tutorImages", "tutor" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private TutorDetails tutorDetails;
@@ -58,11 +58,15 @@ public class Tutor implements Serializable {
     @JsonIgnoreProperties(value = { "tutor" }, allowSetters = true)
     private Set<HiringHours> hiringHours = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tutor")
+    @JsonIgnoreProperties(value = { "appUser", "tutor" }, allowSetters = true)
+    private Set<Report> reports = new HashSet<>();
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tutor")
     @JsonIgnoreProperties(value = { "tutor", "appUser" }, allowSetters = true)
     private Set<Rating> ratings = new HashSet<>();
 
-    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "rating", "hireTutors", "wallet" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "reports", "wallet", "ratings" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "tutor")
     private AppUser appUser;
 
@@ -234,6 +238,37 @@ public class Tutor implements Serializable {
         return this;
     }
 
+    public Set<Report> getReports() {
+        return this.reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        if (this.reports != null) {
+            this.reports.forEach(i -> i.setTutor(null));
+        }
+        if (reports != null) {
+            reports.forEach(i -> i.setTutor(this));
+        }
+        this.reports = reports;
+    }
+
+    public Tutor reports(Set<Report> reports) {
+        this.setReports(reports);
+        return this;
+    }
+
+    public Tutor addReport(Report report) {
+        this.reports.add(report);
+        report.setTutor(this);
+        return this;
+    }
+
+    public Tutor removeReport(Report report) {
+        this.reports.remove(report);
+        report.setTutor(null);
+        return this;
+    }
+
     public Set<Rating> getRatings() {
         return this.ratings;
     }
@@ -266,7 +301,6 @@ public class Tutor implements Serializable {
     public Tutor addRating(Rating rating) {
         this.ratings.add(rating);
         rating.setTutor(this);
-
         return this;
     }
 

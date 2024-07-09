@@ -13,8 +13,6 @@ public class TutorDetailsDTO implements Serializable {
 
     private Long id;
 
-    private Contact contact;
-
     private String information;
 
     private TutorVideoDTO tutorVideo;
@@ -27,14 +25,6 @@ public class TutorDetailsDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
     }
 
     public String getInformation() {
@@ -87,7 +77,6 @@ public class TutorDetailsDTO implements Serializable {
     public String toString() {
         return "TutorDetailsDTO{" +
             "id=" + getId() +
-            ", contact='" + getContact() + "'" +
             ", information='" + getInformation() + "'" +
             ", tutorVideo=" + getTutorVideo() +
             "}";

@@ -18,6 +18,14 @@
       "fieldName": "status",
       "fieldType": "HireStatus",
       "fieldValues": "DURING,DONE,CANCEL"
+    },
+    {
+      "fieldName": "startAt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endAt",
+      "fieldType": "LocalDate"
     }
   ],
   "name": "HireTutor",

@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserVerifyServiceImpl implements UserVerifyService {
 
-    private final Logger log = LoggerFactory.getLogger(UserVerifyServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserVerifyServiceImpl.class);
 
     private final UserVerifyRepository userVerifyRepository;
 

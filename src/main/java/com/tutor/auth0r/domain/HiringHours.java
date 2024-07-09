@@ -2,6 +2,7 @@ package com.tutor.auth0r.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -19,11 +20,14 @@ public class HiringHours implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "hour")
+    @NotNull
+    @Min(value = 1)
+    @Max(value = 5)
+    @Column(name = "hour", nullable = false)
     private Integer hour;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "ratings", "appUser" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "reports", "ratings", "appUser" }, allowSetters = true)
     private Tutor tutor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

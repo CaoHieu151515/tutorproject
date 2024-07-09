@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class HiringHoursServiceImpl implements HiringHoursService {
 
-    private final Logger log = LoggerFactory.getLogger(HiringHoursServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(HiringHoursServiceImpl.class);
 
     private final HiringHoursRepository hiringHoursRepository;
 

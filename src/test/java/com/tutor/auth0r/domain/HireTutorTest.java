@@ -25,7 +25,7 @@ class HireTutorTest {
     }
 
     @Test
-    void appUserTest() throws Exception {
+    void appUserTest() {
         HireTutor hireTutor = getHireTutorRandomSampleGenerator();
         AppUser appUserBack = getAppUserRandomSampleGenerator();
 
@@ -37,7 +37,7 @@ class HireTutorTest {
     }
 
     @Test
-    void tutorTest() throws Exception {
+    void tutorTest() {
         HireTutor hireTutor = getHireTutorRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 

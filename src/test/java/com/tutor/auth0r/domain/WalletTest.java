@@ -27,7 +27,7 @@ class WalletTest {
     }
 
     @Test
-    void appUserTest() throws Exception {
+    void appUserTest() {
         Wallet wallet = getWalletRandomSampleGenerator();
         AppUser appUserBack = getAppUserRandomSampleGenerator();
 
@@ -39,7 +39,7 @@ class WalletTest {
     }
 
     @Test
-    void transactionsTest() throws Exception {
+    void transactionsTest() {
         Wallet wallet = getWalletRandomSampleGenerator();
         WalletTransaction walletTransactionBack = getWalletTransactionRandomSampleGenerator();
 

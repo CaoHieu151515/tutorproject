@@ -24,7 +24,7 @@ public class TutorVideo implements Serializable {
     @JoinColumn(unique = true)
     private Media media;
 
-    @JsonIgnoreProperties(value = { "tutorVideo", "tutorTeaches", "tutorImages", "tutor" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutorVideo", "tutorTeaches", "tutorContacts", "tutorImages", "tutor" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "tutorVideo")
     private TutorDetails tutorDetails;
 

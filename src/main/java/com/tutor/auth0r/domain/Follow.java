@@ -24,11 +24,11 @@ public class Follow implements Serializable {
     private LocalDate createDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "rating", "hireTutors", "wallet" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "reports", "wallet", "ratings" }, allowSetters = true)
     private AppUser followerAppUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "ratings", "appUser" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "reports", "ratings", "appUser" }, allowSetters = true)
     private Tutor followedTutor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

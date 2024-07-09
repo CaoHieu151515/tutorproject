@@ -2,18 +2,15 @@ package com.tutor.auth0r.service.mapper;
 
 import com.tutor.auth0r.domain.AcademicRank;
 import com.tutor.auth0r.domain.AppUser;
-import com.tutor.auth0r.domain.Media;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.Wallet;
-import com.tutor.auth0r.service.dto.AcademicRankDTO;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
-import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
@@ -50,7 +47,7 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     @Named("currenttoDTO")
     @Mappings(
         {
-            @Mapping(target = "tutor", ignore = true),
+            @Mapping(target = "tutor", source = "tutor", qualifiedByName = "tutorId"),
             @Mapping(target = "userVerify", source = "userVerify", qualifiedByName = "userVerifyId_2"),
             @Mapping(target = "user", source = "user", qualifiedByName = "userId"),
             @Mapping(target = "wallet", source = "wallet", qualifiedByName = "walletmapper"),
@@ -58,10 +55,10 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     )
     AppUserDTO currenttoDTO(AppUser s);
 
-    // @Named("tutorId")
-    // @BeanMapping(ignoreByDefault = false)
-    // @Mapping(target = "id", source = "id")
-    // TutorDTO toDtoTutorId(Tutor tutor);
+    @Named("tutorId")
+    @BeanMapping(ignoreByDefault = false)
+    @Mapping(target = "id", source = "id")
+    TutorDTO tutorId(Tutor tutor);
 
     @Named("userVerifyId")
     @BeanMapping(ignoreByDefault = false)

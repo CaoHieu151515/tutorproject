@@ -25,7 +25,7 @@ public class Wallet implements Serializable {
     @Column(name = "amount", nullable = false)
     private Double amount;
 
-    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "rating", "hireTutors", "wallet" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "reports", "wallet", "ratings" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private AppUser appUser;

@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class WalletServiceImpl implements WalletService {
 
-    private final Logger log = LoggerFactory.getLogger(WalletServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(WalletServiceImpl.class);
 
     private final WalletRepository walletRepository;
 

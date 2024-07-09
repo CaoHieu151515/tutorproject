@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class MediaServiceImpl implements MediaService {
 
-    private final Logger log = LoggerFactory.getLogger(MediaServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(MediaServiceImpl.class);
 
     private final MediaRepository mediaRepository;
 

@@ -22,4 +22,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     List<AppUser> findByTutorStatus(TuStatus status);
 
     Optional<AppUser> findOneByUser(User user);
+
+    @Query("SELECT au FROM AppUser au WHERE au.tutor.status = 'READY'")
+    List<AppUser> findAllAppUsersWithTutorStatusReady();
 }

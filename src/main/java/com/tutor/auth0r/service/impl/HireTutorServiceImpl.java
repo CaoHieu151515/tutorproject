@@ -4,6 +4,7 @@ import com.tutor.auth0r.config.PricingProperties;
 import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.HireTutor;
 import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.domain.enumeration.HireStatus;
@@ -12,6 +13,7 @@ import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.HireTutorRepository;
 import com.tutor.auth0r.repository.TutorRepository;
+import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.HireTutorService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.WalletService;
@@ -20,6 +22,8 @@ import com.tutor.auth0r.service.mapper.HireTutorMapper;
 import com.tutor.auth0r.web.rest.errors.NotEnoughMoneyException;
 import com.tutor.auth0r.web.rest.errors.NotLoggedException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,7 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class HireTutorServiceImpl implements HireTutorService {
 
-    private final Logger log = LoggerFactory.getLogger(HireTutorServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(HireTutorServiceImpl.class);
 
     private final HireTutorRepository hireTutorRepository;
 
@@ -52,13 +56,16 @@ public class HireTutorServiceImpl implements HireTutorService {
 
     private final TutorRepository tutorRepository;
 
+    private final AppUserService appUserService;
+
     public HireTutorServiceImpl(
         HireTutorRepository hireTutorRepository,
         HireTutorMapper hireTutorMapper,
         WalletService walletService,
         UserService userService,
         AppUserRepository appUserRepository,
-        TutorRepository tutorRepository
+        TutorRepository tutorRepository,
+        AppUserService appUserService
     ) {
         this.hireTutorRepository = hireTutorRepository;
         this.hireTutorMapper = hireTutorMapper;
@@ -66,6 +73,7 @@ public class HireTutorServiceImpl implements HireTutorService {
         this.userService = userService;
         this.appUserRepository = appUserRepository;
         this.tutorRepository = tutorRepository;
+        this.appUserService = appUserService;
     }
 
     @Autowired
@@ -130,7 +138,13 @@ public class HireTutorServiceImpl implements HireTutorService {
         validateAndGetEntities(hireTutor);
         processWalletTransactions(hireTutor);
 
+        LocalDate startAt = LocalDateTime.now().toLocalDate();
+        LocalDate endAt = LocalDateTime.now().plusHours((hireTutorDTO.getTimeHire())).toLocalDate();
+
         hireTutor.setStatus(HireStatus.DURING);
+        hireTutor.setTimeHire(hireTutorDTO.getTimeHire());
+        hireTutor.setStartAt(startAt);
+        hireTutor.setEndAt(endAt);
         hireTutor = hireTutorRepository.save(hireTutor);
 
         return hireTutorMapper.toDto(hireTutor);
@@ -163,6 +177,8 @@ public class HireTutorServiceImpl implements HireTutorService {
     private void processWalletTransactions(HireTutor hireTutor) {
         Double trueAmount = hireTutor.getTutor().getPrice() * hireTutor.getTimeHire();
 
+        log.debug("Request to update HireTutor : {}", trueAmount);
+
         Wallet adminWallet = walletService.getAdminWallet();
         Wallet tutorWallet = walletService.getWalletByUserLogin(hireTutor.getTutor().getAppUser().getUser().getLogin());
         Wallet hirerWallet = walletService.getWalletByUserLogin(hireTutor.getAppUser().getUser().getLogin());
@@ -172,7 +188,10 @@ public class HireTutorServiceImpl implements HireTutorService {
         }
 
         Double serviceFee = trueAmount * pricingProperties.getFreePercentage();
+        log.debug("Request to update HireTutor : {}", serviceFee);
+
         Double tutorGain = trueAmount * pricingProperties.getfreePercentageHireGain();
+        log.debug("Request to update HireTutor : {}", tutorGain);
 
         addTransactionToWallet(hirerWallet, trueAmount, WalletTransactionType.HIRE);
         addTransactionToWallet(tutorWallet, tutorGain, WalletTransactionType.TUTORGAIN);

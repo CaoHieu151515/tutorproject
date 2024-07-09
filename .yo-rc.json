@@ -31,13 +31,15 @@
       "TutorVideo",
       "UserVerify",
       "Wallet",
-      "WalletTransaction"
+      "WalletTransaction",
+      "TuTorContactWith",
+      "Report"
     ],
     "feignClient": null,
     "jhipsterVersion": "8.6.0",
     "jwtSecretKey": "YzZkY2NjMjllYWUxNzAzZmNiNDQ0ZTBjNjY2OGI5YzJiMDk4MWEzNzk2YzViOGQwMTQ1ZDQ4MjM3NGRlMWUyODg0NTMyMGZkOGQzODkwNTBiOTNlNTdkMGI4YWFhNjhmMWFmYjdmNDg0MzRkZTc0OWU1YTgzOTQzMWRjNWE3YzA=",
     "languages": ["en", "vi"],
-    "lastLiquibaseTimestamp": 1717979983000,
+    "lastLiquibaseTimestamp": 1720439161000,
     "messageBroker": false,
     "microfrontend": null,
     "microfrontends": [],

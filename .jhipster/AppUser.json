@@ -57,6 +57,12 @@
       "relationshipType": "one-to-many"
     },
     {
+      "otherEntityName": "report",
+      "relationshipName": "report",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
       "options": {
         "builtInEntity": true
       },

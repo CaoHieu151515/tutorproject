@@ -2,7 +2,7 @@ import { ITutorMySuffix } from 'app/shared/model/tutor-my-suffix.model';
 
 export interface IHiringHoursMySuffix {
   id?: number;
-  hour?: number | null;
+  hour?: number;
   tutor?: ITutorMySuffix | null;
 }
 

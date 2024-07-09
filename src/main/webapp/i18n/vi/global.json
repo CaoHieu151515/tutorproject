@@ -23,7 +23,9 @@
         "tutorVideoMySuffix": "Tutor Video",
         "userVerifyMySuffix": "User Verify",
         "walletMySuffix": "Wallet",
-        "walletTransactionMySuffix": "Wallet Transaction"
+        "walletTransactionMySuffix": "Wallet Transaction",
+        "tuTorContactWithMySuffix": "Tu Tor Contact With",
+        "reportMySuffix": "Report"
       },
       "account": {
         "main": "Tài khoản",

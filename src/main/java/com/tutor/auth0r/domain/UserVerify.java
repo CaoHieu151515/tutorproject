@@ -41,11 +41,11 @@ public class UserVerify implements Serializable {
     @JoinColumn(unique = true)
     private IdentityCard identityCard;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userVerify")
+    @OneToMany(mappedBy = "userVerify", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "media", "userVerify" }, allowSetters = true)
     private Set<AcademicRank> academicRanks = new HashSet<>();
 
-    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "rating", "hireTutors", "wallet" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "reports", "wallet", "ratings" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "userVerify")
     private AppUser appUser;
 

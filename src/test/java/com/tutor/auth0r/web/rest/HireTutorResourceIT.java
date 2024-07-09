@@ -15,8 +15,11 @@ import com.tutor.auth0r.repository.HireTutorRepository;
 import com.tutor.auth0r.service.dto.HireTutorDTO;
 import com.tutor.auth0r.service.mapper.HireTutorMapper;
 import jakarta.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,12 @@ class HireTutorResourceIT {
     private static final HireStatus DEFAULT_STATUS = HireStatus.DURING;
     private static final HireStatus UPDATED_STATUS = HireStatus.DONE;
 
+    private static final LocalDate DEFAULT_START_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_START_AT = LocalDate.now(ZoneId.systemDefault());
+
+    private static final LocalDate DEFAULT_END_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_END_AT = LocalDate.now(ZoneId.systemDefault());
+
     private static final String ENTITY_API_URL = "/api/hire-tutors";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -66,6 +75,8 @@ class HireTutorResourceIT {
 
     private HireTutor hireTutor;
 
+    private HireTutor insertedHireTutor;
+
     /**
      * Create an entity for this test.
      *
@@ -73,7 +84,12 @@ class HireTutorResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static HireTutor createEntity(EntityManager em) {
-        HireTutor hireTutor = new HireTutor().timeHire(DEFAULT_TIME_HIRE).totalPrice(DEFAULT_TOTAL_PRICE).status(DEFAULT_STATUS);
+        HireTutor hireTutor = new HireTutor()
+            .timeHire(DEFAULT_TIME_HIRE)
+            .totalPrice(DEFAULT_TOTAL_PRICE)
+            .status(DEFAULT_STATUS)
+            .startAt(DEFAULT_START_AT)
+            .endAt(DEFAULT_END_AT);
         return hireTutor;
     }
 
@@ -84,13 +100,26 @@ class HireTutorResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static HireTutor createUpdatedEntity(EntityManager em) {
-        HireTutor hireTutor = new HireTutor().timeHire(UPDATED_TIME_HIRE).totalPrice(UPDATED_TOTAL_PRICE).status(UPDATED_STATUS);
+        HireTutor hireTutor = new HireTutor()
+            .timeHire(UPDATED_TIME_HIRE)
+            .totalPrice(UPDATED_TOTAL_PRICE)
+            .status(UPDATED_STATUS)
+            .startAt(UPDATED_START_AT)
+            .endAt(UPDATED_END_AT);
         return hireTutor;
     }
 
     @BeforeEach
     public void initTest() {
         hireTutor = createEntity(em);
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (insertedHireTutor != null) {
+            hireTutorRepository.delete(insertedHireTutor);
+            insertedHireTutor = null;
+        }
     }
 
     @Test
@@ -113,6 +142,8 @@ class HireTutorResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedHireTutor = hireTutorMapper.toEntity(returnedHireTutorDTO);
         assertHireTutorUpdatableFieldsEquals(returnedHireTutor, getPersistedHireTutor(returnedHireTutor));
+
+        insertedHireTutor = returnedHireTutor;
     }
 
     @Test
@@ -137,7 +168,7 @@ class HireTutorResourceIT {
     @Transactional
     void getAllHireTutors() throws Exception {
         // Initialize the database
-        hireTutorRepository.saveAndFlush(hireTutor);
+        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
 
         // Get all the hireTutorList
         restHireTutorMockMvc
@@ -147,14 +178,16 @@ class HireTutorResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(hireTutor.getId().intValue())))
             .andExpect(jsonPath("$.[*].timeHire").value(hasItem(DEFAULT_TIME_HIRE)))
             .andExpect(jsonPath("$.[*].totalPrice").value(hasItem(DEFAULT_TOTAL_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].startAt").value(hasItem(DEFAULT_START_AT.toString())))
+            .andExpect(jsonPath("$.[*].endAt").value(hasItem(DEFAULT_END_AT.toString())));
     }
 
     @Test
     @Transactional
     void getHireTutor() throws Exception {
         // Initialize the database
-        hireTutorRepository.saveAndFlush(hireTutor);
+        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
 
         // Get the hireTutor
         restHireTutorMockMvc
@@ -164,7 +197,9 @@ class HireTutorResourceIT {
             .andExpect(jsonPath("$.id").value(hireTutor.getId().intValue()))
             .andExpect(jsonPath("$.timeHire").value(DEFAULT_TIME_HIRE))
             .andExpect(jsonPath("$.totalPrice").value(DEFAULT_TOTAL_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.startAt").value(DEFAULT_START_AT.toString()))
+            .andExpect(jsonPath("$.endAt").value(DEFAULT_END_AT.toString()));
     }
 
     @Test
@@ -178,7 +213,7 @@ class HireTutorResourceIT {
     @Transactional
     void putExistingHireTutor() throws Exception {
         // Initialize the database
-        hireTutorRepository.saveAndFlush(hireTutor);
+        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -186,7 +221,12 @@ class HireTutorResourceIT {
         HireTutor updatedHireTutor = hireTutorRepository.findById(hireTutor.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedHireTutor are not directly saved in db
         em.detach(updatedHireTutor);
-        updatedHireTutor.timeHire(UPDATED_TIME_HIRE).totalPrice(UPDATED_TOTAL_PRICE).status(UPDATED_STATUS);
+        updatedHireTutor
+            .timeHire(UPDATED_TIME_HIRE)
+            .totalPrice(UPDATED_TOTAL_PRICE)
+            .status(UPDATED_STATUS)
+            .startAt(UPDATED_START_AT)
+            .endAt(UPDATED_END_AT);
         HireTutorDTO hireTutorDTO = hireTutorMapper.toDto(updatedHireTutor);
 
         restHireTutorMockMvc
@@ -268,7 +308,7 @@ class HireTutorResourceIT {
     @Transactional
     void partialUpdateHireTutorWithPatch() throws Exception {
         // Initialize the database
-        hireTutorRepository.saveAndFlush(hireTutor);
+        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -276,7 +316,7 @@ class HireTutorResourceIT {
         HireTutor partialUpdatedHireTutor = new HireTutor();
         partialUpdatedHireTutor.setId(hireTutor.getId());
 
-        partialUpdatedHireTutor.status(UPDATED_STATUS);
+        partialUpdatedHireTutor.status(UPDATED_STATUS).startAt(UPDATED_START_AT).endAt(UPDATED_END_AT);
 
         restHireTutorMockMvc
             .perform(
@@ -299,7 +339,7 @@ class HireTutorResourceIT {
     @Transactional
     void fullUpdateHireTutorWithPatch() throws Exception {
         // Initialize the database
-        hireTutorRepository.saveAndFlush(hireTutor);
+        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -307,7 +347,12 @@ class HireTutorResourceIT {
         HireTutor partialUpdatedHireTutor = new HireTutor();
         partialUpdatedHireTutor.setId(hireTutor.getId());
 
-        partialUpdatedHireTutor.timeHire(UPDATED_TIME_HIRE).totalPrice(UPDATED_TOTAL_PRICE).status(UPDATED_STATUS);
+        partialUpdatedHireTutor
+            .timeHire(UPDATED_TIME_HIRE)
+            .totalPrice(UPDATED_TOTAL_PRICE)
+            .status(UPDATED_STATUS)
+            .startAt(UPDATED_START_AT)
+            .endAt(UPDATED_END_AT);
 
         restHireTutorMockMvc
             .perform(
@@ -389,7 +434,7 @@ class HireTutorResourceIT {
     @Transactional
     void deleteHireTutor() throws Exception {
         // Initialize the database
-        hireTutorRepository.saveAndFlush(hireTutor);
+        insertedHireTutor = hireTutorRepository.saveAndFlush(hireTutor);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

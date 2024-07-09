@@ -38,7 +38,7 @@ public class AppUser implements Serializable {
     @Column(name = "wallet_address")
     private String walletAddress;
 
-    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "ratings", "appUser" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "reports", "ratings", "appUser" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private Tutor tutor;
@@ -55,6 +55,10 @@ public class AppUser implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
     @JsonIgnoreProperties(value = { "appUser", "tutor" }, allowSetters = true)
     private Set<HireTutor> hireTutors = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
+    @JsonIgnoreProperties(value = { "appUser", "tutor" }, allowSetters = true)
+    private Set<Report> reports = new HashSet<>();
 
     @JsonIgnoreProperties(value = { "appUser", "transactions" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "appUser")
@@ -211,6 +215,37 @@ public class AppUser implements Serializable {
     public AppUser removeHireTutor(HireTutor hireTutor) {
         this.hireTutors.remove(hireTutor);
         hireTutor.setAppUser(null);
+        return this;
+    }
+
+    public Set<Report> getReports() {
+        return this.reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        if (this.reports != null) {
+            this.reports.forEach(i -> i.setAppUser(null));
+        }
+        if (reports != null) {
+            reports.forEach(i -> i.setAppUser(this));
+        }
+        this.reports = reports;
+    }
+
+    public AppUser reports(Set<Report> reports) {
+        this.setReports(reports);
+        return this;
+    }
+
+    public AppUser addReport(Report report) {
+        this.reports.add(report);
+        report.setAppUser(this);
+        return this;
+    }
+
+    public AppUser removeReport(Report report) {
+        this.reports.remove(report);
+        report.setAppUser(null);
         return this;
     }
 

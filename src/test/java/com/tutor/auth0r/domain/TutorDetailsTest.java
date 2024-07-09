@@ -1,5 +1,6 @@
 package com.tutor.auth0r.domain;
 
+import static com.tutor.auth0r.domain.TuTorContactWithTestSamples.*;
 import static com.tutor.auth0r.domain.TutorDetailsTestSamples.*;
 import static com.tutor.auth0r.domain.TutorImageTestSamples.*;
 import static com.tutor.auth0r.domain.TutorTeachTestSamples.*;
@@ -29,7 +30,7 @@ class TutorDetailsTest {
     }
 
     @Test
-    void tutorVideoTest() throws Exception {
+    void tutorVideoTest() {
         TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
         TutorVideo tutorVideoBack = getTutorVideoRandomSampleGenerator();
 
@@ -41,7 +42,7 @@ class TutorDetailsTest {
     }
 
     @Test
-    void tutorTeachTest() throws Exception {
+    void tutorTeachTest() {
         TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
         TutorTeach tutorTeachBack = getTutorTeachRandomSampleGenerator();
 
@@ -63,7 +64,29 @@ class TutorDetailsTest {
     }
 
     @Test
-    void tutorImageTest() throws Exception {
+    void tutorContactTest() {
+        TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
+        TuTorContactWith tuTorContactWithBack = getTuTorContactWithRandomSampleGenerator();
+
+        tutorDetails.addTutorContact(tuTorContactWithBack);
+        assertThat(tutorDetails.getTutorContacts()).containsOnly(tuTorContactWithBack);
+        assertThat(tuTorContactWithBack.getTutorDetails()).isEqualTo(tutorDetails);
+
+        tutorDetails.removeTutorContact(tuTorContactWithBack);
+        assertThat(tutorDetails.getTutorContacts()).doesNotContain(tuTorContactWithBack);
+        assertThat(tuTorContactWithBack.getTutorDetails()).isNull();
+
+        tutorDetails.tutorContacts(new HashSet<>(Set.of(tuTorContactWithBack)));
+        assertThat(tutorDetails.getTutorContacts()).containsOnly(tuTorContactWithBack);
+        assertThat(tuTorContactWithBack.getTutorDetails()).isEqualTo(tutorDetails);
+
+        tutorDetails.setTutorContacts(new HashSet<>());
+        assertThat(tutorDetails.getTutorContacts()).doesNotContain(tuTorContactWithBack);
+        assertThat(tuTorContactWithBack.getTutorDetails()).isNull();
+    }
+
+    @Test
+    void tutorImageTest() {
         TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
         TutorImage tutorImageBack = getTutorImageRandomSampleGenerator();
 
@@ -85,7 +108,7 @@ class TutorDetailsTest {
     }
 
     @Test
-    void tutorTest() throws Exception {
+    void tutorTest() {
         TutorDetails tutorDetails = getTutorDetailsRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 

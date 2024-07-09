@@ -22,7 +22,7 @@
     {
       "fieldName": "status",
       "fieldType": "TuStatus",
-      "fieldValues": "READY,BUSY,OFFLINE"
+      "fieldValues": "READY,BUSY,OFFLINE,CONFIRMING,NOT_TUTOR"
     },
     {
       "fieldName": "followerCount",
@@ -50,6 +50,12 @@
     {
       "otherEntityName": "hiringHours",
       "relationshipName": "hiringHours",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "report",
+      "relationshipName": "report",
       "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },

@@ -7,11 +7,6 @@
   "dto": "mapstruct",
   "fields": [
     {
-      "fieldName": "contact",
-      "fieldType": "Contact",
-      "fieldValues": "MEET,DISCORD,ZOOM"
-    },
-    {
       "fieldName": "information",
       "fieldType": "String"
     }
@@ -27,6 +22,12 @@
     {
       "otherEntityName": "tutorTeach",
       "relationshipName": "tutorTeach",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tuTorContactWith",
+      "relationshipName": "tutorContact",
       "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },

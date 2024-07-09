@@ -14,6 +14,8 @@ import tutorVideo from 'app/entities/tutor-video-my-suffix/tutor-video-my-suffix
 import userVerify from 'app/entities/user-verify-my-suffix/user-verify-my-suffix.reducer';
 import wallet from 'app/entities/wallet-my-suffix/wallet-my-suffix.reducer';
 import walletTransaction from 'app/entities/wallet-transaction-my-suffix/wallet-transaction-my-suffix.reducer';
+import tuTorContactWith from 'app/entities/tu-tor-contact-with-my-suffix/tu-tor-contact-with-my-suffix.reducer';
+import report from 'app/entities/report-my-suffix/report-my-suffix.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
@@ -33,6 +35,8 @@ const entitiesReducers = {
   userVerify,
   wallet,
   walletTransaction,
+  tuTorContactWith,
+  report,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

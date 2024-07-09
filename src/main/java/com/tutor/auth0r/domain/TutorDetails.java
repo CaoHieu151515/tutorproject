@@ -1,7 +1,6 @@
 package com.tutor.auth0r.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tutor.auth0r.domain.enumeration.Contact;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -22,10 +21,6 @@ public class TutorDetails implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "contact")
-    private Contact contact;
-
     @Column(name = "information")
     private String information;
 
@@ -39,10 +34,14 @@ public class TutorDetails implements Serializable {
     private Set<TutorTeach> tutorTeaches = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "tutorDetails")
+    @JsonIgnoreProperties(value = { "tutorDetails" }, allowSetters = true)
+    private Set<TuTorContactWith> tutorContacts = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tutorDetails")
     @JsonIgnoreProperties(value = { "media", "tutorDetails" }, allowSetters = true)
     private Set<TutorImage> tutorImages = new HashSet<>();
 
-    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "ratings", "appUser" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "reports", "ratings", "appUser" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "tutorDetails")
     private Tutor tutor;
 
@@ -59,19 +58,6 @@ public class TutorDetails implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Contact getContact() {
-        return this.contact;
-    }
-
-    public TutorDetails contact(Contact contact) {
-        this.setContact(contact);
-        return this;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
     }
 
     public String getInformation() {
@@ -128,6 +114,37 @@ public class TutorDetails implements Serializable {
     public TutorDetails removeTutorTeach(TutorTeach tutorTeach) {
         this.tutorTeaches.remove(tutorTeach);
         tutorTeach.setTutorDetails(null);
+        return this;
+    }
+
+    public Set<TuTorContactWith> getTutorContacts() {
+        return this.tutorContacts;
+    }
+
+    public void setTutorContacts(Set<TuTorContactWith> tuTorContactWiths) {
+        if (this.tutorContacts != null) {
+            this.tutorContacts.forEach(i -> i.setTutorDetails(null));
+        }
+        if (tuTorContactWiths != null) {
+            tuTorContactWiths.forEach(i -> i.setTutorDetails(this));
+        }
+        this.tutorContacts = tuTorContactWiths;
+    }
+
+    public TutorDetails tutorContacts(Set<TuTorContactWith> tuTorContactWiths) {
+        this.setTutorContacts(tuTorContactWiths);
+        return this;
+    }
+
+    public TutorDetails addTutorContact(TuTorContactWith tuTorContactWith) {
+        this.tutorContacts.add(tuTorContactWith);
+        tuTorContactWith.setTutorDetails(this);
+        return this;
+    }
+
+    public TutorDetails removeTutorContact(TuTorContactWith tuTorContactWith) {
+        this.tutorContacts.remove(tuTorContactWith);
+        tuTorContactWith.setTutorDetails(null);
         return this;
     }
 
@@ -205,7 +222,6 @@ public class TutorDetails implements Serializable {
     public String toString() {
         return "TutorDetails{" +
             "id=" + getId() +
-            ", contact='" + getContact() + "'" +
             ", information='" + getInformation() + "'" +
             "}";
     }

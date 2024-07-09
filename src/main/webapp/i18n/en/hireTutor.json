@@ -21,6 +21,8 @@
       "timeHire": "Time Hire",
       "totalPrice": "Total Price",
       "status": "Status",
+      "startAt": "Start At",
+      "endAt": "End At",
       "appUser": "App User",
       "tutor": "Tutor"
     }

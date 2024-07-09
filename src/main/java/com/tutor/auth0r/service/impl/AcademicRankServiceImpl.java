@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AcademicRankServiceImpl implements AcademicRankService {
 
-    private final Logger log = LoggerFactory.getLogger(AcademicRankServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(AcademicRankServiceImpl.class);
 
     private final AcademicRankRepository academicRankRepository;
 

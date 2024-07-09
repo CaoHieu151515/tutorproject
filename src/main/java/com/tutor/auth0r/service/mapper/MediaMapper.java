@@ -1,9 +1,7 @@
 package com.tutor.auth0r.service.mapper;
 
-import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.IdentityCard;
 import com.tutor.auth0r.domain.Media;
-import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import org.mapstruct.*;

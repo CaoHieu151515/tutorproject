@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, getSortState } from 'react-jhipster';
+import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, SORT } from 'app/shared/util/pagination.constants';
 import { overrideSortStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
@@ -104,6 +105,14 @@ export const HireTutorMySuffix = () => {
                   <Translate contentKey="projectApp.hireTutor.status">Status</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('status')} />
                 </th>
+                <th className="hand" onClick={sort('startAt')}>
+                  <Translate contentKey="projectApp.hireTutor.startAt">Start At</Translate>{' '}
+                  <FontAwesomeIcon icon={getSortIconByFieldName('startAt')} />
+                </th>
+                <th className="hand" onClick={sort('endAt')}>
+                  <Translate contentKey="projectApp.hireTutor.endAt">End At</Translate>{' '}
+                  <FontAwesomeIcon icon={getSortIconByFieldName('endAt')} />
+                </th>
                 <th>
                   <Translate contentKey="projectApp.hireTutor.appUser">App User</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
@@ -126,6 +135,8 @@ export const HireTutorMySuffix = () => {
                   <td>
                     <Translate contentKey={`projectApp.HireStatus.${hireTutor.status}`} />
                   </td>
+                  <td>{hireTutor.startAt ? <TextFormat type="date" value={hireTutor.startAt} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
+                  <td>{hireTutor.endAt ? <TextFormat type="date" value={hireTutor.endAt} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
                   <td>{hireTutor.appUser ? <Link to={`/app-user-my-suffix/${hireTutor.appUser.id}`}>{hireTutor.appUser.id}</Link> : ''}</td>
                   <td>{hireTutor.tutor ? <Link to={`/tutor-my-suffix/${hireTutor.tutor.id}`}>{hireTutor.tutor.id}</Link> : ''}</td>
                   <td className="text-end">

@@ -4,6 +4,8 @@ import com.tutor.auth0r.repository.HiringHoursRepository;
 import com.tutor.auth0r.service.HiringHoursService;
 import com.tutor.auth0r.service.dto.HiringHoursDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -48,7 +50,7 @@ public class HiringHoursResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<HiringHoursDTO> createHiringHours(@RequestBody HiringHoursDTO hiringHoursDTO) throws URISyntaxException {
+    public ResponseEntity<HiringHoursDTO> createHiringHours(@Valid @RequestBody HiringHoursDTO hiringHoursDTO) throws URISyntaxException {
         log.debug("REST request to save HiringHours : {}", hiringHoursDTO);
         if (hiringHoursDTO.getId() != null) {
             throw new BadRequestAlertException("A new hiringHours cannot already have an ID", ENTITY_NAME, "idexists");
@@ -72,7 +74,7 @@ public class HiringHoursResource {
     @PutMapping("/{id}")
     public ResponseEntity<HiringHoursDTO> updateHiringHours(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody HiringHoursDTO hiringHoursDTO
+        @Valid @RequestBody HiringHoursDTO hiringHoursDTO
     ) throws URISyntaxException {
         log.debug("REST request to update HiringHours : {}, {}", id, hiringHoursDTO);
         if (hiringHoursDTO.getId() == null) {
@@ -106,7 +108,7 @@ public class HiringHoursResource {
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<HiringHoursDTO> partialUpdateHiringHours(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody HiringHoursDTO hiringHoursDTO
+        @NotNull @RequestBody HiringHoursDTO hiringHoursDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update HiringHours partially : {}, {}", id, hiringHoursDTO);
         if (hiringHoursDTO.getId() == null) {

@@ -3,14 +3,18 @@ package com.tutor.auth0r.service.mapper;
 import com.tutor.auth0r.domain.HireTutor;
 import com.tutor.auth0r.domain.Media;
 import com.tutor.auth0r.domain.Rating;
+import com.tutor.auth0r.domain.TuTorContactWith;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.TutorDetails;
+import com.tutor.auth0r.domain.TutorTeach;
 import com.tutor.auth0r.domain.enumeration.HireStatus;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.RatingCustomDTO;
 import com.tutor.auth0r.service.dto.RatingDTO;
+import com.tutor.auth0r.service.dto.TuTorContactWithDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDetailsDTO;
+import com.tutor.auth0r.service.dto.TutorTeachDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.BeanMapping;
@@ -27,13 +31,22 @@ public interface CustomTutorMapper {
     CustomRatingMapper CusrateIns = Mappers.getMapper(CustomRatingMapper.class);
     TutorDetailsMapper tuDetailINS = Mappers.getMapper(TutorDetailsMapper.class);
     RatingMapper ratingINS = Mappers.getMapper(RatingMapper.class);
+    TutorTeachMapper teachINS = Mappers.getMapper(TutorTeachMapper.class);
+    TuTorContactWithMapper contactINS = Mappers.getMapper(TuTorContactWithMapper.class);
 
+    @Mapping(source = "id", target = "tutorID")
+    @Mapping(target = "totalHoursHired", source = "hireTutors", qualifiedByName = "totalHoursHired")
+    @Mapping(target = "percentSuccess", expression = "java(calculatePercentSuccess(tutor))")
     @Mapping(source = "appUser.user.firstName", target = "firstName")
     @Mapping(source = "appUser.user.lastName", target = "lastName")
     @Mapping(source = "appUser.user.imageUrl", target = "img")
-    @Mapping(target = "totalHoursHired", source = "hireTutors", qualifiedByName = "totalHoursHired")
-    @Mapping(target = "percentSuccess", expression = "java(calculatePercentSuccess(tutor))")
-    @Mapping(target = "tutorDetails", source = "tutorDetails", qualifiedByName = "tutorDetailsId")
+    @Mapping(source = "price", target = "price")
+    @Mapping(source = "averageRating", target = "averageRate")
+    @Mapping(source = "tutorDetails.tutorTeaches", target = "teach", qualifiedByName = "TuTormapToTeach")
+    @Mapping(source = "status", target = "status")
+    @Mapping(source = "tutorDetails.information", target = "information")
+    @Mapping(source = "tutorDetails.tutorContacts", target = "contact", qualifiedByName = "TuTormapToContact")
+    @Mapping(source = "tutorDetails.tutorVideo.media.url", target = "videoUrl")
     @Mapping(target = "cusrating", source = "ratings", qualifiedByName = "ratingUnestTuTor")
     TuTorCusTomDTO toDto(Tutor tutor);
 
@@ -67,5 +80,21 @@ public interface CustomTutorMapper {
     @Named("ratingUnestTuTor")
     default Set<RatingCustomDTO> ratingUnestTuTor(Set<Rating> ratings) {
         return ratings.stream().map(CustomRatingMapper.INSTANCE::toRatingCustomDTO).collect(Collectors.toSet());
+    }
+
+    @Named("TuTormapToTeach")
+    default Set<TutorTeachDTO> TuTormapToTeach(Set<TutorTeach> dto) {
+        if (dto == null) {
+            return null;
+        }
+        return dto.stream().map(TutorTeachMapper.INSTANCE::toDto).collect(Collectors.toSet());
+    }
+
+    @Named("TuTormapToContact")
+    default Set<TuTorContactWithDTO> TuTormapToContact(Set<TuTorContactWith> dto) {
+        if (dto == null) {
+            return null;
+        }
+        return dto.stream().map(TuTorContactWithMapper.INSTANCE::toDto).collect(Collectors.toSet());
     }
 }

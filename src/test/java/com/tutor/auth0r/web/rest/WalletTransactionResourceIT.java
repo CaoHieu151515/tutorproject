@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,8 @@ class WalletTransactionResourceIT {
 
     private WalletTransaction walletTransaction;
 
+    private WalletTransaction insertedWalletTransaction;
+
     /**
      * Create an entity for this test.
      *
@@ -107,6 +110,14 @@ class WalletTransactionResourceIT {
         walletTransaction = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedWalletTransaction != null) {
+            walletTransactionRepository.delete(insertedWalletTransaction);
+            insertedWalletTransaction = null;
+        }
+    }
+
     @Test
     @Transactional
     void createWalletTransaction() throws Exception {
@@ -127,6 +138,8 @@ class WalletTransactionResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedWalletTransaction = walletTransactionMapper.toEntity(returnedWalletTransactionDTO);
         assertWalletTransactionUpdatableFieldsEquals(returnedWalletTransaction, getPersistedWalletTransaction(returnedWalletTransaction));
+
+        insertedWalletTransaction = returnedWalletTransaction;
     }
 
     @Test
@@ -151,7 +164,7 @@ class WalletTransactionResourceIT {
     @Transactional
     void getAllWalletTransactions() throws Exception {
         // Initialize the database
-        walletTransactionRepository.saveAndFlush(walletTransaction);
+        insertedWalletTransaction = walletTransactionRepository.saveAndFlush(walletTransaction);
 
         // Get all the walletTransactionList
         restWalletTransactionMockMvc
@@ -169,7 +182,7 @@ class WalletTransactionResourceIT {
     @Transactional
     void getWalletTransaction() throws Exception {
         // Initialize the database
-        walletTransactionRepository.saveAndFlush(walletTransaction);
+        insertedWalletTransaction = walletTransactionRepository.saveAndFlush(walletTransaction);
 
         // Get the walletTransaction
         restWalletTransactionMockMvc
@@ -194,7 +207,7 @@ class WalletTransactionResourceIT {
     @Transactional
     void putExistingWalletTransaction() throws Exception {
         // Initialize the database
-        walletTransactionRepository.saveAndFlush(walletTransaction);
+        insertedWalletTransaction = walletTransactionRepository.saveAndFlush(walletTransaction);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -284,7 +297,7 @@ class WalletTransactionResourceIT {
     @Transactional
     void partialUpdateWalletTransactionWithPatch() throws Exception {
         // Initialize the database
-        walletTransactionRepository.saveAndFlush(walletTransaction);
+        insertedWalletTransaction = walletTransactionRepository.saveAndFlush(walletTransaction);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -292,7 +305,7 @@ class WalletTransactionResourceIT {
         WalletTransaction partialUpdatedWalletTransaction = new WalletTransaction();
         partialUpdatedWalletTransaction.setId(walletTransaction.getId());
 
-        partialUpdatedWalletTransaction.amount(UPDATED_AMOUNT).status(UPDATED_STATUS).createAt(UPDATED_CREATE_AT);
+        partialUpdatedWalletTransaction.type(UPDATED_TYPE).status(UPDATED_STATUS).createAt(UPDATED_CREATE_AT);
 
         restWalletTransactionMockMvc
             .perform(
@@ -315,7 +328,7 @@ class WalletTransactionResourceIT {
     @Transactional
     void fullUpdateWalletTransactionWithPatch() throws Exception {
         // Initialize the database
-        walletTransactionRepository.saveAndFlush(walletTransaction);
+        insertedWalletTransaction = walletTransactionRepository.saveAndFlush(walletTransaction);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -408,7 +421,7 @@ class WalletTransactionResourceIT {
     @Transactional
     void deleteWalletTransaction() throws Exception {
         // Initialize the database
-        walletTransactionRepository.saveAndFlush(walletTransaction);
+        insertedWalletTransaction = walletTransactionRepository.saveAndFlush(walletTransaction);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

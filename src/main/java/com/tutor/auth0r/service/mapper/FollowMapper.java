@@ -7,12 +7,15 @@ import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.FollowDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
 /**
  * Mapper for the entity {@link Follow} and its DTO {@link FollowDTO}.
  */
 @Mapper(componentModel = "spring")
 public interface FollowMapper extends EntityMapper<FollowDTO, Follow> {
+    FollowMapper INSTANCE = Mappers.getMapper(FollowMapper.class);
+
     @Mapping(target = "followerAppUser", source = "followerAppUser", qualifiedByName = "appUserId")
     @Mapping(target = "followedTutor", source = "followedTutor", qualifiedByName = "tutorId")
     FollowDTO toDto(Follow s);

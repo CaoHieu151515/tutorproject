@@ -16,6 +16,7 @@ import com.tutor.auth0r.service.mapper.TutorImageMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,8 @@ class TutorImageResourceIT {
 
     private TutorImage tutorImage;
 
+    private TutorImage insertedTutorImage;
+
     /**
      * Create an entity for this test.
      *
@@ -83,6 +86,14 @@ class TutorImageResourceIT {
         tutorImage = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedTutorImage != null) {
+            tutorImageRepository.delete(insertedTutorImage);
+            insertedTutorImage = null;
+        }
+    }
+
     @Test
     @Transactional
     void createTutorImage() throws Exception {
@@ -103,6 +114,8 @@ class TutorImageResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedTutorImage = tutorImageMapper.toEntity(returnedTutorImageDTO);
         assertTutorImageUpdatableFieldsEquals(returnedTutorImage, getPersistedTutorImage(returnedTutorImage));
+
+        insertedTutorImage = returnedTutorImage;
     }
 
     @Test
@@ -127,7 +140,7 @@ class TutorImageResourceIT {
     @Transactional
     void getAllTutorImages() throws Exception {
         // Initialize the database
-        tutorImageRepository.saveAndFlush(tutorImage);
+        insertedTutorImage = tutorImageRepository.saveAndFlush(tutorImage);
 
         // Get all the tutorImageList
         restTutorImageMockMvc
@@ -141,7 +154,7 @@ class TutorImageResourceIT {
     @Transactional
     void getTutorImage() throws Exception {
         // Initialize the database
-        tutorImageRepository.saveAndFlush(tutorImage);
+        insertedTutorImage = tutorImageRepository.saveAndFlush(tutorImage);
 
         // Get the tutorImage
         restTutorImageMockMvc
@@ -162,7 +175,7 @@ class TutorImageResourceIT {
     @Transactional
     void putExistingTutorImage() throws Exception {
         // Initialize the database
-        tutorImageRepository.saveAndFlush(tutorImage);
+        insertedTutorImage = tutorImageRepository.saveAndFlush(tutorImage);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -251,7 +264,7 @@ class TutorImageResourceIT {
     @Transactional
     void partialUpdateTutorImageWithPatch() throws Exception {
         // Initialize the database
-        tutorImageRepository.saveAndFlush(tutorImage);
+        insertedTutorImage = tutorImageRepository.saveAndFlush(tutorImage);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -280,7 +293,7 @@ class TutorImageResourceIT {
     @Transactional
     void fullUpdateTutorImageWithPatch() throws Exception {
         // Initialize the database
-        tutorImageRepository.saveAndFlush(tutorImage);
+        insertedTutorImage = tutorImageRepository.saveAndFlush(tutorImage);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -368,7 +381,7 @@ class TutorImageResourceIT {
     @Transactional
     void deleteTutorImage() throws Exception {
         // Initialize the database
-        tutorImageRepository.saveAndFlush(tutorImage);
+        insertedTutorImage = tutorImageRepository.saveAndFlush(tutorImage);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

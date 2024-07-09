@@ -23,6 +23,12 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="start_at" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="end_at" type="date">
+                <constraints nullable="true" />
+            </column>
             <column name="app_user_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -53,6 +59,8 @@
             <column name="time_hire" type="numeric"/>
             <column name="total_price" type="numeric"/>
             <column name="status" type="string"/>
+            <column name="start_at" type="date"/>
+            <column name="end_at" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

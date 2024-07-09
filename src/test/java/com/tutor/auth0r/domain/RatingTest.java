@@ -25,7 +25,7 @@ class RatingTest {
     }
 
     @Test
-    void tutorTest() throws Exception {
+    void tutorTest() {
         Rating rating = getRatingRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 
@@ -37,7 +37,7 @@ class RatingTest {
     }
 
     @Test
-    void appUserTest() throws Exception {
+    void appUserTest() {
         Rating rating = getRatingRandomSampleGenerator();
         AppUser appUserBack = getAppUserRandomSampleGenerator();
 

@@ -8,7 +8,10 @@
   "fields": [
     {
       "fieldName": "hour",
-      "fieldType": "Integer"
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "5",
+      "fieldValidateRulesMin": "1"
     }
   ],
   "name": "HiringHours",

@@ -32,12 +32,6 @@ export const TutorDetailsMySuffixDetail = () => {
           </dt>
           <dd>{tutorDetailsEntity.id}</dd>
           <dt>
-            <span id="contact">
-              <Translate contentKey="projectApp.tutorDetails.contact">Contact</Translate>
-            </span>
-          </dt>
-          <dd>{tutorDetailsEntity.contact}</dd>
-          <dt>
             <span id="information">
               <Translate contentKey="projectApp.tutorDetails.information">Information</Translate>
             </span>

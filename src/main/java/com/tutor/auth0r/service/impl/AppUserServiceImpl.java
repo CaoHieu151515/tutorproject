@@ -1,8 +1,10 @@
 package com.tutor.auth0r.service.impl;
 
+import com.tutor.auth0r.domain.AcademicRank;
 import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.IdentityCard;
 import com.tutor.auth0r.domain.Media;
+import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.repository.AppUserRepository;
@@ -11,13 +13,18 @@ import com.tutor.auth0r.repository.MediaRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
+import com.tutor.auth0r.service.mapper.AcademicRankMapper;
+import com.tutor.auth0r.service.mapper.AllRecommendMapper;
 import com.tutor.auth0r.service.mapper.AppUserMapper;
+import com.tutor.auth0r.web.rest.errors.NotLoggedException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AppUserServiceImpl implements AppUserService {
 
-    private final Logger log = LoggerFactory.getLogger(AppUserServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(AppUserServiceImpl.class);
 
     private final AppUserRepository appUserRepository;
 
@@ -47,18 +54,26 @@ public class AppUserServiceImpl implements AppUserService {
 
     private final MediaRepository mediaRepository;
 
+    private final AllRecommendMapper allRecommendMapper;
+
+    private final AcademicRankMapper academicRankMapper;
+
     public AppUserServiceImpl(
         AppUserRepository appUserRepository,
         AppUserMapper appUserMapper,
         UserService userService,
         IdentityCardRepository identityCardRepository,
-        MediaRepository mediaRepository
+        MediaRepository mediaRepository,
+        AllRecommendMapper allRecommendMapper,
+        AcademicRankMapper academicRankMapper
     ) {
         this.appUserRepository = appUserRepository;
         this.appUserMapper = appUserMapper;
         this.userService = userService;
         this.identityCardRepository = identityCardRepository;
         this.mediaRepository = mediaRepository;
+        this.allRecommendMapper = allRecommendMapper;
+        this.academicRankMapper = academicRankMapper;
     }
 
     @Override
@@ -100,8 +115,9 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     /**
-     *  Get all the appUsers where Wallet is {@code null}.
-     *  @return the list of entities.
+     * Get all the appUsers where Wallet is {@code null}.
+     *
+     * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<AppUserDTO> findAllWhereWalletIsNull() {
@@ -126,12 +142,12 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public List<AppUserDTO> AllAppUsersWithRecommend() {
+    public List<AllRecommendDTO> AllAppUsersWithRecommend() {
         log.debug("Request to get all AppUsers");
         return appUserRepository
-            .findAllAppUsersWithRecommendedTutors()
+            .findAllAppUsersWithTutorStatusReady()
             .stream()
-            .map(appUserMapper::toRecommedDTO)
+            .map(allRecommendMapper::appUserToAllRecommendDTO)
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
@@ -143,6 +159,12 @@ public class AppUserServiceImpl implements AppUserService {
                 Optional<AppUser> appUserOptional = Optional.ofNullable(appUserRepository.findByUser(user));
                 return appUserOptional.map(appUserMapper::currenttoDTO);
             });
+    }
+
+    @Override
+    public AppUser getBycurrentAppUser() {
+        User currentUser = userService.getCurrentUser().orElseThrow(NotLoggedException::new);
+        return appUserRepository.findByUser(currentUser);
     }
 
     @Override
@@ -195,13 +217,10 @@ public class AppUserServiceImpl implements AppUserService {
 
         Set<Media> existingMedia = identityCard.getMedia();
 
-        // Collect updated media IDs
         Set<Long> updatedMediaIds = identityCardDTO.getMedia().stream().map(MediaDTO::getId).collect(Collectors.toSet());
 
-        // Remove media not present in the updated set
         existingMedia.removeIf(media -> !updatedMediaIds.contains(media.getId()));
 
-        // Update or create new media entries
         identityCardDTO
             .getMedia()
             .forEach(mediaDTO -> {
@@ -233,6 +252,67 @@ public class AppUserServiceImpl implements AppUserService {
                 Optional<AppUser> appUserOptional = Optional.ofNullable(appUserRepository.findByUser(user));
                 return appUserOptional.map(appUserMapper::toDetailsOfConfirmingDTO);
             });
+    }
+
+    public Optional<UpdatecertificateDTO> updateCertificate(UpdatecertificateDTO updateCertificateDTO) {
+        return userService
+            .getCurrentUser()
+            .flatMap(user -> {
+                AppUser appUser = appUserRepository.findByUser(user);
+                if (appUser == null) {
+                    return Optional.empty();
+                }
+
+                updateCertificates(appUser, updateCertificateDTO);
+
+                appUserRepository.save(appUser);
+
+                return Optional.of(appUserMapper.toDetailsOfConfirmingDTO(appUser));
+            });
+    }
+
+    private void updateCertificates(AppUser appUser, UpdatecertificateDTO updateCertificateDTO) {
+        appUser.getUserVerify().setSchool(updateCertificateDTO.getSchool());
+        appUser.getUserVerify().setStudentID(updateCertificateDTO.getStudentID());
+        appUser.getUserVerify().setMajor(updateCertificateDTO.getMajor());
+        appUser.getUserVerify().setGraduationYear(updateCertificateDTO.getYear());
+
+        Set<RankwithImageDTO> existingRanks = academicRankMapper.toRankwithImageDTOs(appUser.getUserVerify().getAcademicRanks());
+
+        Set<String> updatedRankUrls = updateCertificateDTO
+            .getRankwithImage()
+            .stream()
+            .map(RankwithImageDTO::getUrl)
+            .collect(Collectors.toSet());
+
+        existingRanks.removeIf(rank -> !updatedRankUrls.contains(rank.getUrl()));
+
+        updateCertificateDTO
+            .getRankwithImage()
+            .forEach(rankDTO -> {
+                RankwithImageDTO rank = existingRanks
+                    .stream()
+                    .filter(r -> r.getUrl().equals(rankDTO.getUrl()))
+                    .findFirst()
+                    .orElse(new RankwithImageDTO());
+                rank.setRank(rankDTO.getRank());
+                rank.setUrl(rankDTO.getUrl());
+
+                Media media = new Media();
+                media.setUrl(rankDTO.getUrl());
+                mediaRepository.save(media);
+
+                AcademicRank academicRank = academicRankMapper.toAcademicRank(rank);
+                academicRank.setMedia(media);
+                academicRank.setUserVerify(appUser.getUserVerify());
+                existingRanks.add(rank);
+            });
+
+        Set<AcademicRank> updatedAcademicRanks = academicRankMapper.toAcademicRanks(existingRanks);
+        updatedAcademicRanks.forEach(academicRank -> academicRank.setUserVerify(appUser.getUserVerify()));
+
+        appUser.getUserVerify().getAcademicRanks().clear();
+        appUser.getUserVerify().getAcademicRanks().addAll(updatedAcademicRanks);
     }
 
     @Override

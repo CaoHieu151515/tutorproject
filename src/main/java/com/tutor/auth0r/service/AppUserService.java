@@ -1,6 +1,8 @@
 package com.tutor.auth0r.service;
 
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.service.dto.AppUserDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
@@ -21,6 +23,7 @@ public interface AppUserService {
 
     Optional<AppUserDTO> getBycurrentUser();
 
+    AppUser getBycurrentAppUser();
     /**
      * Updates a appUser.
      *
@@ -68,13 +71,15 @@ public interface AppUserService {
      */
     void delete(Long id);
 
-    List<AppUserDTO> AllAppUsersWithRecommend();
+    List<AllRecommendDTO> AllAppUsersWithRecommend();
 
     List<ListOfConfirmingDTO> GetAllConfirming();
 
     AppUserDTO updateVerify(AppUserDTO appUserDTO);
 
     Optional<UpdatecertificateDTO> findOneWithAllCetitycate();
+
+    Optional<UpdatecertificateDTO> updateCertificate(UpdatecertificateDTO updateCertificateDTO);
 
     Optional<UserProfileDTO> findUserProfile();
 

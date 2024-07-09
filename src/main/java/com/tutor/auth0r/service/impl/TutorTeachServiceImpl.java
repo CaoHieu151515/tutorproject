@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TutorTeachServiceImpl implements TutorTeachService {
 
-    private final Logger log = LoggerFactory.getLogger(TutorTeachServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TutorTeachServiceImpl.class);
 
     private final TutorTeachRepository tutorTeachRepository;
 

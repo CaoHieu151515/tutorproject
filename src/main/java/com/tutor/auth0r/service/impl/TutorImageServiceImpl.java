@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TutorImageServiceImpl implements TutorImageService {
 
-    private final Logger log = LoggerFactory.getLogger(TutorImageServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TutorImageServiceImpl.class);
 
     private final TutorImageRepository tutorImageRepository;
 

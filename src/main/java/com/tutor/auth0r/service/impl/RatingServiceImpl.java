@@ -1,7 +1,9 @@
 package com.tutor.auth0r.service.impl;
 
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Rating;
 import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.RatingRepository;
 import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.service.RatingService;
@@ -27,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class RatingServiceImpl implements RatingService {
 
-    private final Logger log = LoggerFactory.getLogger(RatingServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(RatingServiceImpl.class);
 
     private final RatingRepository ratingRepository;
 
@@ -37,16 +39,20 @@ public class RatingServiceImpl implements RatingService {
 
     private final RatingMapper ratingMapper;
 
+    private final AppUserRepository appUserRepository;
+
     public RatingServiceImpl(
         RatingRepository ratingRepository,
         RatingMapper ratingMapper,
         TutorRepository tutorRepository,
-        TutorService tutorService
+        TutorService tutorService,
+        AppUserRepository appUserRepository
     ) {
         this.ratingRepository = ratingRepository;
         this.ratingMapper = ratingMapper;
         this.tutorRepository = tutorRepository;
         this.tutorService = tutorService;
+        this.appUserRepository = appUserRepository;
     }
 
     @Override
@@ -56,7 +62,11 @@ public class RatingServiceImpl implements RatingService {
 
         rating.setDate(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
         Tutor tutor = tutorRepository.findById(rating.getTutor().getId()).orElseThrow(() -> new RuntimeException("Tutor not found"));
+        AppUser appUser = appUserRepository
+            .findById(rating.getAppUser().getId())
+            .orElseThrow(() -> new RuntimeException("Tutor not found"));
         rating.setTutor(tutor);
+        rating.setAppUser(appUser);
         rating = ratingRepository.save(rating);
 
         tutor.addRating(rating);

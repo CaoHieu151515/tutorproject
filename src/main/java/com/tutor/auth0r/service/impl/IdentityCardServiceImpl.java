@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class IdentityCardServiceImpl implements IdentityCardService {
 
-    private final Logger log = LoggerFactory.getLogger(IdentityCardServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(IdentityCardServiceImpl.class);
 
     private final IdentityCardRepository identityCardRepository;
 

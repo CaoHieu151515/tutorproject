@@ -3,6 +3,7 @@ package com.tutor.auth0r.domain;
 import static com.tutor.auth0r.domain.AppUserTestSamples.*;
 import static com.tutor.auth0r.domain.HireTutorTestSamples.*;
 import static com.tutor.auth0r.domain.RatingTestSamples.*;
+import static com.tutor.auth0r.domain.ReportTestSamples.*;
 import static com.tutor.auth0r.domain.TutorTestSamples.*;
 import static com.tutor.auth0r.domain.UserVerifyTestSamples.*;
 import static com.tutor.auth0r.domain.WalletTestSamples.*;
@@ -30,7 +31,7 @@ class AppUserTest {
     }
 
     @Test
-    void tutorTest() throws Exception {
+    void tutorTest() {
         AppUser appUser = getAppUserRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 
@@ -42,7 +43,7 @@ class AppUserTest {
     }
 
     @Test
-    void userVerifyTest() throws Exception {
+    void userVerifyTest() {
         AppUser appUser = getAppUserRandomSampleGenerator();
         UserVerify userVerifyBack = getUserVerifyRandomSampleGenerator();
 
@@ -54,7 +55,7 @@ class AppUserTest {
     }
 
     @Test
-    void hireTutorTest() throws Exception {
+    void hireTutorTest() {
         AppUser appUser = getAppUserRandomSampleGenerator();
         HireTutor hireTutorBack = getHireTutorRandomSampleGenerator();
 
@@ -76,7 +77,29 @@ class AppUserTest {
     }
 
     @Test
-    void walletTest() throws Exception {
+    void reportTest() {
+        AppUser appUser = getAppUserRandomSampleGenerator();
+        Report reportBack = getReportRandomSampleGenerator();
+
+        appUser.addReport(reportBack);
+        assertThat(appUser.getReports()).containsOnly(reportBack);
+        assertThat(reportBack.getAppUser()).isEqualTo(appUser);
+
+        appUser.removeReport(reportBack);
+        assertThat(appUser.getReports()).doesNotContain(reportBack);
+        assertThat(reportBack.getAppUser()).isNull();
+
+        appUser.reports(new HashSet<>(Set.of(reportBack)));
+        assertThat(appUser.getReports()).containsOnly(reportBack);
+        assertThat(reportBack.getAppUser()).isEqualTo(appUser);
+
+        appUser.setReports(new HashSet<>());
+        assertThat(appUser.getReports()).doesNotContain(reportBack);
+        assertThat(reportBack.getAppUser()).isNull();
+    }
+
+    @Test
+    void walletTest() {
         AppUser appUser = getAppUserRandomSampleGenerator();
         Wallet walletBack = getWalletRandomSampleGenerator();
 
@@ -90,7 +113,7 @@ class AppUserTest {
     }
 
     @Test
-    void ratingTest() throws Exception {
+    void ratingTest() {
         AppUser appUser = getAppUserRandomSampleGenerator();
         Rating ratingBack = getRatingRandomSampleGenerator();
 

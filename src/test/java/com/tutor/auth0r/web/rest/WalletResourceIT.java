@@ -16,6 +16,7 @@ import com.tutor.auth0r.service.mapper.WalletMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,8 @@ class WalletResourceIT {
 
     private Wallet wallet;
 
+    private Wallet insertedWallet;
+
     /**
      * Create an entity for this test.
      *
@@ -86,6 +89,14 @@ class WalletResourceIT {
         wallet = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedWallet != null) {
+            walletRepository.delete(insertedWallet);
+            insertedWallet = null;
+        }
+    }
+
     @Test
     @Transactional
     void createWallet() throws Exception {
@@ -106,6 +117,8 @@ class WalletResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedWallet = walletMapper.toEntity(returnedWalletDTO);
         assertWalletUpdatableFieldsEquals(returnedWallet, getPersistedWallet(returnedWallet));
+
+        insertedWallet = returnedWallet;
     }
 
     @Test
@@ -130,7 +143,7 @@ class WalletResourceIT {
     @Transactional
     void getAllWallets() throws Exception {
         // Initialize the database
-        walletRepository.saveAndFlush(wallet);
+        insertedWallet = walletRepository.saveAndFlush(wallet);
 
         // Get all the walletList
         restWalletMockMvc
@@ -145,7 +158,7 @@ class WalletResourceIT {
     @Transactional
     void getWallet() throws Exception {
         // Initialize the database
-        walletRepository.saveAndFlush(wallet);
+        insertedWallet = walletRepository.saveAndFlush(wallet);
 
         // Get the wallet
         restWalletMockMvc
@@ -167,7 +180,7 @@ class WalletResourceIT {
     @Transactional
     void putExistingWallet() throws Exception {
         // Initialize the database
-        walletRepository.saveAndFlush(wallet);
+        insertedWallet = walletRepository.saveAndFlush(wallet);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -253,15 +266,13 @@ class WalletResourceIT {
     @Transactional
     void partialUpdateWalletWithPatch() throws Exception {
         // Initialize the database
-        walletRepository.saveAndFlush(wallet);
+        insertedWallet = walletRepository.saveAndFlush(wallet);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the wallet using partial update
         Wallet partialUpdatedWallet = new Wallet();
         partialUpdatedWallet.setId(wallet.getId());
-
-        partialUpdatedWallet.amount(UPDATED_AMOUNT);
 
         restWalletMockMvc
             .perform(
@@ -281,7 +292,7 @@ class WalletResourceIT {
     @Transactional
     void fullUpdateWalletWithPatch() throws Exception {
         // Initialize the database
-        walletRepository.saveAndFlush(wallet);
+        insertedWallet = walletRepository.saveAndFlush(wallet);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -371,7 +382,7 @@ class WalletResourceIT {
     @Transactional
     void deleteWallet() throws Exception {
         // Initialize the database
-        walletRepository.saveAndFlush(wallet);
+        insertedWallet = walletRepository.saveAndFlush(wallet);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

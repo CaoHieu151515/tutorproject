@@ -142,6 +142,20 @@ export const HireTutorMySuffixUpdate = () => {
                 ))}
               </ValidatedField>
               <ValidatedField
+                label={translate('projectApp.hireTutor.startAt')}
+                id="hire-tutor-my-suffix-startAt"
+                name="startAt"
+                data-cy="startAt"
+                type="date"
+              />
+              <ValidatedField
+                label={translate('projectApp.hireTutor.endAt')}
+                id="hire-tutor-my-suffix-endAt"
+                name="endAt"
+                data-cy="endAt"
+                type="date"
+              />
+              <ValidatedField
                 id="hire-tutor-my-suffix-appUser"
                 name="appUser"
                 data-cy="appUser"

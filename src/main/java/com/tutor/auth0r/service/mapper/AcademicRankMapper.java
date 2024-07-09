@@ -1,14 +1,13 @@
 package com.tutor.auth0r.service.mapper;
 
 import com.tutor.auth0r.domain.AcademicRank;
-import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Media;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.service.dto.AcademicRankDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
-import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
+import java.util.Set;
 import org.mapstruct.*;
 
 /**
@@ -32,4 +31,17 @@ public interface AcademicRankMapper extends EntityMapper<AcademicRankDTO, Academ
 
     @Mappings({ @Mapping(source = "type", target = "rank"), @Mapping(source = "media.url", target = "url") })
     RankwithImageDTO toRankwithImageDTO(AcademicRank userVerify);
+
+    Set<RankwithImageDTO> toRankwithImageDTOs(Set<AcademicRank> academicRanks);
+
+    @Mappings(
+        {
+            @Mapping(source = "rank", target = "type"),
+            @Mapping(source = "url", target = "media.url"),
+            @Mapping(target = "userVerify", ignore = true),
+        }
+    )
+    AcademicRank toAcademicRank(RankwithImageDTO rankwithImageDTO);
+
+    Set<AcademicRank> toAcademicRanks(Set<RankwithImageDTO> rankwithImageDTOs);
 }

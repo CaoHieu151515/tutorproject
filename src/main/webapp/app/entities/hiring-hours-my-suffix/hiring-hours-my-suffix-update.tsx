@@ -108,6 +108,12 @@ export const HiringHoursMySuffixUpdate = () => {
                 name="hour"
                 data-cy="hour"
                 type="text"
+                validate={{
+                  required: { value: true, message: translate('entity.validation.required') },
+                  min: { value: 1, message: translate('entity.validation.min', { min: 1 }) },
+                  max: { value: 5, message: translate('entity.validation.max', { max: 5 }) },
+                  validate: v => isNumber(v) || translate('entity.validation.number'),
+                }}
               />
               <ValidatedField
                 id="hiring-hours-my-suffix-tutor"

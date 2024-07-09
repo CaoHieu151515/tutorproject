@@ -18,10 +18,10 @@
         "title": "Tutor Details"
       },
       "id": "ID",
-      "contact": "Contact",
       "information": "Information",
       "tutorVideo": "Tutor Video",
       "tutorTeach": "Tutor Teach",
+      "tutorContact": "Tutor Contact",
       "tutorImage": "Tutor Image",
       "tutor": "Tutor"
     }

@@ -8,4 +8,6 @@ export enum WalletTransactionType {
   SERVICE_FEE_EARN = 'SERVICE_FEE_EARN',
 
   REFUND = 'REFUND',
+
+  TUTORGAIN = 'TUTORGAIN',
 }

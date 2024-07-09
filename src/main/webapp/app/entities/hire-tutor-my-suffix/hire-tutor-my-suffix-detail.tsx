@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './hire-tutor-my-suffix.reducer';
@@ -49,6 +50,20 @@ export const HireTutorMySuffixDetail = () => {
             </span>
           </dt>
           <dd>{hireTutorEntity.status}</dd>
+          <dt>
+            <span id="startAt">
+              <Translate contentKey="projectApp.hireTutor.startAt">Start At</Translate>
+            </span>
+          </dt>
+          <dd>
+            {hireTutorEntity.startAt ? <TextFormat value={hireTutorEntity.startAt} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}
+          </dd>
+          <dt>
+            <span id="endAt">
+              <Translate contentKey="projectApp.hireTutor.endAt">End At</Translate>
+            </span>
+          </dt>
+          <dd>{hireTutorEntity.endAt ? <TextFormat value={hireTutorEntity.endAt} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}</dd>
           <dt>
             <Translate contentKey="projectApp.hireTutor.appUser">App User</Translate>
           </dt>

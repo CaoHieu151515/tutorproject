@@ -1,0 +1,22 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240708114601"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "reportDetails",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "time",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "name": "Report",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

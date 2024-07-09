@@ -1,0 +1,23 @@
+{
+  "angularJSSuffix": "mySuffix",
+  "annotations": {
+    "changelogDate": "20240708114600"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "urlContact",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "Contact",
+      "fieldValues": "MEET,DISCORD,ZOOM"
+    }
+  ],
+  "name": "TuTorContactWith",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

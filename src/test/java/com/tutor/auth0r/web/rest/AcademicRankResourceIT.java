@@ -17,6 +17,7 @@ import com.tutor.auth0r.service.mapper.AcademicRankMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,8 @@ class AcademicRankResourceIT {
 
     private AcademicRank academicRank;
 
+    private AcademicRank insertedAcademicRank;
+
     /**
      * Create an entity for this test.
      *
@@ -87,6 +90,14 @@ class AcademicRankResourceIT {
         academicRank = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedAcademicRank != null) {
+            academicRankRepository.delete(insertedAcademicRank);
+            insertedAcademicRank = null;
+        }
+    }
+
     @Test
     @Transactional
     void createAcademicRank() throws Exception {
@@ -107,6 +118,8 @@ class AcademicRankResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedAcademicRank = academicRankMapper.toEntity(returnedAcademicRankDTO);
         assertAcademicRankUpdatableFieldsEquals(returnedAcademicRank, getPersistedAcademicRank(returnedAcademicRank));
+
+        insertedAcademicRank = returnedAcademicRank;
     }
 
     @Test
@@ -131,7 +144,7 @@ class AcademicRankResourceIT {
     @Transactional
     void getAllAcademicRanks() throws Exception {
         // Initialize the database
-        academicRankRepository.saveAndFlush(academicRank);
+        insertedAcademicRank = academicRankRepository.saveAndFlush(academicRank);
 
         // Get all the academicRankList
         restAcademicRankMockMvc
@@ -146,7 +159,7 @@ class AcademicRankResourceIT {
     @Transactional
     void getAcademicRank() throws Exception {
         // Initialize the database
-        academicRankRepository.saveAndFlush(academicRank);
+        insertedAcademicRank = academicRankRepository.saveAndFlush(academicRank);
 
         // Get the academicRank
         restAcademicRankMockMvc
@@ -168,7 +181,7 @@ class AcademicRankResourceIT {
     @Transactional
     void putExistingAcademicRank() throws Exception {
         // Initialize the database
-        academicRankRepository.saveAndFlush(academicRank);
+        insertedAcademicRank = academicRankRepository.saveAndFlush(academicRank);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -258,7 +271,7 @@ class AcademicRankResourceIT {
     @Transactional
     void partialUpdateAcademicRankWithPatch() throws Exception {
         // Initialize the database
-        academicRankRepository.saveAndFlush(academicRank);
+        insertedAcademicRank = academicRankRepository.saveAndFlush(academicRank);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -289,7 +302,7 @@ class AcademicRankResourceIT {
     @Transactional
     void fullUpdateAcademicRankWithPatch() throws Exception {
         // Initialize the database
-        academicRankRepository.saveAndFlush(academicRank);
+        insertedAcademicRank = academicRankRepository.saveAndFlush(academicRank);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -379,7 +392,7 @@ class AcademicRankResourceIT {
     @Transactional
     void deleteAcademicRank() throws Exception {
         // Initialize the database
-        academicRankRepository.saveAndFlush(academicRank);
+        insertedAcademicRank = academicRankRepository.saveAndFlush(academicRank);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

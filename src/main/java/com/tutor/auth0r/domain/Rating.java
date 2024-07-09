@@ -39,11 +39,11 @@ public class Rating implements Serializable {
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "ratings", "appUser" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "reports", "ratings", "appUser" }, allowSetters = true)
     private Tutor tutor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "wallet", "ratings" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "reports", "wallet", "ratings" }, allowSetters = true)
     private AppUser appUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

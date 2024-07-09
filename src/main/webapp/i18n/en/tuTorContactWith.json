@@ -1,0 +1,26 @@
+{
+  "projectApp": {
+    "tuTorContactWith": {
+      "home": {
+        "title": "Tu Tor Contact Withs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Tu Tor Contact With",
+        "createOrEditLabel": "Create or edit a Tu Tor Contact With",
+        "notFound": "No Tu Tor Contact Withs found"
+      },
+      "created": "A new Tu Tor Contact With is created with identifier {{ param }}",
+      "updated": "A Tu Tor Contact With is updated with identifier {{ param }}",
+      "deleted": "A Tu Tor Contact With is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Tu Tor Contact With {{ id }}?"
+      },
+      "detail": {
+        "title": "Tu Tor Contact With"
+      },
+      "id": "ID",
+      "urlContact": "Url Contact",
+      "type": "Type",
+      "tutorDetails": "Tutor Details"
+    }
+  }
+}

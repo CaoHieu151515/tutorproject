@@ -16,6 +16,7 @@ import com.tutor.auth0r.service.mapper.MediaMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,8 @@ class MediaResourceIT {
 
     private Media media;
 
+    private Media insertedMedia;
+
     /**
      * Create an entity for this test.
      *
@@ -86,6 +89,14 @@ class MediaResourceIT {
         media = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedMedia != null) {
+            mediaRepository.delete(insertedMedia);
+            insertedMedia = null;
+        }
+    }
+
     @Test
     @Transactional
     void createMedia() throws Exception {
@@ -106,6 +117,8 @@ class MediaResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedMedia = mediaMapper.toEntity(returnedMediaDTO);
         assertMediaUpdatableFieldsEquals(returnedMedia, getPersistedMedia(returnedMedia));
+
+        insertedMedia = returnedMedia;
     }
 
     @Test
@@ -130,7 +143,7 @@ class MediaResourceIT {
     @Transactional
     void getAllMedia() throws Exception {
         // Initialize the database
-        mediaRepository.saveAndFlush(media);
+        insertedMedia = mediaRepository.saveAndFlush(media);
 
         // Get all the mediaList
         restMediaMockMvc
@@ -145,7 +158,7 @@ class MediaResourceIT {
     @Transactional
     void getMedia() throws Exception {
         // Initialize the database
-        mediaRepository.saveAndFlush(media);
+        insertedMedia = mediaRepository.saveAndFlush(media);
 
         // Get the media
         restMediaMockMvc
@@ -167,7 +180,7 @@ class MediaResourceIT {
     @Transactional
     void putExistingMedia() throws Exception {
         // Initialize the database
-        mediaRepository.saveAndFlush(media);
+        insertedMedia = mediaRepository.saveAndFlush(media);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -253,15 +266,13 @@ class MediaResourceIT {
     @Transactional
     void partialUpdateMediaWithPatch() throws Exception {
         // Initialize the database
-        mediaRepository.saveAndFlush(media);
+        insertedMedia = mediaRepository.saveAndFlush(media);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
         // Update the media using partial update
         Media partialUpdatedMedia = new Media();
         partialUpdatedMedia.setId(media.getId());
-
-        partialUpdatedMedia.url(UPDATED_URL);
 
         restMediaMockMvc
             .perform(
@@ -281,7 +292,7 @@ class MediaResourceIT {
     @Transactional
     void fullUpdateMediaWithPatch() throws Exception {
         // Initialize the database
-        mediaRepository.saveAndFlush(media);
+        insertedMedia = mediaRepository.saveAndFlush(media);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -371,7 +382,7 @@ class MediaResourceIT {
     @Transactional
     void deleteMedia() throws Exception {
         // Initialize the database
-        mediaRepository.saveAndFlush(media);
+        insertedMedia = mediaRepository.saveAndFlush(media);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

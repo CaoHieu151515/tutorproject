@@ -49,7 +49,9 @@ public class HireTutorAsserts {
             .as("Verify HireTutor relevant properties")
             .satisfies(e -> assertThat(e.getTimeHire()).as("check timeHire").isEqualTo(actual.getTimeHire()))
             .satisfies(e -> assertThat(e.getTotalPrice()).as("check totalPrice").isEqualTo(actual.getTotalPrice()))
-            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()));
+            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()))
+            .satisfies(e -> assertThat(e.getStartAt()).as("check startAt").isEqualTo(actual.getStartAt()))
+            .satisfies(e -> assertThat(e.getEndAt()).as("check endAt").isEqualTo(actual.getEndAt()));
     }
 
     /**

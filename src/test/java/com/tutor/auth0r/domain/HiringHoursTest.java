@@ -24,7 +24,7 @@ class HiringHoursTest {
     }
 
     @Test
-    void tutorTest() throws Exception {
+    void tutorTest() {
         HiringHours hiringHours = getHiringHoursRandomSampleGenerator();
         Tutor tutorBack = getTutorRandomSampleGenerator();
 

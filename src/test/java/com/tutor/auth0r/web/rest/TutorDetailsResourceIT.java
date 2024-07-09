@@ -10,13 +10,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tutor.auth0r.IntegrationTest;
 import com.tutor.auth0r.domain.TutorDetails;
-import com.tutor.auth0r.domain.enumeration.Contact;
 import com.tutor.auth0r.repository.TutorDetailsRepository;
 import com.tutor.auth0r.service.dto.TutorDetailsDTO;
 import com.tutor.auth0r.service.mapper.TutorDetailsMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class TutorDetailsResourceIT {
-
-    private static final Contact DEFAULT_CONTACT = Contact.MEET;
-    private static final Contact UPDATED_CONTACT = Contact.DISCORD;
 
     private static final String DEFAULT_INFORMATION = "AAAAAAAAAA";
     private static final String UPDATED_INFORMATION = "BBBBBBBBBB";
@@ -63,6 +60,8 @@ class TutorDetailsResourceIT {
 
     private TutorDetails tutorDetails;
 
+    private TutorDetails insertedTutorDetails;
+
     /**
      * Create an entity for this test.
      *
@@ -70,7 +69,7 @@ class TutorDetailsResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static TutorDetails createEntity(EntityManager em) {
-        TutorDetails tutorDetails = new TutorDetails().contact(DEFAULT_CONTACT).information(DEFAULT_INFORMATION);
+        TutorDetails tutorDetails = new TutorDetails().information(DEFAULT_INFORMATION);
         return tutorDetails;
     }
 
@@ -81,13 +80,21 @@ class TutorDetailsResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static TutorDetails createUpdatedEntity(EntityManager em) {
-        TutorDetails tutorDetails = new TutorDetails().contact(UPDATED_CONTACT).information(UPDATED_INFORMATION);
+        TutorDetails tutorDetails = new TutorDetails().information(UPDATED_INFORMATION);
         return tutorDetails;
     }
 
     @BeforeEach
     public void initTest() {
         tutorDetails = createEntity(em);
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (insertedTutorDetails != null) {
+            tutorDetailsRepository.delete(insertedTutorDetails);
+            insertedTutorDetails = null;
+        }
     }
 
     @Test
@@ -110,6 +117,8 @@ class TutorDetailsResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedTutorDetails = tutorDetailsMapper.toEntity(returnedTutorDetailsDTO);
         assertTutorDetailsUpdatableFieldsEquals(returnedTutorDetails, getPersistedTutorDetails(returnedTutorDetails));
+
+        insertedTutorDetails = returnedTutorDetails;
     }
 
     @Test
@@ -134,7 +143,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void getAllTutorDetails() throws Exception {
         // Initialize the database
-        tutorDetailsRepository.saveAndFlush(tutorDetails);
+        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         // Get all the tutorDetailsList
         restTutorDetailsMockMvc
@@ -142,7 +151,6 @@ class TutorDetailsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tutorDetails.getId().intValue())))
-            .andExpect(jsonPath("$.[*].contact").value(hasItem(DEFAULT_CONTACT.toString())))
             .andExpect(jsonPath("$.[*].information").value(hasItem(DEFAULT_INFORMATION)));
     }
 
@@ -150,7 +158,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void getTutorDetails() throws Exception {
         // Initialize the database
-        tutorDetailsRepository.saveAndFlush(tutorDetails);
+        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         // Get the tutorDetails
         restTutorDetailsMockMvc
@@ -158,7 +166,6 @@ class TutorDetailsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(tutorDetails.getId().intValue()))
-            .andExpect(jsonPath("$.contact").value(DEFAULT_CONTACT.toString()))
             .andExpect(jsonPath("$.information").value(DEFAULT_INFORMATION));
     }
 
@@ -173,7 +180,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void putExistingTutorDetails() throws Exception {
         // Initialize the database
-        tutorDetailsRepository.saveAndFlush(tutorDetails);
+        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -181,7 +188,7 @@ class TutorDetailsResourceIT {
         TutorDetails updatedTutorDetails = tutorDetailsRepository.findById(tutorDetails.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedTutorDetails are not directly saved in db
         em.detach(updatedTutorDetails);
-        updatedTutorDetails.contact(UPDATED_CONTACT).information(UPDATED_INFORMATION);
+        updatedTutorDetails.information(UPDATED_INFORMATION);
         TutorDetailsDTO tutorDetailsDTO = tutorDetailsMapper.toDto(updatedTutorDetails);
 
         restTutorDetailsMockMvc
@@ -263,7 +270,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void partialUpdateTutorDetailsWithPatch() throws Exception {
         // Initialize the database
-        tutorDetailsRepository.saveAndFlush(tutorDetails);
+        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -292,7 +299,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void fullUpdateTutorDetailsWithPatch() throws Exception {
         // Initialize the database
-        tutorDetailsRepository.saveAndFlush(tutorDetails);
+        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -300,7 +307,7 @@ class TutorDetailsResourceIT {
         TutorDetails partialUpdatedTutorDetails = new TutorDetails();
         partialUpdatedTutorDetails.setId(tutorDetails.getId());
 
-        partialUpdatedTutorDetails.contact(UPDATED_CONTACT).information(UPDATED_INFORMATION);
+        partialUpdatedTutorDetails.information(UPDATED_INFORMATION);
 
         restTutorDetailsMockMvc
             .perform(
@@ -382,7 +389,7 @@ class TutorDetailsResourceIT {
     @Transactional
     void deleteTutorDetails() throws Exception {
         // Initialize the database
-        tutorDetailsRepository.saveAndFlush(tutorDetails);
+        insertedTutorDetails = tutorDetailsRepository.saveAndFlush(tutorDetails);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

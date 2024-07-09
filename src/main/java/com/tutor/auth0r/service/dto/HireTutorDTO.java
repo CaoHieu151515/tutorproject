@@ -2,6 +2,7 @@ package com.tutor.auth0r.service.dto;
 
 import com.tutor.auth0r.domain.enumeration.HireStatus;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -17,6 +18,10 @@ public class HireTutorDTO implements Serializable {
     private Double totalPrice;
 
     private HireStatus status;
+
+    private LocalDate startAt;
+
+    private LocalDate endAt;
 
     private AppUserDTO appUser;
 
@@ -52,6 +57,22 @@ public class HireTutorDTO implements Serializable {
 
     public void setStatus(HireStatus status) {
         this.status = status;
+    }
+
+    public LocalDate getStartAt() {
+        return startAt;
+    }
+
+    public void setStartAt(LocalDate startAt) {
+        this.startAt = startAt;
+    }
+
+    public LocalDate getEndAt() {
+        return endAt;
+    }
+
+    public void setEndAt(LocalDate endAt) {
+        this.endAt = endAt;
     }
 
     public AppUserDTO getAppUser() {
@@ -99,6 +120,8 @@ public class HireTutorDTO implements Serializable {
             ", timeHire=" + getTimeHire() +
             ", totalPrice=" + getTotalPrice() +
             ", status='" + getStatus() + "'" +
+            ", startAt='" + getStartAt() + "'" +
+            ", endAt='" + getEndAt() + "'" +
             ", appUser=" + getAppUser() +
             ", tutor=" + getTutor() +
             "}";

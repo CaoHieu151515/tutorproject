@@ -20,6 +20,7 @@ import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,8 @@ class TutorResourceIT {
 
     private Tutor tutor;
 
+    private Tutor insertedTutor;
+
     /**
      * Create an entity for this test.
      *
@@ -117,6 +120,14 @@ class TutorResourceIT {
         tutor = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedTutor != null) {
+            tutorRepository.delete(insertedTutor);
+            insertedTutor = null;
+        }
+    }
+
     @Test
     @Transactional
     void createTutor() throws Exception {
@@ -137,6 +148,8 @@ class TutorResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedTutor = tutorMapper.toEntity(returnedTutorDTO);
         assertTutorUpdatableFieldsEquals(returnedTutor, getPersistedTutor(returnedTutor));
+
+        insertedTutor = returnedTutor;
     }
 
     @Test
@@ -161,7 +174,7 @@ class TutorResourceIT {
     @Transactional
     void getAllTutors() throws Exception {
         // Initialize the database
-        tutorRepository.saveAndFlush(tutor);
+        insertedTutor = tutorRepository.saveAndFlush(tutor);
 
         // Get all the tutorList
         restTutorMockMvc
@@ -181,7 +194,7 @@ class TutorResourceIT {
     @Transactional
     void getTutor() throws Exception {
         // Initialize the database
-        tutorRepository.saveAndFlush(tutor);
+        insertedTutor = tutorRepository.saveAndFlush(tutor);
 
         // Get the tutor
         restTutorMockMvc
@@ -208,7 +221,7 @@ class TutorResourceIT {
     @Transactional
     void putExistingTutor() throws Exception {
         // Initialize the database
-        tutorRepository.saveAndFlush(tutor);
+        insertedTutor = tutorRepository.saveAndFlush(tutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -300,7 +313,7 @@ class TutorResourceIT {
     @Transactional
     void partialUpdateTutorWithPatch() throws Exception {
         // Initialize the database
-        tutorRepository.saveAndFlush(tutor);
+        insertedTutor = tutorRepository.saveAndFlush(tutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -308,12 +321,7 @@ class TutorResourceIT {
         Tutor partialUpdatedTutor = new Tutor();
         partialUpdatedTutor.setId(tutor.getId());
 
-        partialUpdatedTutor
-            .recommend(UPDATED_RECOMMEND)
-            .price(UPDATED_PRICE)
-            .tuDevice(UPDATED_TU_DEVICE)
-            .status(UPDATED_STATUS)
-            .averageRating(UPDATED_AVERAGE_RATING);
+        partialUpdatedTutor.price(UPDATED_PRICE).tuDevice(UPDATED_TU_DEVICE).status(UPDATED_STATUS).followerCount(UPDATED_FOLLOWER_COUNT);
 
         restTutorMockMvc
             .perform(
@@ -333,7 +341,7 @@ class TutorResourceIT {
     @Transactional
     void fullUpdateTutorWithPatch() throws Exception {
         // Initialize the database
-        tutorRepository.saveAndFlush(tutor);
+        insertedTutor = tutorRepository.saveAndFlush(tutor);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -429,7 +437,7 @@ class TutorResourceIT {
     @Transactional
     void deleteTutor() throws Exception {
         // Initialize the database
-        tutorRepository.saveAndFlush(tutor);
+        insertedTutor = tutorRepository.saveAndFlush(tutor);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

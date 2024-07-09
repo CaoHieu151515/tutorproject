@@ -25,7 +25,7 @@ class AcademicRankTest {
     }
 
     @Test
-    void mediaTest() throws Exception {
+    void mediaTest() {
         AcademicRank academicRank = getAcademicRankRandomSampleGenerator();
         Media mediaBack = getMediaRandomSampleGenerator();
 
@@ -37,7 +37,7 @@ class AcademicRankTest {
     }
 
     @Test
-    void userVerifyTest() throws Exception {
+    void userVerifyTest() {
         AcademicRank academicRank = getAcademicRankRandomSampleGenerator();
         UserVerify userVerifyBack = getUserVerifyRandomSampleGenerator();
 

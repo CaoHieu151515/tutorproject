@@ -1,0 +1,26 @@
+{
+  "projectApp": {
+    "tuTorContactWith": {
+      "home": {
+        "title": "Tu Tor Contact Withs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Tu Tor Contact With",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Tu Tor Contact With",
+        "notFound": "No Tu Tor Contact Withs found"
+      },
+      "created": "Một Tu Tor Contact With mới được tạo với định danh {{ param }}",
+      "updated": "Một Tu Tor Contact With cập nhật với định danh {{ param }}",
+      "deleted": "Một Tu Tor Contact With đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Tu Tor Contact With {{ id }}?"
+      },
+      "detail": {
+        "title": "Tu Tor Contact With"
+      },
+      "id": "ID",
+      "urlContact": "Url Contact",
+      "type": "Type",
+      "tutorDetails": "Tutor Details"
+    }
+  }
+}

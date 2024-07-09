@@ -47,7 +47,6 @@ public class TutorDetailsAsserts {
     public static void assertTutorDetailsUpdatableFieldsEquals(TutorDetails expected, TutorDetails actual) {
         assertThat(expected)
             .as("Verify TutorDetails relevant properties")
-            .satisfies(e -> assertThat(e.getContact()).as("check contact").isEqualTo(actual.getContact()))
             .satisfies(e -> assertThat(e.getInformation()).as("check information").isEqualTo(actual.getInformation()));
     }
 

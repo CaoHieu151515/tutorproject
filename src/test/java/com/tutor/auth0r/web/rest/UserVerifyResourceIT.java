@@ -16,6 +16,7 @@ import com.tutor.auth0r.service.mapper.UserVerifyMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,8 @@ class UserVerifyResourceIT {
 
     private UserVerify userVerify;
 
+    private UserVerify insertedUserVerify;
+
     /**
      * Create an entity for this test.
      *
@@ -108,6 +111,14 @@ class UserVerifyResourceIT {
         userVerify = createEntity(em);
     }
 
+    @AfterEach
+    public void cleanup() {
+        if (insertedUserVerify != null) {
+            userVerifyRepository.delete(insertedUserVerify);
+            insertedUserVerify = null;
+        }
+    }
+
     @Test
     @Transactional
     void createUserVerify() throws Exception {
@@ -128,6 +139,8 @@ class UserVerifyResourceIT {
         assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
         var returnedUserVerify = userVerifyMapper.toEntity(returnedUserVerifyDTO);
         assertUserVerifyUpdatableFieldsEquals(returnedUserVerify, getPersistedUserVerify(returnedUserVerify));
+
+        insertedUserVerify = returnedUserVerify;
     }
 
     @Test
@@ -152,7 +165,7 @@ class UserVerifyResourceIT {
     @Transactional
     void getAllUserVerifies() throws Exception {
         // Initialize the database
-        userVerifyRepository.saveAndFlush(userVerify);
+        insertedUserVerify = userVerifyRepository.saveAndFlush(userVerify);
 
         // Get all the userVerifyList
         restUserVerifyMockMvc
@@ -171,7 +184,7 @@ class UserVerifyResourceIT {
     @Transactional
     void getUserVerify() throws Exception {
         // Initialize the database
-        userVerifyRepository.saveAndFlush(userVerify);
+        insertedUserVerify = userVerifyRepository.saveAndFlush(userVerify);
 
         // Get the userVerify
         restUserVerifyMockMvc
@@ -197,7 +210,7 @@ class UserVerifyResourceIT {
     @Transactional
     void putExistingUserVerify() throws Exception {
         // Initialize the database
-        userVerifyRepository.saveAndFlush(userVerify);
+        insertedUserVerify = userVerifyRepository.saveAndFlush(userVerify);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -292,7 +305,7 @@ class UserVerifyResourceIT {
     @Transactional
     void partialUpdateUserVerifyWithPatch() throws Exception {
         // Initialize the database
-        userVerifyRepository.saveAndFlush(userVerify);
+        insertedUserVerify = userVerifyRepository.saveAndFlush(userVerify);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -300,7 +313,7 @@ class UserVerifyResourceIT {
         UserVerify partialUpdatedUserVerify = new UserVerify();
         partialUpdatedUserVerify.setId(userVerify.getId());
 
-        partialUpdatedUserVerify.rating(UPDATED_RATING).school(UPDATED_SCHOOL).major(UPDATED_MAJOR);
+        partialUpdatedUserVerify.major(UPDATED_MAJOR).graduationYear(UPDATED_GRADUATION_YEAR);
 
         restUserVerifyMockMvc
             .perform(
@@ -323,7 +336,7 @@ class UserVerifyResourceIT {
     @Transactional
     void fullUpdateUserVerifyWithPatch() throws Exception {
         // Initialize the database
-        userVerifyRepository.saveAndFlush(userVerify);
+        insertedUserVerify = userVerifyRepository.saveAndFlush(userVerify);
 
         long databaseSizeBeforeUpdate = getRepositoryCount();
 
@@ -418,7 +431,7 @@ class UserVerifyResourceIT {
     @Transactional
     void deleteUserVerify() throws Exception {
         // Initialize the database
-        userVerifyRepository.saveAndFlush(userVerify);
+        insertedUserVerify = userVerifyRepository.saveAndFlush(userVerify);
 
         long databaseSizeBeforeDelete = getRepositoryCount();
 

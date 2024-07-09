@@ -13,13 +13,12 @@ enum Teach {
     ENGLISH_12
 }
 
-
-enum GenderType{
-	MALE,
+enum GenderType {
+    MALE,
     FEMALE,
     OTHER
-
 }
+
 enum Devide {
     MICRO,
     CAMERA
@@ -28,7 +27,9 @@ enum Devide {
 enum TuStatus {
     READY,
     BUSY,
-    OFFLINE
+    OFFLINE,
+    CONFIRMING,
+    NOT_TUTOR
 }
 
 enum WalletTransactionType {
@@ -36,7 +37,8 @@ enum WalletTransactionType {
     WITHDRAWAL,
     HIRE,
     SERVICE_FEE_EARN,
-    REFUND
+    REFUND,
+    TUTORGAIN
 }
 
 enum WalletTransactionStatus {
@@ -63,13 +65,19 @@ enum HireStatus {
     CANCEL
 }
 
+entity TuTorContactWith {
+    urlContact String,
+    type Contact
+}
+
 entity Wallet {
     amount Double
 }
 
-entity HiringHours{
-	hour Integer,
+entity HiringHours {
+    hour Integer required min(1) max(5)
 }
+
 entity WalletTransaction {
     amount Double,
     type WalletTransactionType,
@@ -97,6 +105,7 @@ entity Tutor {
     followerCount Long,
     averageRating BigDecimal
 }
+
 entity Rating {
     rating Integer required min(1) max(5),
     comment String maxlength(500),
@@ -104,9 +113,7 @@ entity Rating {
     date LocalDate required
 }
 
-
 entity TutorDetails {
-    contact Contact,
     information String
 }
 
@@ -127,7 +134,14 @@ entity IdentityCard {}
 entity HireTutor {
     timeHire Integer,
     totalPrice Double,
-    status HireStatus
+    status HireStatus,
+    startAt LocalDate,
+    endAt LocalDate
+}
+
+entity Report {
+    reportDetails String,
+    time LocalDate
 }
 
 entity AppUser {
@@ -147,16 +161,19 @@ relationship OneToMany {
     UserVerify{academicRank} to AcademicRank,
     IdentityCard{media} to Media,
     TutorDetails{tutorTeach} to TutorTeach,
+    TutorDetails{tutorContact} to TuTorContactWith,
     TutorDetails{tutorImage} to TutorImage,
     AppUser{hireTutor} to HireTutor,
-    Tutor{hireTutor} to HireTutor
-    Tutor{hiringHours} to HiringHours
+    Tutor{hireTutor} to HireTutor,
+    Tutor{hiringHours} to HiringHours,
+    Tutor{Report} to Report,
+    AppUser{Report} to Report
 }
 
 relationship ManyToOne {
-    Follow{followerAppUser} to AppUser
-    Follow{followedTutor} to Tutor
-    Rating to Tutor
+    Follow{followerAppUser} to AppUser,
+    Follow{followedTutor} to Tutor,
+    Rating to Tutor,
     Rating to AppUser
 }
 
@@ -170,7 +187,7 @@ relationship OneToOne {
     TutorDetails{tutorVideo} to TutorVideo,
     TutorVideo{media} to Media,
     TutorImage{media} to Media,
-    AppUser{user} to User{appUser} with builtInEntity,
+    AppUser{user} to User{appUser} with builtInEntity
 }
 
 // Sử dụng Data Transfer Objects (DTO)
@@ -181,4 +198,3 @@ service all with serviceImpl
 
 // Cấu hình hậu tố cho React
 angularSuffix * with mySuffix
-

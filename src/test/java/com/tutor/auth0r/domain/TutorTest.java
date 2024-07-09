@@ -4,6 +4,7 @@ import static com.tutor.auth0r.domain.AppUserTestSamples.*;
 import static com.tutor.auth0r.domain.HireTutorTestSamples.*;
 import static com.tutor.auth0r.domain.HiringHoursTestSamples.*;
 import static com.tutor.auth0r.domain.RatingTestSamples.*;
+import static com.tutor.auth0r.domain.ReportTestSamples.*;
 import static com.tutor.auth0r.domain.TutorDetailsTestSamples.*;
 import static com.tutor.auth0r.domain.TutorTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +31,7 @@ class TutorTest {
     }
 
     @Test
-    void tutorDetailsTest() throws Exception {
+    void tutorDetailsTest() {
         Tutor tutor = getTutorRandomSampleGenerator();
         TutorDetails tutorDetailsBack = getTutorDetailsRandomSampleGenerator();
 
@@ -42,7 +43,7 @@ class TutorTest {
     }
 
     @Test
-    void hireTutorTest() throws Exception {
+    void hireTutorTest() {
         Tutor tutor = getTutorRandomSampleGenerator();
         HireTutor hireTutorBack = getHireTutorRandomSampleGenerator();
 
@@ -64,7 +65,7 @@ class TutorTest {
     }
 
     @Test
-    void hiringHoursTest() throws Exception {
+    void hiringHoursTest() {
         Tutor tutor = getTutorRandomSampleGenerator();
         HiringHours hiringHoursBack = getHiringHoursRandomSampleGenerator();
 
@@ -86,7 +87,29 @@ class TutorTest {
     }
 
     @Test
-    void ratingTest() throws Exception {
+    void reportTest() {
+        Tutor tutor = getTutorRandomSampleGenerator();
+        Report reportBack = getReportRandomSampleGenerator();
+
+        tutor.addReport(reportBack);
+        assertThat(tutor.getReports()).containsOnly(reportBack);
+        assertThat(reportBack.getTutor()).isEqualTo(tutor);
+
+        tutor.removeReport(reportBack);
+        assertThat(tutor.getReports()).doesNotContain(reportBack);
+        assertThat(reportBack.getTutor()).isNull();
+
+        tutor.reports(new HashSet<>(Set.of(reportBack)));
+        assertThat(tutor.getReports()).containsOnly(reportBack);
+        assertThat(reportBack.getTutor()).isEqualTo(tutor);
+
+        tutor.setReports(new HashSet<>());
+        assertThat(tutor.getReports()).doesNotContain(reportBack);
+        assertThat(reportBack.getTutor()).isNull();
+    }
+
+    @Test
+    void ratingTest() {
         Tutor tutor = getTutorRandomSampleGenerator();
         Rating ratingBack = getRatingRandomSampleGenerator();
 
@@ -108,7 +131,7 @@ class TutorTest {
     }
 
     @Test
-    void appUserTest() throws Exception {
+    void appUserTest() {
         Tutor tutor = getTutorRandomSampleGenerator();
         AppUser appUserBack = getAppUserRandomSampleGenerator();
 

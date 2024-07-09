@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tutor.auth0r.domain.enumeration.HireStatus;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * A HireTutor.
@@ -30,12 +31,18 @@ public class HireTutor implements Serializable {
     @Column(name = "status")
     private HireStatus status;
 
+    @Column(name = "start_at")
+    private LocalDate startAt;
+
+    @Column(name = "end_at")
+    private LocalDate endAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "rating", "hireTutors", "wallet" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "reports", "wallet", "ratings" }, allowSetters = true)
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "ratings", "appUser" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "reports", "ratings", "appUser" }, allowSetters = true)
     private Tutor tutor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -92,6 +99,32 @@ public class HireTutor implements Serializable {
         this.status = status;
     }
 
+    public LocalDate getStartAt() {
+        return this.startAt;
+    }
+
+    public HireTutor startAt(LocalDate startAt) {
+        this.setStartAt(startAt);
+        return this;
+    }
+
+    public void setStartAt(LocalDate startAt) {
+        this.startAt = startAt;
+    }
+
+    public LocalDate getEndAt() {
+        return this.endAt;
+    }
+
+    public HireTutor endAt(LocalDate endAt) {
+        this.setEndAt(endAt);
+        return this;
+    }
+
+    public void setEndAt(LocalDate endAt) {
+        this.endAt = endAt;
+    }
+
     public AppUser getAppUser() {
         return this.appUser;
     }
@@ -145,6 +178,8 @@ public class HireTutor implements Serializable {
             ", timeHire=" + getTimeHire() +
             ", totalPrice=" + getTotalPrice() +
             ", status='" + getStatus() + "'" +
+            ", startAt='" + getStartAt() + "'" +
+            ", endAt='" + getEndAt() + "'" +
             "}";
     }
 }

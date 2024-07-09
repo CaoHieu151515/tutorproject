@@ -27,7 +27,7 @@ class MediaTest {
     }
 
     @Test
-    void academicRankTest() throws Exception {
+    void academicRankTest() {
         Media media = getMediaRandomSampleGenerator();
         AcademicRank academicRankBack = getAcademicRankRandomSampleGenerator();
 
@@ -41,7 +41,7 @@ class MediaTest {
     }
 
     @Test
-    void identityCardTest() throws Exception {
+    void identityCardTest() {
         Media media = getMediaRandomSampleGenerator();
         IdentityCard identityCardBack = getIdentityCardRandomSampleGenerator();
 
@@ -53,7 +53,7 @@ class MediaTest {
     }
 
     @Test
-    void tutorImageTest() throws Exception {
+    void tutorImageTest() {
         Media media = getMediaRandomSampleGenerator();
         TutorImage tutorImageBack = getTutorImageRandomSampleGenerator();
 
@@ -67,7 +67,7 @@ class MediaTest {
     }
 
     @Test
-    void tutorVideoTest() throws Exception {
+    void tutorVideoTest() {
         Media media = getMediaRandomSampleGenerator();
         TutorVideo tutorVideoBack = getTutorVideoRandomSampleGenerator();
 

@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TutorVideoServiceImpl implements TutorVideoService {
 
-    private final Logger log = LoggerFactory.getLogger(TutorVideoServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TutorVideoServiceImpl.class);
 
     private final TutorVideoRepository tutorVideoRepository;
 

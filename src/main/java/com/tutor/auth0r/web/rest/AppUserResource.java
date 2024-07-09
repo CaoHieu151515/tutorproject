@@ -3,6 +3,7 @@ package com.tutor.auth0r.web.rest;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
@@ -148,12 +149,7 @@ public class AppUserResource {
     }
 
     @GetMapping("/GetAllRecommend")
-    public List<AppUserDTO> getAllAppUsersWithRecommend(@RequestParam(name = "filter", required = false) String filter) {
-        if ("wallet-is-null".equals(filter)) {
-            log.debug("REST request to get all AppUsers where wallet is null");
-            return appUserService.findAllWhereWalletIsNull();
-        }
-        log.debug("REST request to get all AppUsers");
+    public List<AllRecommendDTO> getAllAppUsersWithRecommend() {
         return appUserService.AllAppUsersWithRecommend();
     }
 
@@ -234,6 +230,12 @@ public class AppUserResource {
     public ResponseEntity<UpdatecertificateDTO> getAllCertifycate() {
         Optional<UpdatecertificateDTO> UpdatecertificateDTO = appUserService.findOneWithAllCetitycate();
         return ResponseUtil.wrapOrNotFound(UpdatecertificateDTO);
+    }
+
+    @PutMapping("/update-certificate")
+    public ResponseEntity<UpdatecertificateDTO> updateCertificate(@RequestBody UpdatecertificateDTO updateCertificateDTO) {
+        Optional<UpdatecertificateDTO> result = appUserService.updateCertificate(updateCertificateDTO);
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(404).body(null));
     }
 
     @GetMapping("/getUserProfile")
