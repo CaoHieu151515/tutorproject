@@ -1,19 +1,51 @@
 package com.tutor.auth0r.web.websocket.dto;
 
-import java.time.Instant;
-
-/**
- * DTO for storing a user's activity.
- */
 public class ChatMessageDTO {
 
-    private String message;
+    private String sender;
+    private String receiver;
+    private String content;
+    private String roomId;
 
-    public void setMessage(String message) {
-        this.message = message;
+    public ChatMessageDTO() {}
+
+    public ChatMessageDTO(String sender, String receiver, String content, String roomId) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.content = content;
+        this.roomId = roomId;
     }
 
-    public String getMessage() {
-        return message;
+    // Getters and setters
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
 }

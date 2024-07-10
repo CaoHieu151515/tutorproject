@@ -64,6 +64,8 @@ public interface AppUserService {
 
     AppUserDTO AdminConFirmTutor(Long id);
 
+    AppUserDTO AdminRejectTutor(Long id);
+
     /**
      * Delete the "id" appUser.
      *

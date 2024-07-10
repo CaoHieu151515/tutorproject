@@ -171,6 +171,16 @@ public class AppUserServiceImpl implements AppUserService {
     public AppUserDTO AdminConFirmTutor(Long id) {
         AppUser appUser = appUserRepository.findById(id).orElseThrow(() -> new RuntimeException("AppUser not found"));
         appUser.setBeTutor(true);
+        appUser.getTutor().setStatus(TuStatus.OFFLINE);
+        appUserRepository.save(appUser);
+        return appUserMapper.toDto(appUser);
+    }
+
+    @Override
+    public AppUserDTO AdminRejectTutor(Long id) {
+        AppUser appUser = appUserRepository.findById(id).orElseThrow(() -> new RuntimeException("AppUser not found"));
+        appUser.setBeTutor(false);
+        appUser.getTutor().setStatus(TuStatus.NOT_TUTOR);
         appUserRepository.save(appUser);
         return appUserMapper.toDto(appUser);
     }

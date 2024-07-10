@@ -1,102 +1,103 @@
-package com.tutor.auth0r.web.websocket;
+// package com.tutor.auth0r.web.websocket;
 
-import static com.tutor.auth0r.config.WebsocketConfiguration.IP_ADDRESS;
+// import static com.tutor.auth0r.config.WebsocketConfiguration.IP_ADDRESS;
 
-import com.tutor.auth0r.web.websocket.dto.ChatMessageDTO;
-import java.security.Principal;
-import java.time.Instant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationListener;
-import org.springframework.messaging.handler.annotation.*;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import org.springframework.web.util.HtmlUtils;
+// import com.tutor.auth0r.web.websocket.dto.ChatMessageDTO;
+// import java.security.Principal;
+// import java.time.Instant;
+// import java.util.HashMap;
+// import java.util.Map;
 
-@Controller
-public class TutorService implements ApplicationListener<SessionDisconnectEvent> {
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+// import org.springframework.context.ApplicationListener;
+// import org.springframework.messaging.handler.annotation.*;
+// import org.springframework.messaging.simp.SimpMessageSendingOperations;
+// import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+// import org.springframework.stereotype.Controller;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.RequestHeader;
+// import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+// import org.springframework.web.util.HtmlUtils;
 
-    private static final Logger log = LoggerFactory.getLogger(ActivityService.class);
+// @Controller
+// public class TutorService implements ApplicationListener<SessionDisconnectEvent> {
 
-    private final SimpMessageSendingOperations messagingTemplate;
+//     private static final Logger log = LoggerFactory.getLogger(ActivityService.class);
 
-    public TutorService(SimpMessageSendingOperations messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
-    }
+//     private final SimpMessageSendingOperations messagingTemplate;
 
-    // public static class MessageRequest {
+//     public TutorService(SimpMessageSendingOperations messagingTemplate) {
+//         this.messagingTemplate = messagingTemplate;
+//     }
 
-    //     private String message;
+//     private Map<String, String> userRooms = new HashMap<>();
 
-    //     public String getMessage() {
-    //         return message;
-    //     }
+//     @MessageMapping("/chat.sendMessage")
+//     @SendTo("/topic/messages")
+//     public ChatMessageDTO sendMessage(ChatMessageDTO message) {
+//         String roomId = getRoomId(message.getSender(), message.getReceiver());
+//         return new ChatMessageDTO(message.getSender(), message.getReceiver(),
+//                 HtmlUtils.htmlEscape(message.getContent()), roomId);
+//     }
 
-    //     public void setMessage(String message) {
-    //         this.message = message;
-    //     }
-    // }
-    class ChatMessage {
+//     @MessageMapping("/chat.newUser")
+//     public void newUser(ChatMessageDTO message) {
+//         String roomId = getRoomId(message.getSender(), message.getReceiver());
+//         userRooms.put(message.getSender(), roomId);
+//         userRooms.put(message.getReceiver(), roomId);
+//     }
+//     private String getRoomId(String sender, String receiver) {
+//         String roomId = sender + "_" + receiver;
+//         if (!userRooms.containsKey(roomId)) {
+//             roomId = receiver + "_" + sender;
+//         }
+//         return roomId;
+//     }
 
-        private String content;
-        private String sender;
+//     // public static class MessageRequest {
 
-        public ChatMessage() {}
+//     // private String message;
 
-        public ChatMessage(String content, String sender) {
-            this.content = content;
-            this.sender = sender;
-        }
+//     // public String getMessage() {
+//     // return message;
+//     // }
 
-        public String getContent() {
-            return content;
-        }
+//     // public void setMessage(String message) {
+//     // this.message = message;
+//     // }
+//     // }
 
-        public void setContent(String content) {
-            this.content = content;
-        }
+//     // @MessageMapping("/tutor")
+//     // @SendTo("/topic/messages")
+//     // public ChatMessage sendMessage(ChatMessage message) {
+//     // // Xử lý hoặc lưu tin nhắn nếu cần
+//     // return new ChatMessage(HtmlUtils.htmlEscape(message.getContent()),
+//     // HtmlUtils.htmlEscape(message.getSender()));
+//     // }
+//     // @MessageMapping("/topic/tutor")
+//     // @SendTo("/topic/messages")
+//     // public String handleMessage(String message) {
+//     // log.info("Received message: {}", message);
+//     // return message;
+//     // }
 
-        public String getSender() {
-            return sender;
-        }
+//     // @MessageMapping("/topic/chatroom/{chatroomId}/send-message")
+//     // @SendTo("/topic/chatroom/{chatroomId}/notification")
+//     // public ChatMessageDTO sendActivity(@Payload ChatMessageDTO chatMessageDTO,
+//     // StompHeaderAccessor stompHeaderAccessor, Principal principal) {
+//     // //activityDTO.setUserLogin(principal.getName());
+//     // //activityDTO.setSessionId(stompHeaderAccessor.getSessionId());
+//     // //activityDTO.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
+//     // //activityDTO.setTime(Instant.now());
 
-        public void setSender(String sender) {
-            this.sender = sender;
-        }
-    }
+//     // log.debug("Sending user chat message data {}", chatMessageDTO);
+//     // return chatMessageDTO;
+//     // }
 
-    // @MessageMapping("/tutor")
-    // @SendTo("/topic/messages")
-    // public ChatMessage sendMessage(ChatMessage message) {
-    //     // Xử lý hoặc lưu tin nhắn nếu cần
-    //     return new ChatMessage(HtmlUtils.htmlEscape(message.getContent()), HtmlUtils.htmlEscape(message.getSender()));
-    // }
-    @MessageMapping("/topic/tutor")
-    @SendTo("/topic/messages")
-    public String handleMessage(String message) {
-        log.info("Received message: {}", message);
-        return message;
-    }
-
-    // @MessageMapping("/topic/chatroom/{chatroomId}/send-message")
-    // @SendTo("/topic/chatroom/{chatroomId}/notification")
-    // public ChatMessageDTO sendActivity(@Payload ChatMessageDTO chatMessageDTO, StompHeaderAccessor stompHeaderAccessor, Principal principal) {
-    //     //activityDTO.setUserLogin(principal.getName());
-    //     //activityDTO.setSessionId(stompHeaderAccessor.getSessionId());
-    //     //activityDTO.setIpAddress(stompHeaderAccessor.getSessionAttributes().get(IP_ADDRESS).toString());
-    //     //activityDTO.setTime(Instant.now());
-
-    //     log.debug("Sending user chat message data {}", chatMessageDTO);
-    //     return chatMessageDTO;
-    // }
-
-    @Override
-    public void onApplicationEvent(SessionDisconnectEvent event) {
-        //messagingTemplate.convertAndSend("/topic/tracker", activityDTO);
-    }
-}
+//     @Override
+//     public void onApplicationEvent(SessionDisconnectEvent event) {
+//         // messagingTemplate.convertAndSend("/topic/tracker", activityDTO);
+//     }
+// }

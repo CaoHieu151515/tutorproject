@@ -173,10 +173,19 @@ public class AppUserResource {
         return ResponseUtil.wrapOrNotFound(appUserDTO);
     }
 
-    @PutMapping("/{id}/ConFirmTutor")
+    @PostMapping("/{id}/ConFirmTutor")
     public ResponseEntity<AppUserDTO> AdminConFirmTutor(@PathVariable("id") Long id) {
         log.debug("REST request to get AppUser : {}", id);
         AppUserDTO appUserDTO = appUserService.AdminConFirmTutor(id);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appUserDTO.getId().toString()))
+            .body(appUserDTO);
+    }
+
+    @PostMapping("/{id}/RejectTutor")
+    public ResponseEntity<AppUserDTO> AdminRejectTutor(@PathVariable("id") Long id) {
+        log.debug("REST request to get AppUser : {}", id);
+        AppUserDTO appUserDTO = appUserService.AdminRejectTutor(id);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appUserDTO.getId().toString()))
             .body(appUserDTO);

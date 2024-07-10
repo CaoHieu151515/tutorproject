@@ -10,7 +10,9 @@ import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.AuthorityRepository;
+import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.repository.UserRepository;
+import com.tutor.auth0r.repository.WalletRepository;
 import com.tutor.auth0r.security.AuthoritiesConstants;
 import com.tutor.auth0r.security.SecurityUtils;
 import com.tutor.auth0r.service.dto.AdminUserDTO;
@@ -46,16 +48,24 @@ public class UserService {
 
     private final AppUserRepository appUserRepository;
 
+    private final TutorRepository tutorRepository;
+
+    private final WalletRepository walletRepository;
+
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        AppUserRepository appUserRepository
+        AppUserRepository appUserRepository,
+        TutorRepository tutorRepository,
+        WalletRepository walletRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.appUserRepository = appUserRepository;
+        this.tutorRepository = tutorRepository;
+        this.walletRepository = walletRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -139,10 +149,12 @@ public class UserService {
         wallet.setAmount(0.0);
         wallet.setAppUser(appuser);
 
+        walletRepository.save(wallet);
         UserVerify userVerify = new UserVerify();
 
         Tutor tutor = new Tutor();
         tutor.setStatus(TuStatus.NOT_TUTOR);
+        tutorRepository.save(tutor);
 
         appuser.setUser(newUser);
         appuser.setWallet(wallet);
