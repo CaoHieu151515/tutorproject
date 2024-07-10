@@ -22,6 +22,8 @@ public class WalletTransactionDTO implements Serializable {
 
     private LocalDate createAt;
 
+    private HireTutorDTO hireTutor;
+
     private WalletDTO wallet;
 
     public Long getId() {
@@ -64,6 +66,14 @@ public class WalletTransactionDTO implements Serializable {
         this.createAt = createAt;
     }
 
+    public HireTutorDTO getHireTutor() {
+        return hireTutor;
+    }
+
+    public void setHireTutor(HireTutorDTO hireTutor) {
+        this.hireTutor = hireTutor;
+    }
+
     public WalletDTO getWallet() {
         return wallet;
     }
@@ -102,6 +112,7 @@ public class WalletTransactionDTO implements Serializable {
             ", type='" + getType() + "'" +
             ", status='" + getStatus() + "'" +
             ", createAt='" + getCreateAt() + "'" +
+            ", hireTutor=" + getHireTutor() +
             ", wallet=" + getWallet() +
             "}";
     }

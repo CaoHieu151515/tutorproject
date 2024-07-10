@@ -26,6 +26,9 @@
             <column name="create_at" type="date">
                 <constraints nullable="true" />
             </column>
+            <column name="hire_tutor_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="wallet_id" type="bigint">
                 <constraints nullable="true" />
             </column>

@@ -136,7 +136,6 @@ public class HireTutorServiceImpl implements HireTutorService {
         HireTutor hireTutor = hireTutorMapper.toEntity(hireTutorDTO);
 
         validateAndGetEntities(hireTutor);
-        processWalletTransactions(hireTutor);
 
         LocalDate startAt = LocalDateTime.now().toLocalDate();
         LocalDate endAt = LocalDateTime.now().plusHours((hireTutorDTO.getTimeHire())).toLocalDate();
@@ -147,6 +146,7 @@ public class HireTutorServiceImpl implements HireTutorService {
         hireTutor.setEndAt(endAt);
         hireTutor = hireTutorRepository.save(hireTutor);
 
+        processWalletTransactions(hireTutor);
         return hireTutorMapper.toDto(hireTutor);
     }
 
@@ -163,15 +163,6 @@ public class HireTutorServiceImpl implements HireTutorService {
         if (!userService.getUserWithAuthorities().isPresent()) {
             throw new NotLoggedException();
         }
-    }
-
-    @Override
-    public HireTutorDTO updatesTatus(Long id) {
-        log.debug("Request to update HireTutor : {}", id);
-        HireTutor hireTutor = hireTutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
-        hireTutor.setStatus(HireStatus.DONE);
-        hireTutor = hireTutorRepository.save(hireTutor);
-        return hireTutorMapper.toDto(hireTutor);
     }
 
     private void processWalletTransactions(HireTutor hireTutor) {
@@ -193,22 +184,32 @@ public class HireTutorServiceImpl implements HireTutorService {
         Double tutorGain = trueAmount * pricingProperties.getfreePercentageHireGain();
         log.debug("Request to update HireTutor : {}", tutorGain);
 
-        addTransactionToWallet(hirerWallet, trueAmount, WalletTransactionType.HIRE);
-        addTransactionToWallet(tutorWallet, tutorGain, WalletTransactionType.TUTORGAIN);
-        addTransactionToWallet(adminWallet, serviceFee, WalletTransactionType.SERVICE_FEE_EARN);
+        addTransactionToWallet(hirerWallet, trueAmount, WalletTransactionType.HIRE, hireTutor);
+        addTransactionToWallet(tutorWallet, tutorGain, WalletTransactionType.TUTORGAIN, hireTutor);
+        addTransactionToWallet(adminWallet, serviceFee, WalletTransactionType.SERVICE_FEE_EARN, hireTutor);
 
         walletService.save(adminWallet);
         walletService.save(tutorWallet);
         walletService.save(hirerWallet);
     }
 
-    private void addTransactionToWallet(Wallet wallet, Double amount, WalletTransactionType type) {
+    private void addTransactionToWallet(Wallet wallet, Double amount, WalletTransactionType type, HireTutor hireTutor) {
         WalletTransaction transaction = new WalletTransaction();
         transaction.setAmount(amount);
         transaction.setType(type);
         transaction.setStatus(WalletTransactionStatus.SUCCEED);
         transaction.setCreateAt(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
+        transaction.setHireTutor(hireTutor);
         wallet.addTransactions(transaction);
+    }
+
+    @Override
+    public HireTutorDTO updatesTatus(Long id) {
+        log.debug("Request to update HireTutor : {}", id);
+        HireTutor hireTutor = hireTutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
+        hireTutor.setStatus(HireStatus.DONE);
+        hireTutor = hireTutorRepository.save(hireTutor);
+        return hireTutorMapper.toDto(hireTutor);
     }
     // @Override
     // public HireTutorDTO Hire(HireTutorDTO hireTutorDTO) {

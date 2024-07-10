@@ -23,6 +23,7 @@
       "status": "Status",
       "startAt": "Start At",
       "endAt": "End At",
+      "walletTransaction": "Wallet Transaction",
       "appUser": "App User",
       "tutor": "Tutor"
     }

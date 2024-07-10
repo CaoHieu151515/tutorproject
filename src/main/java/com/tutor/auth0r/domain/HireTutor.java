@@ -5,6 +5,8 @@ import com.tutor.auth0r.domain.enumeration.HireStatus;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A HireTutor.
@@ -36,6 +38,10 @@ public class HireTutor implements Serializable {
 
     @Column(name = "end_at")
     private LocalDate endAt;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hireTutor")
+    @JsonIgnoreProperties(value = { "hireTutor", "wallet" }, allowSetters = true)
+    private Set<WalletTransaction> walletTransactions = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "tutor", "userVerify", "user", "hireTutors", "reports", "wallet", "ratings" }, allowSetters = true)
@@ -123,6 +129,37 @@ public class HireTutor implements Serializable {
 
     public void setEndAt(LocalDate endAt) {
         this.endAt = endAt;
+    }
+
+    public Set<WalletTransaction> getWalletTransactions() {
+        return this.walletTransactions;
+    }
+
+    public void setWalletTransactions(Set<WalletTransaction> walletTransactions) {
+        if (this.walletTransactions != null) {
+            this.walletTransactions.forEach(i -> i.setHireTutor(null));
+        }
+        if (walletTransactions != null) {
+            walletTransactions.forEach(i -> i.setHireTutor(this));
+        }
+        this.walletTransactions = walletTransactions;
+    }
+
+    public HireTutor walletTransactions(Set<WalletTransaction> walletTransactions) {
+        this.setWalletTransactions(walletTransactions);
+        return this;
+    }
+
+    public HireTutor addWalletTransaction(WalletTransaction walletTransaction) {
+        this.walletTransactions.add(walletTransaction);
+        walletTransaction.setHireTutor(this);
+        return this;
+    }
+
+    public HireTutor removeWalletTransaction(WalletTransaction walletTransaction) {
+        this.walletTransactions.remove(walletTransaction);
+        walletTransaction.setHireTutor(null);
+        return this;
     }
 
     public AppUser getAppUser() {

@@ -62,6 +62,7 @@ public class WalletTransactionAsserts {
     public static void assertWalletTransactionUpdatableRelationshipsEquals(WalletTransaction expected, WalletTransaction actual) {
         assertThat(expected)
             .as("Verify WalletTransaction relationships")
+            .satisfies(e -> assertThat(e.getHireTutor()).as("check hireTutor").isEqualTo(actual.getHireTutor()))
             .satisfies(e -> assertThat(e.getWallet()).as("check wallet").isEqualTo(actual.getWallet()));
     }
 }

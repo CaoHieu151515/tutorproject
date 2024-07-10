@@ -8,6 +8,8 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
+import { IHireTutorMySuffix } from 'app/shared/model/hire-tutor-my-suffix.model';
+import { getEntities as getHireTutors } from 'app/entities/hire-tutor-my-suffix/hire-tutor-my-suffix.reducer';
 import { IWalletMySuffix } from 'app/shared/model/wallet-my-suffix.model';
 import { getEntities as getWallets } from 'app/entities/wallet-my-suffix/wallet-my-suffix.reducer';
 import { IWalletTransactionMySuffix } from 'app/shared/model/wallet-transaction-my-suffix.model';
@@ -23,6 +25,7 @@ export const WalletTransactionMySuffixUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
+  const hireTutors = useAppSelector(state => state.hireTutor.entities);
   const wallets = useAppSelector(state => state.wallet.entities);
   const walletTransactionEntity = useAppSelector(state => state.walletTransaction.entity);
   const loading = useAppSelector(state => state.walletTransaction.loading);
@@ -42,6 +45,7 @@ export const WalletTransactionMySuffixUpdate = () => {
       dispatch(getEntity(id));
     }
 
+    dispatch(getHireTutors({}));
     dispatch(getWallets({}));
   }, []);
 
@@ -63,6 +67,7 @@ export const WalletTransactionMySuffixUpdate = () => {
     const entity = {
       ...walletTransactionEntity,
       ...values,
+      hireTutor: hireTutors.find(it => it.id.toString() === values.hireTutor?.toString()),
       wallet: wallets.find(it => it.id.toString() === values.wallet?.toString()),
     };
 
@@ -80,6 +85,7 @@ export const WalletTransactionMySuffixUpdate = () => {
           type: 'DEPOSIT',
           status: 'SUCCEED',
           ...walletTransactionEntity,
+          hireTutor: walletTransactionEntity?.hireTutor?.id,
           wallet: walletTransactionEntity?.wallet?.id,
         };
 
@@ -148,6 +154,22 @@ export const WalletTransactionMySuffixUpdate = () => {
                 data-cy="createAt"
                 type="date"
               />
+              <ValidatedField
+                id="wallet-transaction-my-suffix-hireTutor"
+                name="hireTutor"
+                data-cy="hireTutor"
+                label={translate('projectApp.walletTransaction.hireTutor')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {hireTutors
+                  ? hireTutors.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <ValidatedField
                 id="wallet-transaction-my-suffix-wallet"
                 name="wallet"

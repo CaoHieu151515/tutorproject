@@ -3,9 +3,12 @@ package com.tutor.auth0r.domain;
 import static com.tutor.auth0r.domain.AppUserTestSamples.*;
 import static com.tutor.auth0r.domain.HireTutorTestSamples.*;
 import static com.tutor.auth0r.domain.TutorTestSamples.*;
+import static com.tutor.auth0r.domain.WalletTransactionTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tutor.auth0r.web.rest.TestUtil;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class HireTutorTest {
@@ -22,6 +25,28 @@ class HireTutorTest {
 
         hireTutor2 = getHireTutorSample2();
         assertThat(hireTutor1).isNotEqualTo(hireTutor2);
+    }
+
+    @Test
+    void walletTransactionTest() {
+        HireTutor hireTutor = getHireTutorRandomSampleGenerator();
+        WalletTransaction walletTransactionBack = getWalletTransactionRandomSampleGenerator();
+
+        hireTutor.addWalletTransaction(walletTransactionBack);
+        assertThat(hireTutor.getWalletTransactions()).containsOnly(walletTransactionBack);
+        assertThat(walletTransactionBack.getHireTutor()).isEqualTo(hireTutor);
+
+        hireTutor.removeWalletTransaction(walletTransactionBack);
+        assertThat(hireTutor.getWalletTransactions()).doesNotContain(walletTransactionBack);
+        assertThat(walletTransactionBack.getHireTutor()).isNull();
+
+        hireTutor.walletTransactions(new HashSet<>(Set.of(walletTransactionBack)));
+        assertThat(hireTutor.getWalletTransactions()).containsOnly(walletTransactionBack);
+        assertThat(walletTransactionBack.getHireTutor()).isEqualTo(hireTutor);
+
+        hireTutor.setWalletTransactions(new HashSet<>());
+        assertThat(hireTutor.getWalletTransactions()).doesNotContain(walletTransactionBack);
+        assertThat(walletTransactionBack.getHireTutor()).isNull();
     }
 
     @Test

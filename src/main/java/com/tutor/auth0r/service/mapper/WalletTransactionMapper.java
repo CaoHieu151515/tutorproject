@@ -1,7 +1,9 @@
 package com.tutor.auth0r.service.mapper;
 
+import com.tutor.auth0r.domain.HireTutor;
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.WalletTransaction;
+import com.tutor.auth0r.service.dto.HireTutorDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import org.mapstruct.*;
@@ -16,6 +18,11 @@ public interface WalletTransactionMapper extends EntityMapper<WalletTransactionD
 
     @Mapping(target = "wallet", source = "wallet", qualifiedByName = "walletId")
     WalletTransactionDTO toDto(WalletTransaction s);
+
+    @Named("hireTutorId")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    HireTutorDTO toDtoHireTutorId(HireTutor hireTutor);
 
     @Named("walletId")
     @BeanMapping(ignoreByDefault = true)

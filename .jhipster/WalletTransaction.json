@@ -26,7 +26,15 @@
     }
   ],
   "name": "WalletTransaction",
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "hireTutor",
+      "otherEntityRelationshipName": "walletTransaction",
+      "relationshipName": "hireTutor",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "searchEngine": "no",
   "service": "serviceImpl"
 }

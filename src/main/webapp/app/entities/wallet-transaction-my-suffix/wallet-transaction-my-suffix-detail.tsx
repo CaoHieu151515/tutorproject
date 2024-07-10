@@ -61,6 +61,10 @@ export const WalletTransactionMySuffixDetail = () => {
             ) : null}
           </dd>
           <dt>
+            <Translate contentKey="projectApp.walletTransaction.hireTutor">Hire Tutor</Translate>
+          </dt>
+          <dd>{walletTransactionEntity.hireTutor ? walletTransactionEntity.hireTutor.id : ''}</dd>
+          <dt>
             <Translate contentKey="projectApp.walletTransaction.wallet">Wallet</Translate>
           </dt>
           <dd>{walletTransactionEntity.wallet ? walletTransactionEntity.wallet.id : ''}</dd>

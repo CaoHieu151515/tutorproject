@@ -111,6 +111,9 @@ export const WalletTransactionMySuffix = () => {
                   <FontAwesomeIcon icon={getSortIconByFieldName('createAt')} />
                 </th>
                 <th>
+                  <Translate contentKey="projectApp.walletTransaction.hireTutor">Hire Tutor</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
+                <th>
                   <Translate contentKey="projectApp.walletTransaction.wallet">Wallet</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
@@ -135,6 +138,13 @@ export const WalletTransactionMySuffix = () => {
                     {walletTransaction.createAt ? (
                       <TextFormat type="date" value={walletTransaction.createAt} format={APP_LOCAL_DATE_FORMAT} />
                     ) : null}
+                  </td>
+                  <td>
+                    {walletTransaction.hireTutor ? (
+                      <Link to={`/hire-tutor-my-suffix/${walletTransaction.hireTutor.id}`}>{walletTransaction.hireTutor.id}</Link>
+                    ) : (
+                      ''
+                    )}
                   </td>
                   <td>
                     {walletTransaction.wallet ? (

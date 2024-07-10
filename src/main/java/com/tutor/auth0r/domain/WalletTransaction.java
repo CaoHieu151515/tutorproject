@@ -37,6 +37,10 @@ public class WalletTransaction implements Serializable {
     private LocalDate createAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "walletTransactions", "appUser", "tutor" }, allowSetters = true)
+    private HireTutor hireTutor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "appUser", "transactions" }, allowSetters = true)
     private Wallet wallet;
 
@@ -105,6 +109,19 @@ public class WalletTransaction implements Serializable {
 
     public void setCreateAt(LocalDate createAt) {
         this.createAt = createAt;
+    }
+
+    public HireTutor getHireTutor() {
+        return this.hireTutor;
+    }
+
+    public void setHireTutor(HireTutor hireTutor) {
+        this.hireTutor = hireTutor;
+    }
+
+    public WalletTransaction hireTutor(HireTutor hireTutor) {
+        this.setHireTutor(hireTutor);
+        return this;
     }
 
     public Wallet getWallet() {

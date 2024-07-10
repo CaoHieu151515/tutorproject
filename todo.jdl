@@ -167,7 +167,8 @@ relationship OneToMany {
     Tutor{hireTutor} to HireTutor,
     Tutor{hiringHours} to HiringHours,
     Tutor{Report} to Report,
-    AppUser{Report} to Report
+    AppUser{Report} to Report,
+    HireTutor{walletTransaction} to WalletTransaction{hireTutor}
 }
 
 relationship ManyToOne {
@@ -188,6 +189,7 @@ relationship OneToOne {
     TutorVideo{media} to Media,
     TutorImage{media} to Media,
     AppUser{user} to User{appUser} with builtInEntity
+
 }
 
 // Sử dụng Data Transfer Objects (DTO)

@@ -1,5 +1,6 @@
 package com.tutor.auth0r.domain;
 
+import static com.tutor.auth0r.domain.HireTutorTestSamples.*;
 import static com.tutor.auth0r.domain.WalletTestSamples.*;
 import static com.tutor.auth0r.domain.WalletTransactionTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,6 +22,18 @@ class WalletTransactionTest {
 
         walletTransaction2 = getWalletTransactionSample2();
         assertThat(walletTransaction1).isNotEqualTo(walletTransaction2);
+    }
+
+    @Test
+    void hireTutorTest() {
+        WalletTransaction walletTransaction = getWalletTransactionRandomSampleGenerator();
+        HireTutor hireTutorBack = getHireTutorRandomSampleGenerator();
+
+        walletTransaction.setHireTutor(hireTutorBack);
+        assertThat(walletTransaction.getHireTutor()).isEqualTo(hireTutorBack);
+
+        walletTransaction.hireTutor(null);
+        assertThat(walletTransaction.getHireTutor()).isNull();
     }
 
     @Test

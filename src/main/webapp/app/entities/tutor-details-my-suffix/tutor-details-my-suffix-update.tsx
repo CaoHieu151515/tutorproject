@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { ITutorVideoMySuffix } from 'app/shared/model/tutor-video-my-suffix.model';
 import { getEntities as getTutorVideos } from 'app/entities/tutor-video-my-suffix/tutor-video-my-suffix.reducer';
 import { ITutorDetailsMySuffix } from 'app/shared/model/tutor-details-my-suffix.model';
-import { Contact } from 'app/shared/model/enumerations/contact.model';
 import { getEntity, updateEntity, createEntity, reset } from './tutor-details-my-suffix.reducer';
 
 export const TutorDetailsMySuffixUpdate = () => {
@@ -27,7 +26,6 @@ export const TutorDetailsMySuffixUpdate = () => {
   const loading = useAppSelector(state => state.tutorDetails.loading);
   const updating = useAppSelector(state => state.tutorDetails.updating);
   const updateSuccess = useAppSelector(state => state.tutorDetails.updateSuccess);
-  const contactValues = Object.keys(Contact);
 
   const handleClose = () => {
     navigate('/tutor-details-my-suffix');

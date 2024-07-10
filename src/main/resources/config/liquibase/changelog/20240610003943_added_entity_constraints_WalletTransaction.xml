@@ -10,6 +10,13 @@
     -->
     <changeSet id="20240610003943-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="hire_tutor_id"
+                                 baseTableName="wallet_transaction"
+                                 constraintName="fk_wallet_transaction__hire_tutor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="hire_tutor"
+                                 />
+
         <addForeignKeyConstraint baseColumnNames="wallet_id"
                                  baseTableName="wallet_transaction"
                                  constraintName="fk_wallet_transaction__wallet_id"
