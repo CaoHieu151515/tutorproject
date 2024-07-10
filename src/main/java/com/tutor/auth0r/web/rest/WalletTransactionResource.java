@@ -2,6 +2,7 @@ package com.tutor.auth0r.web.rest;
 
 import com.tutor.auth0r.repository.WalletTransactionRepository;
 import com.tutor.auth0r.service.WalletTransactionService;
+import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -169,5 +170,15 @@ public class WalletTransactionResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/financials/admin-monthly-revenue")
+    public ResponseEntity<MonthlyRevenueDTO> getAdminMonthlyRevenue(@RequestParam int year, @RequestParam int month) {
+        MonthlyRevenueDTO monthlyRevenueDTO = walletTransactionService.calculateMonthlyRevenueForAdmin(year, month);
+        if (monthlyRevenueDTO != null) {
+            return ResponseEntity.ok().body(monthlyRevenueDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

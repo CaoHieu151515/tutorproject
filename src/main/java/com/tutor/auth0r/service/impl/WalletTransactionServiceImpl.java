@@ -1,10 +1,16 @@
 package com.tutor.auth0r.service.impl;
 
+import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.repository.WalletTransactionRepository;
+import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.WalletTransactionService;
+import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import com.tutor.auth0r.service.mapper.WalletTransactionMapper;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.tutor.auth0r.domain.WalletTransaction}.
+ * Service Implementation for managing
+ * {@link com.tutor.auth0r.domain.WalletTransaction}.
  */
 @Service
 @Transactional
@@ -27,12 +34,16 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
 
     private final WalletTransactionMapper walletTransactionMapper;
 
+    private final WalletService walletService;
+
     public WalletTransactionServiceImpl(
         WalletTransactionRepository walletTransactionRepository,
-        WalletTransactionMapper walletTransactionMapper
+        WalletTransactionMapper walletTransactionMapper,
+        WalletService walletService
     ) {
         this.walletTransactionRepository = walletTransactionRepository;
         this.walletTransactionMapper = walletTransactionMapper;
+        this.walletService = walletService;
     }
 
     @Override
@@ -88,5 +99,26 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
     public void delete(Long id) {
         log.debug("Request to delete WalletTransaction : {}", id);
         walletTransactionRepository.deleteById(id);
+    }
+
+    @Override
+    public MonthlyRevenueDTO calculateMonthlyRevenueForAdmin(int year, int month) {
+        LocalDate startDate = YearMonth.of(year, month).atDay(1);
+        LocalDate endDate = startDate.plusMonths(1).minusDays(1);
+
+        Wallet wallet = walletService.getAdminWallet();
+
+        List<WalletTransaction> transactions = walletTransactionRepository.findAllByWalletIdAndCreateAtBetween(
+            wallet.getId(),
+            startDate,
+            endDate
+        );
+
+        Double totalRevenue = transactions.stream().mapToDouble(WalletTransaction::getAmount).sum();
+
+        MonthlyRevenueDTO monthlyRevenueDTO = new MonthlyRevenueDTO();
+        monthlyRevenueDTO.setTotalRevenue(totalRevenue);
+        monthlyRevenueDTO.setTransactions(new HashSet<>(transactions));
+        return monthlyRevenueDTO;
     }
 }

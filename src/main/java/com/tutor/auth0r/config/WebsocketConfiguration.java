@@ -95,37 +95,4 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
             }
         };
     }
-
-    @Bean
-    public ThreadPoolTaskExecutor clientInboundChannelExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(50);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("clientInboundChannel-");
-        executor.initialize();
-        return executor;
-    }
-
-    @Bean
-    public ThreadPoolTaskExecutor clientOutboundChannelExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(50);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("clientOutboundChannel-");
-        executor.initialize();
-        return executor;
-    }
-
-    @Bean
-    public ThreadPoolTaskExecutor brokerChannelExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(50);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("brokerChannel-");
-        executor.initialize();
-        return executor;
-    }
 }

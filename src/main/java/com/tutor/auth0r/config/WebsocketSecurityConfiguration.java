@@ -22,8 +22,6 @@ public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMes
             // /topic/messages-user<id>)
             .simpDestMatchers("/topic/notification")
             .permitAll()
-            .simpDestMatchers("/topic/messages")
-            .permitAll()
             .simpDestMatchers("/topic/**")
             .authenticated()
             // message types other than MESSAGE and SUBSCRIBE
