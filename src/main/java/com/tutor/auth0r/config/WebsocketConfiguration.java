@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.*;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.socket.WebSocketHandler;
@@ -30,6 +31,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
@@ -92,5 +94,38 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
                 return principal;
             }
         };
+    }
+
+    @Bean
+    public ThreadPoolTaskExecutor clientInboundChannelExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(50);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("clientInboundChannel-");
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean
+    public ThreadPoolTaskExecutor clientOutboundChannelExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(50);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("clientOutboundChannel-");
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean
+    public ThreadPoolTaskExecutor brokerChannelExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(50);
+        executor.setQueueCapacity(100);
+        executor.setThreadNamePrefix("brokerChannel-");
+        executor.initialize();
+        return executor;
     }
 }
