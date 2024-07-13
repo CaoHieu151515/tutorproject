@@ -5,6 +5,7 @@ import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
@@ -257,5 +258,17 @@ public class AppUserResource {
     public ResponseEntity<UserProfileDTO> updateUserProfile(@RequestBody UserProfileDTO userProfileDTO) {
         Optional<UserProfileDTO> updatedUserProfileDTO = appUserService.updateUserProfile(userProfileDTO);
         return ResponseUtil.wrapOrNotFound(updatedUserProfileDTO);
+    }
+
+    @GetMapping("/getTutorProfile")
+    public ResponseEntity<TutorEditProfileDTO> findTutorProfile() {
+        TutorEditProfileDTO appUserDTO = appUserService.findTutorProfile();
+        return ResponseEntity.ok(appUserDTO);
+    }
+
+    @PutMapping("/updateTutorProfile")
+    public ResponseEntity<TutorEditProfileDTO> updateTutorProfile(@RequestBody TutorEditProfileDTO dto) {
+        TutorEditProfileDTO updatedDTO = appUserService.updateTutorProfile(dto);
+        return ResponseEntity.ok(updatedDTO);
     }
 }

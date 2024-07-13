@@ -1,23 +1,19 @@
 package com.tutor.auth0r.service.mapper;
 
 import com.tutor.auth0r.domain.HireTutor;
-import com.tutor.auth0r.domain.Media;
 import com.tutor.auth0r.domain.Rating;
 import com.tutor.auth0r.domain.TuTorContactWith;
 import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.TutorDetails;
 import com.tutor.auth0r.domain.TutorTeach;
 import com.tutor.auth0r.domain.enumeration.HireStatus;
-import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.RatingCustomDTO;
-import com.tutor.auth0r.service.dto.RatingDTO;
 import com.tutor.auth0r.service.dto.TuTorContactWithDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDetailsDTO;
 import com.tutor.auth0r.service.dto.TutorTeachDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -39,6 +35,7 @@ public interface CustomTutorMapper {
     @Mapping(target = "percentSuccess", expression = "java(calculatePercentSuccess(tutor))")
     @Mapping(source = "appUser.user.firstName", target = "firstName")
     @Mapping(source = "appUser.user.lastName", target = "lastName")
+    @Mapping(source = "appUser.user.email", target = "email")
     @Mapping(source = "appUser.user.imageUrl", target = "img")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "averageRating", target = "averageRate")

@@ -5,6 +5,9 @@ import java.util.Set;
 public class UpdatecertificateDTO {
 
     Long appUserid;
+    String lname;
+    String fname;
+    String email;
     String school;
     String studentID;
     String major;
@@ -61,5 +64,29 @@ public class UpdatecertificateDTO {
 
     public void setRankwithImage(Set<RankwithImageDTO> rankwithImage) {
         this.rankwithImage = rankwithImage;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

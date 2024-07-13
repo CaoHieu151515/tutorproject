@@ -2,16 +2,21 @@ package com.tutor.auth0r.service.mapper;
 
 import com.tutor.auth0r.domain.AcademicRank;
 import com.tutor.auth0r.domain.AppUser;
+import com.tutor.auth0r.domain.TuTorContactWith;
 import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.domain.TutorTeach;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
+import com.tutor.auth0r.service.dto.TuTorContactWithDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
+import com.tutor.auth0r.service.dto.TutorTeachDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
@@ -35,6 +40,8 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
 
     TutorMapper tutorins = Mappers.getMapper(TutorMapper.class);
     WalletMapper walletins = Mappers.getMapper(WalletMapper.class);
+
+    TuTorContactWithMapper conteactINS = Mappers.getMapper(TuTorContactWithMapper.class);
 
     TutorTeachMapper teachINS = Mappers.getMapper(TutorTeachMapper.class);
 
@@ -134,6 +141,9 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     @Mappings(
         {
             @Mapping(source = "id", target = "appUserid"),
+            @Mapping(source = "user.firstName", target = "fname"),
+            @Mapping(source = "user.lastName", target = "lname"),
+            @Mapping(source = "user.email", target = "email"),
             @Mapping(source = "userVerify.school", target = "school"),
             @Mapping(source = "userVerify.studentID", target = "studentID"),
             @Mapping(source = "userVerify.major", target = "major"),
@@ -184,4 +194,60 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
         }
     )
     void updateAppUserFromDto(UserProfileDTO userProfileDTO, @MappingTarget AppUser appUser);
+
+    @Mapping(source = "id", target = "appUserID")
+    @Mapping(source = "beTutor", target = "beTutor")
+    @Mapping(source = "user.lastName", target = "lname")
+    @Mapping(source = "user.firstName", target = "fname")
+    @Mapping(source = "user.imageUrl", target = "image")
+    @Mapping(source = "user.email", target = "email")
+    @Mapping(source = "tutor.tutorDetails.information", target = "introduce")
+    @Mapping(source = "tutor.price", target = "price")
+    @Mapping(source = "tutor.tutorDetails.tutorTeaches", target = "teachs", qualifiedByName = "tutorTeachidd")
+    @Mapping(source = "tutor.tutorDetails.tutorContacts", target = "contacts", qualifiedByName = "tutorContactidd")
+    TutorEditProfileDTO toTutorEditProfileDTO(AppUser appUser);
+
+    @Named("tutorTeachidd")
+    default Set<TutorTeachDTO> tutorTeachidd(Set<TutorTeach> tutorTeaches) {
+        if (tutorTeaches == null) {
+            return null;
+        }
+        return tutorTeaches.stream().map(TutorTeachMapper.INSTANCE::toDto).collect(Collectors.toSet());
+    }
+
+    @Named("tutorContactidd")
+    default Set<TuTorContactWithDTO> tutorContactidd(Set<TuTorContactWith> tuTorContactWith) {
+        if (tuTorContactWith == null) {
+            return null;
+        }
+        return tuTorContactWith.stream().map(TuTorContactWithMapper.INSTANCE::toDto).collect(Collectors.toSet());
+    }
+
+    @Mapping(target = "id", source = "appUserID")
+    @Mapping(target = "beTutor", source = "beTutor")
+    @Mapping(target = "user.lastName", source = "lname")
+    @Mapping(target = "user.firstName", source = "fname")
+    @Mapping(target = "user.imageUrl", source = "image")
+    @Mapping(target = "user.email", source = "email")
+    @Mapping(target = "tutor.tutorDetails.information", source = "introduce")
+    @Mapping(target = "tutor.price", source = "price")
+    // @Mapping(target = "tutor.tutorDetails.tutorTeaches", source = "teachs", qualifiedByName = "tutorTeachDTO")
+    // @Mapping(target = "tutor.tutorDetails.tutorContacts", source = "contacts", qualifiedByName = "tutorContactDTO")
+    void updateAppUserFromDto(TutorEditProfileDTO dto, @MappingTarget AppUser appUser);
+
+    @Named("tutorTeachDTO")
+    default Set<TutorTeach> tutorTeachDTO(Set<TutorTeachDTO> tutorTeachDTOs) {
+        if (tutorTeachDTOs == null) {
+            return null;
+        }
+        return tutorTeachDTOs.stream().map(TutorTeachMapper.INSTANCE::toEntity).collect(Collectors.toSet());
+    }
+
+    @Named("tutorContactDTO")
+    default Set<TuTorContactWith> tutorContactDTO(Set<TuTorContactWithDTO> tuTorContactWithDTOs) {
+        if (tuTorContactWithDTOs == null) {
+            return null;
+        }
+        return tuTorContactWithDTOs.stream().map(TuTorContactWithMapper.INSTANCE::toEntity).collect(Collectors.toSet());
+    }
 }

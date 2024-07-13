@@ -31,7 +31,7 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic", "/queue");
-        // config.setApplicationDestinationPrefixes("/app");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
@@ -52,6 +52,11 @@ public class WebsocketConfiguration implements WebSocketMessageBrokerConfigurer 
             .setAllowedOrigins(allowedOrigins)
             .withSockJS()
             .setInterceptors(httpSessionHandshakeInterceptor());
+        registry
+            .addEndpoint("/websocket/chat")
+            .setHandshakeHandler(defaultHandshakeHandler())
+            .setAllowedOrigins(allowedOrigins)
+            .withSockJS();
     }
 
     @Bean

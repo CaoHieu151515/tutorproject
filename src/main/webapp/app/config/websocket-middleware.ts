@@ -26,7 +26,7 @@ const createListener = (): Observable<any> =>
 export const sendActivity = (page: string) => {
   connection?.then(() => {
     stompClient?.send(
-      '/topic/activity', // destination
+      '/app/activity', // destination
       JSON.stringify({ page }), // body
       {}, // header
     );

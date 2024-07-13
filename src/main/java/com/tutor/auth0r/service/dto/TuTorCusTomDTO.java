@@ -6,10 +6,12 @@ import java.util.Set;
 public class TuTorCusTomDTO {
 
     private Long tutorID;
+    private Boolean follow;
     private int totalHoursHired;
     private double percentSuccess;
     private String firstName;
     private String lastName;
+    private String email;
     private String img;
     private Double price;
     private Double averageRate;
@@ -27,6 +29,14 @@ public class TuTorCusTomDTO {
 
     public void setTutorID(Long tutorID) {
         this.tutorID = tutorID;
+    }
+
+    public Boolean getFollow() {
+        return follow;
+    }
+
+    public void setFollow(Boolean follow) {
+        this.follow = follow;
     }
 
     // Getter and Setter for totalHoursHired
@@ -144,5 +154,13 @@ public class TuTorCusTomDTO {
 
     public void setCusrating(Set<RatingCustomDTO> Cusrating) {
         this.Cusrating = Cusrating;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

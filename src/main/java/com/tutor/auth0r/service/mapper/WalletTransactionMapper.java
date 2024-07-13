@@ -17,6 +17,7 @@ public interface WalletTransactionMapper extends EntityMapper<WalletTransactionD
     WalletTransactionMapper INSTANCE = Mappers.getMapper(WalletTransactionMapper.class);
 
     @Mapping(target = "wallet", source = "wallet", qualifiedByName = "walletId")
+    @Mapping(target = "hireTutor", source = "hireTutor", qualifiedByName = "hireTutorId")
     WalletTransactionDTO toDto(WalletTransaction s);
 
     @Named("hireTutorId")

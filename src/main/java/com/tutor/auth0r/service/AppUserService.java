@@ -4,6 +4,7 @@ import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
 import java.util.List;
@@ -84,6 +85,10 @@ public interface AppUserService {
     Optional<UpdatecertificateDTO> updateCertificate(UpdatecertificateDTO updateCertificateDTO);
 
     Optional<UserProfileDTO> findUserProfile();
+
+    TutorEditProfileDTO findTutorProfile();
+
+    TutorEditProfileDTO updateTutorProfile(TutorEditProfileDTO dto);
 
     Optional<UserProfileDTO> updateUserProfile(UserProfileDTO userProfileDTO);
 }

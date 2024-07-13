@@ -12,6 +12,7 @@ import com.tutor.auth0r.service.TutorService;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfTutorDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
+import com.tutor.auth0r.service.impl.Transactional.TutorCustomService;
 import com.tutor.auth0r.service.mapper.CustomTutorMapper;
 import com.tutor.auth0r.service.mapper.TutorMapper;
 import java.util.Arrays;
@@ -44,18 +45,22 @@ public class TutorServiceImpl implements TutorService {
 
     private final AppUserRepository appUserRepository;
 
+    private final TutorCustomService tutorCustomService;
+
     public TutorServiceImpl(
         TutorRepository tutorRepository,
         TutorMapper tutorMapper,
         CustomTutorMapper customTutorMapper,
         UserRepository userRepository,
-        AppUserRepository appUserRepository
+        AppUserRepository appUserRepository,
+        TutorCustomService tutorCustomService
     ) {
         this.tutorRepository = tutorRepository;
         this.tutorMapper = tutorMapper;
         this.customTutorMapper = customTutorMapper;
         this.userRepository = userRepository;
         this.appUserRepository = appUserRepository;
+        this.tutorCustomService = tutorCustomService;
     }
 
     @Override

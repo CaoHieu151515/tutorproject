@@ -1,29 +1,44 @@
 package com.tutor.auth0r.service.impl;
 
+import static com.tutor.auth0r.security.SecurityUtils.AUTHORITIES_KEY;
+
 import com.tutor.auth0r.domain.AcademicRank;
 import com.tutor.auth0r.domain.AppUser;
+import com.tutor.auth0r.domain.Authority;
 import com.tutor.auth0r.domain.IdentityCard;
 import com.tutor.auth0r.domain.Media;
+import com.tutor.auth0r.domain.TuTorContactWith;
+import com.tutor.auth0r.domain.TutorDetails;
+import com.tutor.auth0r.domain.TutorTeach;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.repository.AppUserRepository;
+import com.tutor.auth0r.repository.AuthorityRepository;
 import com.tutor.auth0r.repository.IdentityCardRepository;
 import com.tutor.auth0r.repository.MediaRepository;
+import com.tutor.auth0r.repository.TuTorContactWithRepository;
+import com.tutor.auth0r.repository.TutorTeachRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
+import com.tutor.auth0r.service.dto.TuTorContactWithDTO;
+import com.tutor.auth0r.service.dto.TutorTeachDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
 import com.tutor.auth0r.service.mapper.AcademicRankMapper;
 import com.tutor.auth0r.service.mapper.AllRecommendMapper;
 import com.tutor.auth0r.service.mapper.AppUserMapper;
+import com.tutor.auth0r.service.mapper.TuTorContactWithMapper;
+import com.tutor.auth0r.service.mapper.TutorTeachMapper;
+import com.tutor.auth0r.web.rest.errors.InvalidInputException;
 import com.tutor.auth0r.web.rest.errors.NotLoggedException;
 import java.util.LinkedList;
 import java.util.List;
@@ -58,6 +73,12 @@ public class AppUserServiceImpl implements AppUserService {
 
     private final AcademicRankMapper academicRankMapper;
 
+    private final AuthorityRepository authorityRepository;
+
+    private final TutorTeachRepository tutorTeachRepository;
+
+    private final TuTorContactWithRepository tuTorContactWithRepository;
+
     public AppUserServiceImpl(
         AppUserRepository appUserRepository,
         AppUserMapper appUserMapper,
@@ -65,7 +86,10 @@ public class AppUserServiceImpl implements AppUserService {
         IdentityCardRepository identityCardRepository,
         MediaRepository mediaRepository,
         AllRecommendMapper allRecommendMapper,
-        AcademicRankMapper academicRankMapper
+        AcademicRankMapper academicRankMapper,
+        AuthorityRepository authorityRepository,
+        TutorTeachRepository tutorTeachRepository,
+        TuTorContactWithRepository tuTorContactWithRepository
     ) {
         this.appUserRepository = appUserRepository;
         this.appUserMapper = appUserMapper;
@@ -74,6 +98,9 @@ public class AppUserServiceImpl implements AppUserService {
         this.mediaRepository = mediaRepository;
         this.allRecommendMapper = allRecommendMapper;
         this.academicRankMapper = academicRankMapper;
+        this.authorityRepository = authorityRepository;
+        this.tutorTeachRepository = tutorTeachRepository;
+        this.tuTorContactWithRepository = tuTorContactWithRepository;
     }
 
     @Override
@@ -172,6 +199,9 @@ public class AppUserServiceImpl implements AppUserService {
         AppUser appUser = appUserRepository.findById(id).orElseThrow(() -> new RuntimeException("AppUser not found"));
         appUser.setBeTutor(true);
         appUser.getTutor().setStatus(TuStatus.OFFLINE);
+
+        Authority newRole = authorityRepository.findById("ROLE_TUTOR").orElseThrow(() -> new RuntimeException("Role not found"));
+        appUser.getUser().getAuthorities().add(newRole);
         appUserRepository.save(appUser);
         return appUserMapper.toDto(appUser);
     }
@@ -187,6 +217,10 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUserDTO updateVerify(AppUserDTO appUserDTO) {
+        if (appUserDTO == null) {
+            throw new InvalidInputException("Input data is null");
+        }
+
         AppUser appUserData = appUserRepository.findById(appUserDTO.getId()).orElseThrow(() -> new RuntimeException("AppUser not found"));
         log.debug("Request to update AppUser : {}", appUserDTO);
 
@@ -264,7 +298,12 @@ public class AppUserServiceImpl implements AppUserService {
             });
     }
 
+    @Override
     public Optional<UpdatecertificateDTO> updateCertificate(UpdatecertificateDTO updateCertificateDTO) {
+        if (updateCertificateDTO == null) {
+            throw new InvalidInputException("Input data is null");
+        }
+
         return userService
             .getCurrentUser()
             .flatMap(user -> {
@@ -337,6 +376,9 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public Optional<UserProfileDTO> updateUserProfile(UserProfileDTO userProfileDTO) {
+        if (userProfileDTO == null) {
+            throw new InvalidInputException("Input data is null");
+        }
         return userService
             .getCurrentUser()
             .flatMap(user -> {
@@ -349,5 +391,78 @@ public class AppUserServiceImpl implements AppUserService {
                 }
                 return Optional.empty();
             });
+    }
+
+    @Override
+    public TutorEditProfileDTO findTutorProfile() {
+        User currentUser = userService.getCurrentUser().orElseThrow(NotLoggedException::new);
+        AppUser appUser = appUserRepository.findByUser(currentUser);
+        return AppUserMapper.INSTANCE.toTutorEditProfileDTO(appUser);
+    }
+
+    @Transactional
+    @Override
+    public TutorEditProfileDTO updateTutorProfile(TutorEditProfileDTO dto) {
+        if (dto == null) {
+            throw new InvalidInputException("Input data is null");
+        }
+        User currentUser = userService.getCurrentUser().orElseThrow(NotLoggedException::new);
+        AppUser appUser = appUserRepository.findByUser(currentUser);
+
+        // Cập nhật các trường đơn giản
+        appUserMapper.updateAppUserFromDto(dto, appUser);
+
+        // Cập nhật thủ công các trường contacts và teachs
+        if (dto.getContacts() != null) {
+            updateContacts(appUser, dto.getContacts());
+        }
+
+        if (dto.getTeachs() != null) {
+            updateTeachs(appUser, dto.getTeachs());
+        }
+
+        appUser = appUserRepository.save(appUser);
+        return appUserMapper.toTutorEditProfileDTO(appUser);
+    }
+
+    private void updateContacts(AppUser appUser, Set<TuTorContactWithDTO> contactDTOs) {
+        TutorDetails tutorDetails = appUser.getTutor().getTutorDetails();
+        Set<TuTorContactWith> currentContacts = tutorDetails.getTutorContacts();
+        Set<TuTorContactWith> updatedContacts = contactDTOs
+            .stream()
+            .map(dto -> {
+                TuTorContactWith contact = new TuTorContactWith();
+                contact.setUrlContact(dto.getUrlContact());
+                contact.setType(dto.getType());
+                contact.setTutorDetails(tutorDetails);
+                return contact;
+            })
+            .collect(Collectors.toSet());
+
+        currentContacts.clear();
+        currentContacts.addAll(updatedContacts);
+        updatedContacts.forEach(tuTorContactWithRepository::save);
+        tutorDetails.setTutorContacts(currentContacts);
+        appUser.getTutor().setTutorDetails(tutorDetails);
+    }
+
+    private void updateTeachs(AppUser appUser, Set<TutorTeachDTO> teachDTOs) {
+        TutorDetails tutorDetails = appUser.getTutor().getTutorDetails();
+        Set<TutorTeach> currentTeachs = tutorDetails.getTutorTeaches();
+        Set<TutorTeach> updatedTeachs = teachDTOs
+            .stream()
+            .map(dto -> {
+                TutorTeach teach = new TutorTeach();
+                teach.setSubject(dto.getSubject());
+                teach.setTutorDetails(tutorDetails);
+                return teach;
+            })
+            .collect(Collectors.toSet());
+
+        currentTeachs.clear();
+        currentTeachs.addAll(updatedTeachs);
+        updatedTeachs.forEach(tutorTeachRepository::save);
+        tutorDetails.setTutorTeaches(currentTeachs);
+        appUser.getTutor().setTutorDetails(tutorDetails);
     }
 }

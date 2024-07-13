@@ -10,6 +10,7 @@ import com.tutor.auth0r.service.RatingService;
 import com.tutor.auth0r.service.TutorService;
 import com.tutor.auth0r.service.dto.RatingDTO;
 import com.tutor.auth0r.service.mapper.RatingMapper;
+import com.tutor.auth0r.web.rest.errors.InvalidInputException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.LinkedList;
@@ -57,6 +58,10 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public RatingDTO save(RatingDTO ratingDTO) {
+        if (ratingDTO == null) {
+            throw new InvalidInputException("Input data is null");
+        }
+
         log.debug("Request to save Rating : {}", ratingDTO);
         Rating rating = ratingMapper.toEntity(ratingDTO);
 
@@ -115,8 +120,9 @@ public class RatingServiceImpl implements RatingService {
     }
 
     /**
-     *  Get all the ratings where AppUser is {@code null}.
-     *  @return the list of entities.
+     * Get all the ratings where AppUser is {@code null}.
+     *
+     * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<RatingDTO> findAllWhereAppUserIsNull() {
