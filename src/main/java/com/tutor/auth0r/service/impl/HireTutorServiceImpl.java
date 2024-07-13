@@ -19,8 +19,10 @@ import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.dto.HireTutorDTO;
 import com.tutor.auth0r.service.mapper.HireTutorMapper;
+import com.tutor.auth0r.web.rest.errors.InvalidInputException;
 import com.tutor.auth0r.web.rest.errors.NotEnoughMoneyException;
 import com.tutor.auth0r.web.rest.errors.NotLoggedException;
+import com.tutor.auth0r.web.rest.errors.UserAlreadyHiringException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,7 +38,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.tutor.auth0r.domain.HireTutor}.
+ * Service Implementation for managing
+ * {@link com.tutor.auth0r.domain.HireTutor}.
  */
 @Service
 @Transactional
@@ -132,6 +135,14 @@ public class HireTutorServiceImpl implements HireTutorService {
 
     @Override
     public HireTutorDTO Hire(HireTutorDTO hireTutorDTO) {
+        if (hireTutorDTO == null) {
+            throw new InvalidInputException("Input data is null");
+        }
+
+        if (hireTutorRepository.existsByAppUserAndStatusDuring(hireTutorDTO.getAppUser().getId())) {
+            throw new UserAlreadyHiringException("The user is already hiring a tutor with DURING status.");
+        }
+
         log.debug("Request to save HireTutor : {}", hireTutorDTO);
         HireTutor hireTutor = hireTutorMapper.toEntity(hireTutorDTO);
 
@@ -213,64 +224,71 @@ public class HireTutorServiceImpl implements HireTutorService {
     }
     // @Override
     // public HireTutorDTO Hire(HireTutorDTO hireTutorDTO) {
-    //     log.debug("Request to save HireTutor : {}", hireTutorDTO);
-    //     HireTutor hireTutor = hireTutorMapper.toEntity(hireTutorDTO);
+    // log.debug("Request to save HireTutor : {}", hireTutorDTO);
+    // HireTutor hireTutor = hireTutorMapper.toEntity(hireTutorDTO);
 
-    //     Optional<AppUser> hirerOptionall = appUserRepository.findById(hireTutor.getAppUser().getId());
-    //     AppUser hirer = hirerOptionall.orElseThrow(() -> new RuntimeException("AppUser not found"));
+    // Optional<AppUser> hirerOptionall =
+    // appUserRepository.findById(hireTutor.getAppUser().getId());
+    // AppUser hirer = hirerOptionall.orElseThrow(() -> new
+    // RuntimeException("AppUser not found"));
 
-    //     Optional<Tutor> tutorOptionall = tutorRepository.findById(hireTutor.getTutor().getId());
-    //     Tutor tutor = tutorOptionall.orElseThrow(() -> new RuntimeException("tutor not found"));
+    // Optional<Tutor> tutorOptionall =
+    // tutorRepository.findById(hireTutor.getTutor().getId());
+    // Tutor tutor = tutorOptionall.orElseThrow(() -> new RuntimeException("tutor
+    // not found"));
 
-    //     hireTutor.setAppUser(hirer);
-    //     hireTutor.setTutor(tutor);
+    // hireTutor.setAppUser(hirer);
+    // hireTutor.setTutor(tutor);
 
-    //     Double TrueAmount = tutor.getPrice()*hireTutor.getTimeHire();
+    // Double TrueAmount = tutor.getPrice()*hireTutor.getTimeHire();
 
-    //     Optional<User> hirerOptional = userService.getUserWithAuthorities();
+    // Optional<User> hirerOptional = userService.getUserWithAuthorities();
 
-    //     Wallet adminWallet = walletService.getAdminWallet();
-    //     Wallet tutorWallet = walletService.getWalletByUserLogin(hireTutor.getAppUser().getUser().getLogin());
-    //     Wallet hirerWallet = walletService.getWalletByUserLogin(hireTutor.getTutor().getAppUser().getUser().getLogin());
+    // Wallet adminWallet = walletService.getAdminWallet();
+    // Wallet tutorWallet =
+    // walletService.getWalletByUserLogin(hireTutor.getAppUser().getUser().getLogin());
+    // Wallet hirerWallet =
+    // walletService.getWalletByUserLogin(hireTutor.getTutor().getAppUser().getUser().getLogin());
 
-    //     Double serviceFee = TrueAmount * pricingProperties.getFreePercentage();
+    // Double serviceFee = TrueAmount * pricingProperties.getFreePercentage();
 
-    //     Double tuTorGain = TrueAmount * pricingProperties.getfreePercentageHireGain();
+    // Double tuTorGain = TrueAmount *
+    // pricingProperties.getfreePercentageHireGain();
 
-    //     if (!hirerOptional.isPresent()) {
-    //         throw new NotLoggedException();
-    //     }
+    // if (!hirerOptional.isPresent()) {
+    // throw new NotLoggedException();
+    // }
 
-    //     if (hirerWallet.getAmount() < TrueAmount) {
-    //         throw new NotEnoughMoneyException();
-    //     }
+    // if (hirerWallet.getAmount() < TrueAmount) {
+    // throw new NotEnoughMoneyException();
+    // }
 
-    //     WalletTransaction hirerWalletTransaction = new WalletTransaction();
-    //     hirerWalletTransaction.setAmount(TrueAmount);
-    //     hirerWalletTransaction.setType(WalletTransactionType.HIRE);
-    //     hirerWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
-    //     hirerWallet.addTransactions(hirerWalletTransaction);
+    // WalletTransaction hirerWalletTransaction = new WalletTransaction();
+    // hirerWalletTransaction.setAmount(TrueAmount);
+    // hirerWalletTransaction.setType(WalletTransactionType.HIRE);
+    // hirerWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
+    // hirerWallet.addTransactions(hirerWalletTransaction);
 
-    //     WalletTransaction tutorWalletTransaction = new WalletTransaction();
-    //     tutorWalletTransaction.setAmount(tuTorGain);
-    //     tutorWalletTransaction.setType(WalletTransactionType.TUTORGAIN);
-    //     tutorWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
-    //     tutorWallet.addTransactions(tutorWalletTransaction);
+    // WalletTransaction tutorWalletTransaction = new WalletTransaction();
+    // tutorWalletTransaction.setAmount(tuTorGain);
+    // tutorWalletTransaction.setType(WalletTransactionType.TUTORGAIN);
+    // tutorWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
+    // tutorWallet.addTransactions(tutorWalletTransaction);
 
-    //     WalletTransaction adminWalletTransaction = new WalletTransaction();
-    //     adminWalletTransaction.setAmount(serviceFee);
-    //     adminWalletTransaction.setType(WalletTransactionType.SERVICE_FEE_EARN);
-    //     adminWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
-    //     adminWallet.addTransactions(adminWalletTransaction);
+    // WalletTransaction adminWalletTransaction = new WalletTransaction();
+    // adminWalletTransaction.setAmount(serviceFee);
+    // adminWalletTransaction.setType(WalletTransactionType.SERVICE_FEE_EARN);
+    // adminWalletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
+    // adminWallet.addTransactions(adminWalletTransaction);
 
-    //     walletService.save(adminWallet);
-    //     walletService.save(tutorWallet);
-    //     walletService.save(hirerWallet);
+    // walletService.save(adminWallet);
+    // walletService.save(tutorWallet);
+    // walletService.save(hirerWallet);
 
-    //     hireTutor.setStatus(HireStatus.DURING);
+    // hireTutor.setStatus(HireStatus.DURING);
 
-    //     hireTutor = hireTutorRepository.save(hireTutor);
+    // hireTutor = hireTutorRepository.save(hireTutor);
 
-    //     return hireTutorMapper.toDto(hireTutor);
+    // return hireTutorMapper.toDto(hireTutor);
     // }
 }
