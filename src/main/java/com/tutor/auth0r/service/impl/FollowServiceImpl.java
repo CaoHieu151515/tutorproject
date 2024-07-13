@@ -116,19 +116,23 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public void FollowAndUnFollow(Long id) {
         User user = userService.getUserWithAuthorities().orElseThrow(NotLoggedException::new);
-
+        Long numberFollow;
+        Follow follow = new Follow();
         AppUser appUser = appUserRepository.findByUser(user);
         Tutor tutor = tutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
 
         followRepository
             .findByFollowerAppUserAndFollowedTutor(appUser, tutor)
             .ifPresentOrElse(followRepository::delete, () -> {
-                Follow follow = new Follow();
                 follow.setFollowerAppUser(appUser);
                 follow.setFollowedTutor(tutor);
                 follow.setCreateDate(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
                 followRepository.save(follow);
             });
+
+        numberFollow = followRepository.countFollowersByTutorId(id);
+        tutor.setFollowerCount(numberFollow);
+        tutorRepository.save(tutor);
     }
 
     // @Override

@@ -7,6 +7,7 @@ public class TuTorCusTomDTO {
 
     private Long tutorID;
     private Boolean follow;
+    private Long numberFollow;
     private int totalHoursHired;
     private double percentSuccess;
     private String firstName;
@@ -37,6 +38,14 @@ public class TuTorCusTomDTO {
 
     public void setFollow(Boolean follow) {
         this.follow = follow;
+    }
+
+    public Long getNumberFollow() {
+        return numberFollow;
+    }
+
+    public void setNumberFollow(Long numberFollow) {
+        this.numberFollow = numberFollow;
     }
 
     // Getter and Setter for totalHoursHired

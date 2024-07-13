@@ -8,6 +8,7 @@ import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.domain.enumeration.HireStatus;
+import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.domain.enumeration.WalletTransactionStatus;
 import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.repository.AppUserRepository;
@@ -158,6 +159,7 @@ public class HireTutorServiceImpl implements HireTutorService {
         hireTutor = hireTutorRepository.save(hireTutor);
 
         processWalletTransactions(hireTutor);
+
         return hireTutorMapper.toDto(hireTutor);
     }
 
@@ -168,6 +170,8 @@ public class HireTutorServiceImpl implements HireTutorService {
 
         Tutor tutor = tutorRepository.findById(hireTutor.getTutor().getId()).orElseThrow(() -> new RuntimeException("Tutor not found"));
 
+        tutor.setStatus(TuStatus.BUSY);
+        tutorRepository.save(tutor);
         hireTutor.setAppUser(hirer);
         hireTutor.setTutor(tutor);
 
@@ -218,6 +222,12 @@ public class HireTutorServiceImpl implements HireTutorService {
     public HireTutorDTO updatesTatus(Long id) {
         log.debug("Request to update HireTutor : {}", id);
         HireTutor hireTutor = hireTutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
+
+        Tutor tutor = tutorRepository.findById(hireTutor.getTutor().getId()).orElseThrow(() -> new RuntimeException("Tutor not found"));
+
+        tutor.setStatus(TuStatus.READY);
+        tutorRepository.save(tutor);
+
         hireTutor.setStatus(HireStatus.DONE);
         hireTutor = hireTutorRepository.save(hireTutor);
         return hireTutorMapper.toDto(hireTutor);

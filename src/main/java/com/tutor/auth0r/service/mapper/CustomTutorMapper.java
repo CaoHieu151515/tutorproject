@@ -45,6 +45,7 @@ public interface CustomTutorMapper {
     @Mapping(source = "tutorDetails.tutorContacts", target = "contact", qualifiedByName = "TuTormapToContact")
     @Mapping(source = "tutorDetails.tutorVideo.media.url", target = "videoUrl")
     @Mapping(target = "cusrating", source = "ratings", qualifiedByName = "ratingUnestTuTor")
+    @Mapping(source = "followerCount", target = "numberFollow")
     TuTorCusTomDTO toDto(Tutor tutor);
 
     // @Named("tutorDetailsId")
