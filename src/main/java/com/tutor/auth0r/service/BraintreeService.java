@@ -13,8 +13,10 @@ import java.time.Instant;
 import java.time.ZoneId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class BraintreeService {
 
     private final BraintreeGateway braintreeGateway;
@@ -38,6 +40,7 @@ public class BraintreeService {
             .submitForSettlement(true)
             .done();
 
+        updateBalance(amount);
         return braintreeGateway.transaction().sale(request);
     }
 

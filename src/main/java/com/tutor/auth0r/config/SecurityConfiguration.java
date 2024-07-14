@@ -78,7 +78,7 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/app-users/*")).permitAll()
                     .requestMatchers(mvc.pattern("/api/hire-tutors/hireTutor")).permitAll()
                     .requestMatchers(mvc.pattern("/api/braintree/**")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/braintree/pay")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/braintree/pay")).authenticated()
                     .requestMatchers(mvc.pattern("/websocket/**")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
