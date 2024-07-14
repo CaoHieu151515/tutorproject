@@ -1,6 +1,7 @@
 package com.tutor.auth0r;
 
 import com.tutor.auth0r.config.ApplicationProperties;
+import com.tutor.auth0r.config.BraintreeConfig;
 import com.tutor.auth0r.config.CRLFLogConverter;
 import com.tutor.auth0r.config.PricingProperties;
 import jakarta.annotation.PostConstruct;

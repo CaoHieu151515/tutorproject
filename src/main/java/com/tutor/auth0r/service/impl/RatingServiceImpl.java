@@ -58,9 +58,9 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public RatingDTO save(RatingDTO ratingDTO) {
-        if (ratingDTO == null) {
-            throw new InvalidInputException("Input data is null");
-        }
+        // if (ratingDTO == null) {
+        //     throw new InvalidInputException("Input data is null");
+        // }
 
         log.debug("Request to save Rating : {}", ratingDTO);
         Rating rating = ratingMapper.toEntity(ratingDTO);

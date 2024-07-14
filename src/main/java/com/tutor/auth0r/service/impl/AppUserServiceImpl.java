@@ -441,7 +441,7 @@ public class AppUserServiceImpl implements AppUserService {
 
         currentContacts.clear();
         currentContacts.addAll(updatedContacts);
-        updatedContacts.forEach(tuTorContactWithRepository::save);
+        // updatedContacts.forEach(tuTorContactWithRepository::save);
         tutorDetails.setTutorContacts(currentContacts);
         appUser.getTutor().setTutorDetails(tutorDetails);
     }
@@ -461,7 +461,7 @@ public class AppUserServiceImpl implements AppUserService {
 
         currentTeachs.clear();
         currentTeachs.addAll(updatedTeachs);
-        updatedTeachs.forEach(tutorTeachRepository::save);
+        // updatedTeachs.forEach(tutorTeachRepository::save);
         tutorDetails.setTutorTeaches(currentTeachs);
         appUser.getTutor().setTutorDetails(tutorDetails);
     }

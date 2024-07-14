@@ -29,11 +29,11 @@ public class TutorDetails implements Serializable {
     @JoinColumn(unique = true)
     private TutorVideo tutorVideo;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "tutorDetails")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "tutorDetails")
     @JsonIgnoreProperties(value = { "tutorDetails" }, allowSetters = true)
     private Set<TutorTeach> tutorTeaches = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tutorDetails")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "tutorDetails")
     @JsonIgnoreProperties(value = { "tutorDetails" }, allowSetters = true)
     private Set<TuTorContactWith> tutorContacts = new HashSet<>();
 

@@ -13,10 +13,16 @@ public class ApplicationProperties {
 
     private final Liquibase liquibase = new Liquibase();
 
+    private final BraintreeProperties braintree = new BraintreeProperties();
+
     // jhipster-needle-application-properties-property
 
     public Liquibase getLiquibase() {
         return liquibase;
+    }
+
+    public BraintreeProperties getBraintree() {
+        return braintree;
     }
 
     // jhipster-needle-application-properties-property-getter
@@ -33,5 +39,36 @@ public class ApplicationProperties {
             this.asyncStart = asyncStart;
         }
     }
-    // jhipster-needle-application-properties-property-class
+
+    public static class BraintreeProperties {
+
+        private String merchantId;
+        private String publicKey;
+        private String privateKey;
+
+        // Getters và setters
+        public String getMerchantId() {
+            return merchantId;
+        }
+
+        public void setMerchantId(String merchantId) {
+            this.merchantId = merchantId;
+        }
+
+        public String getPublicKey() {
+            return publicKey;
+        }
+
+        public void setPublicKey(String publicKey) {
+            this.publicKey = publicKey;
+        }
+
+        public String getPrivateKey() {
+            return privateKey;
+        }
+
+        public void setPrivateKey(String privateKey) {
+            this.privateKey = privateKey;
+        }
+    }
 }
