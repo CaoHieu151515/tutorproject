@@ -53,7 +53,7 @@ public class AppUser implements Serializable {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
-    @JsonIgnoreProperties(value = { "appUser", "tutor" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "walletTransactions", "appUser", "tutor" }, allowSetters = true)
     private Set<HireTutor> hireTutors = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")

@@ -28,6 +28,12 @@
   "name": "WalletTransaction",
   "relationships": [
     {
+      "otherEntityName": "thirdPartyTransaction",
+      "relationshipName": "thirdPartyTransactions",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "hireTutor",
       "otherEntityRelationshipName": "walletTransaction",
       "relationshipName": "hireTutor",

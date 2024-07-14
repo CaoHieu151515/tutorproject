@@ -6,6 +6,8 @@ import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A WalletTransaction.
@@ -35,6 +37,10 @@ public class WalletTransaction implements Serializable {
 
     @Column(name = "create_at")
     private LocalDate createAt;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "walletTransaction")
+    @JsonIgnoreProperties(value = { "walletTransaction" }, allowSetters = true)
+    private Set<ThirdPartyTransaction> thirdPartyTransactions = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "walletTransactions", "appUser", "tutor" }, allowSetters = true)
@@ -109,6 +115,37 @@ public class WalletTransaction implements Serializable {
 
     public void setCreateAt(LocalDate createAt) {
         this.createAt = createAt;
+    }
+
+    public Set<ThirdPartyTransaction> getThirdPartyTransactions() {
+        return this.thirdPartyTransactions;
+    }
+
+    public void setThirdPartyTransactions(Set<ThirdPartyTransaction> thirdPartyTransactions) {
+        if (this.thirdPartyTransactions != null) {
+            this.thirdPartyTransactions.forEach(i -> i.setWalletTransaction(null));
+        }
+        if (thirdPartyTransactions != null) {
+            thirdPartyTransactions.forEach(i -> i.setWalletTransaction(this));
+        }
+        this.thirdPartyTransactions = thirdPartyTransactions;
+    }
+
+    public WalletTransaction thirdPartyTransactions(Set<ThirdPartyTransaction> thirdPartyTransactions) {
+        this.setThirdPartyTransactions(thirdPartyTransactions);
+        return this;
+    }
+
+    public WalletTransaction addThirdPartyTransactions(ThirdPartyTransaction thirdPartyTransaction) {
+        this.thirdPartyTransactions.add(thirdPartyTransaction);
+        thirdPartyTransaction.setWalletTransaction(this);
+        return this;
+    }
+
+    public WalletTransaction removeThirdPartyTransactions(ThirdPartyTransaction thirdPartyTransaction) {
+        this.thirdPartyTransactions.remove(thirdPartyTransaction);
+        thirdPartyTransaction.setWalletTransaction(null);
+        return this;
     }
 
     public HireTutor getHireTutor() {

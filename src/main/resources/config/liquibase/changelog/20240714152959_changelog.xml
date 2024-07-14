@@ -1,0 +1,35 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="Hi (generated)" id="1720971006695-6">
+        <createTable tableName="third_party_transaction">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="third_party_transactionPK"/>
+            </column>
+            <column name="third_party_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="wallet_transaction_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Hi (generated)" id="1720971006695-7">
+        <addForeignKeyConstraint baseColumnNames="wallet_transaction_id" baseTableName="third_party_transaction" constraintName="FKdxgyc06fw3pfukiig47kd6bnv" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="wallet_transaction" validate="true"/>
+    </changeSet>
+    <changeSet author="Hi (generated)" id="1720971006695-1">
+        <modifyDataType columnName="amount" newDataType="float(53)" tableName="wallet"/>
+    </changeSet>
+    <changeSet author="Hi (generated)" id="1720971006695-2">
+        <modifyDataType columnName="amount" newDataType="float(53)" tableName="wallet_transaction"/>
+    </changeSet>
+    <changeSet author="Hi (generated)" id="1720971006695-3">
+        <modifyDataType columnName="email" newDataType="varchar(254)" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Hi (generated)" id="1720971006695-4">
+        <modifyDataType columnName="price" newDataType="float(53)" tableName="tutor"/>
+    </changeSet>
+    <changeSet author="Hi (generated)" id="1720971006695-5">
+        <modifyDataType columnName="total_price" newDataType="float(53)" tableName="hire_tutor"/>
+    </changeSet>
+</databaseChangeLog>

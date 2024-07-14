@@ -31,7 +31,7 @@ public class Wallet implements Serializable {
     private AppUser appUser;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "wallet")
-    @JsonIgnoreProperties(value = { "wallet" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "thirdPartyTransactions", "hireTutor", "wallet" }, allowSetters = true)
     private Set<WalletTransaction> transactions = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

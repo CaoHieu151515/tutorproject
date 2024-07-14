@@ -25,7 +25,8 @@
         "walletMySuffix": "Wallet",
         "walletTransactionMySuffix": "Wallet Transaction",
         "tuTorContactWithMySuffix": "Tu Tor Contact With",
-        "reportMySuffix": "Report"
+        "reportMySuffix": "Report",
+        "thirdPartyTransactionMySuffix": "Third Party Transaction"
       },
       "account": {
         "main": "Tài khoản",

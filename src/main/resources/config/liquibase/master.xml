@@ -29,6 +29,7 @@
     <include file="config/liquibase/changelog/20240610003943_added_entity_WalletTransaction.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240708114600_added_entity_TuTorContactWith.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240708114601_added_entity_Report.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240714150813_added_entity_ThirdPartyTransaction.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20240610003928_added_entity_constraints_AcademicRank.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240610003929_added_entity_constraints_AppUser.xml" relativeToChangelogFile="false"/>
@@ -47,6 +48,7 @@
     <include file="config/liquibase/changelog/20240610003943_added_entity_constraints_WalletTransaction.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240708114600_added_entity_constraints_TuTorContactWith.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240708114601_added_entity_constraints_Report.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240714150813_added_entity_constraints_ThirdPartyTransaction.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

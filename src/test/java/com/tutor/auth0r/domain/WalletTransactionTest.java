@@ -1,11 +1,14 @@
 package com.tutor.auth0r.domain;
 
 import static com.tutor.auth0r.domain.HireTutorTestSamples.*;
+import static com.tutor.auth0r.domain.ThirdPartyTransactionTestSamples.*;
 import static com.tutor.auth0r.domain.WalletTestSamples.*;
 import static com.tutor.auth0r.domain.WalletTransactionTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tutor.auth0r.web.rest.TestUtil;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class WalletTransactionTest {
@@ -22,6 +25,28 @@ class WalletTransactionTest {
 
         walletTransaction2 = getWalletTransactionSample2();
         assertThat(walletTransaction1).isNotEqualTo(walletTransaction2);
+    }
+
+    @Test
+    void thirdPartyTransactionsTest() {
+        WalletTransaction walletTransaction = getWalletTransactionRandomSampleGenerator();
+        ThirdPartyTransaction thirdPartyTransactionBack = getThirdPartyTransactionRandomSampleGenerator();
+
+        walletTransaction.addThirdPartyTransactions(thirdPartyTransactionBack);
+        assertThat(walletTransaction.getThirdPartyTransactions()).containsOnly(thirdPartyTransactionBack);
+        assertThat(thirdPartyTransactionBack.getWalletTransaction()).isEqualTo(walletTransaction);
+
+        walletTransaction.removeThirdPartyTransactions(thirdPartyTransactionBack);
+        assertThat(walletTransaction.getThirdPartyTransactions()).doesNotContain(thirdPartyTransactionBack);
+        assertThat(thirdPartyTransactionBack.getWalletTransaction()).isNull();
+
+        walletTransaction.thirdPartyTransactions(new HashSet<>(Set.of(thirdPartyTransactionBack)));
+        assertThat(walletTransaction.getThirdPartyTransactions()).containsOnly(thirdPartyTransactionBack);
+        assertThat(thirdPartyTransactionBack.getWalletTransaction()).isEqualTo(walletTransaction);
+
+        walletTransaction.setThirdPartyTransactions(new HashSet<>());
+        assertThat(walletTransaction.getThirdPartyTransactions()).doesNotContain(thirdPartyTransactionBack);
+        assertThat(thirdPartyTransactionBack.getWalletTransaction()).isNull();
     }
 
     @Test

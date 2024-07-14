@@ -21,6 +21,7 @@ import WalletMySuffix from './wallet-my-suffix';
 import WalletTransactionMySuffix from './wallet-transaction-my-suffix';
 import TuTorContactWithMySuffix from './tu-tor-contact-with-my-suffix';
 import ReportMySuffix from './report-my-suffix';
+import ThirdPartyTransactionMySuffix from './third-party-transaction-my-suffix';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -46,6 +47,7 @@ export default () => {
         <Route path="wallet-transaction-my-suffix/*" element={<WalletTransactionMySuffix />} />
         <Route path="tu-tor-contact-with-my-suffix/*" element={<TuTorContactWithMySuffix />} />
         <Route path="report-my-suffix/*" element={<ReportMySuffix />} />
+        <Route path="third-party-transaction-my-suffix/*" element={<ThirdPartyTransactionMySuffix />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>

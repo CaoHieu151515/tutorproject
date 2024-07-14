@@ -40,7 +40,7 @@ public class HireTutor implements Serializable {
     private LocalDate endAt;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "hireTutor")
-    @JsonIgnoreProperties(value = { "hireTutor", "wallet" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "thirdPartyTransactions", "hireTutor", "wallet" }, allowSetters = true)
     private Set<WalletTransaction> walletTransactions = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

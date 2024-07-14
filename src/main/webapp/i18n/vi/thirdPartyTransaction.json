@@ -1,0 +1,26 @@
+{
+  "projectApp": {
+    "thirdPartyTransaction": {
+      "home": {
+        "title": "Third Party Transactions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Third Party Transaction",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Third Party Transaction",
+        "notFound": "No Third Party Transactions found"
+      },
+      "created": "Một Third Party Transaction mới được tạo với định danh {{ param }}",
+      "updated": "Một Third Party Transaction cập nhật với định danh {{ param }}",
+      "deleted": "Một Third Party Transaction đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Third Party Transaction {{ id }}?"
+      },
+      "detail": {
+        "title": "Third Party Transaction"
+      },
+      "id": "ID",
+      "thirdPartyId": "Third Party Id",
+      "transactionDate": "Transaction Date",
+      "walletTransaction": "Wallet Transaction"
+    }
+  }
+}
