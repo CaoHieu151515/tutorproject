@@ -133,4 +133,8 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  braintree:
+    merchant-id: dfw566wbpz3sp7st
+    public-key: twq69wpt67wdfm98
+    private-key: 5521277e2d4895bc87c314dcce0ac64d
