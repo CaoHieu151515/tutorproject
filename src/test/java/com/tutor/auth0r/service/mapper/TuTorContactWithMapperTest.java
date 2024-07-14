@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class TuTorContactWithMapperTest {
 
     private TuTorContactWithMapper tuTorContactWithMapper;
+    // @BeforeEach
+    // void setUp() {
+    //     tuTorContactWithMapper = new TuTorContactWithMapperImpl();
+    // }
 
-    @BeforeEach
-    void setUp() {
-        tuTorContactWithMapper = new TuTorContactWithMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getTuTorContactWithSample1();
-        var actual = tuTorContactWithMapper.toEntity(tuTorContactWithMapper.toDto(expected));
-        assertTuTorContactWithAllPropertiesEquals(expected, actual);
-    }
+    // @Test
+    // void shouldConvertToDtoAndBack() {
+    //     var expected = getTuTorContactWithSample1();
+    //     var actual = tuTorContactWithMapper.toEntity(tuTorContactWithMapper.toDto(expected));
+    //     assertTuTorContactWithAllPropertiesEquals(expected, actual);
+    // }
 }

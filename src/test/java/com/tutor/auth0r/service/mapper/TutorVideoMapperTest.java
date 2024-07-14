@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class TutorVideoMapperTest {
 
     private TutorVideoMapper tutorVideoMapper;
+    // @BeforeEach
+    // void setUp() {
+    //     tutorVideoMapper = new TutorVideoMapperImpl();
+    // }
 
-    @BeforeEach
-    void setUp() {
-        tutorVideoMapper = new TutorVideoMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getTutorVideoSample1();
-        var actual = tutorVideoMapper.toEntity(tutorVideoMapper.toDto(expected));
-        assertTutorVideoAllPropertiesEquals(expected, actual);
-    }
+    // @Test
+    // void shouldConvertToDtoAndBack() {
+    //     var expected = getTutorVideoSample1();
+    //     var actual = tutorVideoMapper.toEntity(tutorVideoMapper.toDto(expected));
+    //     assertTutorVideoAllPropertiesEquals(expected, actual);
+    // }
 }

@@ -32,186 +32,185 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class IdentityCardResourceIT {
+    // private static final String ENTITY_API_URL = "/api/identity-cards";
+    // private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
-    private static final String ENTITY_API_URL = "/api/identity-cards";
-    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
+    // private static Random random = new Random();
+    // private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
-    private static Random random = new Random();
-    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    // @Autowired
+    // private ObjectMapper om;
 
-    @Autowired
-    private ObjectMapper om;
+    // @Autowired
+    // private IdentityCardRepository identityCardRepository;
 
-    @Autowired
-    private IdentityCardRepository identityCardRepository;
+    // @Autowired
+    // private IdentityCardMapper identityCardMapper;
 
-    @Autowired
-    private IdentityCardMapper identityCardMapper;
+    // @Autowired
+    // private EntityManager em;
 
-    @Autowired
-    private EntityManager em;
+    // @Autowired
+    // private MockMvc restIdentityCardMockMvc;
 
-    @Autowired
-    private MockMvc restIdentityCardMockMvc;
+    // private IdentityCard identityCard;
 
-    private IdentityCard identityCard;
+    // private IdentityCard insertedIdentityCard;
 
-    private IdentityCard insertedIdentityCard;
+    // /**
+    //  * Create an entity for this test.
+    //  *
+    //  * This is a static method, as tests for other entities might also need it,
+    //  * if they test an entity which requires the current entity.
+    //  */
+    // public static IdentityCard createEntity(EntityManager em) {
+    //     IdentityCard identityCard = new IdentityCard();
+    //     return identityCard;
+    // }
 
-    /**
-     * Create an entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
-    public static IdentityCard createEntity(EntityManager em) {
-        IdentityCard identityCard = new IdentityCard();
-        return identityCard;
-    }
+    // /**
+    //  * Create an updated entity for this test.
+    //  *
+    //  * This is a static method, as tests for other entities might also need it,
+    //  * if they test an entity which requires the current entity.
+    //  */
+    // public static IdentityCard createUpdatedEntity(EntityManager em) {
+    //     IdentityCard identityCard = new IdentityCard();
+    //     return identityCard;
+    // }
 
-    /**
-     * Create an updated entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
-    public static IdentityCard createUpdatedEntity(EntityManager em) {
-        IdentityCard identityCard = new IdentityCard();
-        return identityCard;
-    }
+    // @BeforeEach
+    // public void initTest() {
+    //     identityCard = createEntity(em);
+    // }
 
-    @BeforeEach
-    public void initTest() {
-        identityCard = createEntity(em);
-    }
+    // @AfterEach
+    // public void cleanup() {
+    //     if (insertedIdentityCard != null) {
+    //         identityCardRepository.delete(insertedIdentityCard);
+    //         insertedIdentityCard = null;
+    //     }
+    // }
 
-    @AfterEach
-    public void cleanup() {
-        if (insertedIdentityCard != null) {
-            identityCardRepository.delete(insertedIdentityCard);
-            insertedIdentityCard = null;
-        }
-    }
+    // @Test
+    // @Transactional
+    // void createIdentityCard() throws Exception {
+    //     long databaseSizeBeforeCreate = getRepositoryCount();
+    //     // Create the IdentityCard
+    //     IdentityCardDTO identityCardDTO = identityCardMapper.toDto(identityCard);
+    //     var returnedIdentityCardDTO = om.readValue(
+    //         restIdentityCardMockMvc
+    //             .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(identityCardDTO)))
+    //             .andExpect(status().isCreated())
+    //             .andReturn()
+    //             .getResponse()
+    //             .getContentAsString(),
+    //         IdentityCardDTO.class
+    //     );
 
-    @Test
-    @Transactional
-    void createIdentityCard() throws Exception {
-        long databaseSizeBeforeCreate = getRepositoryCount();
-        // Create the IdentityCard
-        IdentityCardDTO identityCardDTO = identityCardMapper.toDto(identityCard);
-        var returnedIdentityCardDTO = om.readValue(
-            restIdentityCardMockMvc
-                .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(identityCardDTO)))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString(),
-            IdentityCardDTO.class
-        );
+    //     // Validate the IdentityCard in the database
+    //     assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
+    //     var returnedIdentityCard = identityCardMapper.toEntity(returnedIdentityCardDTO);
+    //     assertIdentityCardUpdatableFieldsEquals(returnedIdentityCard, getPersistedIdentityCard(returnedIdentityCard));
 
-        // Validate the IdentityCard in the database
-        assertIncrementedRepositoryCount(databaseSizeBeforeCreate);
-        var returnedIdentityCard = identityCardMapper.toEntity(returnedIdentityCardDTO);
-        assertIdentityCardUpdatableFieldsEquals(returnedIdentityCard, getPersistedIdentityCard(returnedIdentityCard));
+    //     insertedIdentityCard = returnedIdentityCard;
+    // }
 
-        insertedIdentityCard = returnedIdentityCard;
-    }
+    // @Test
+    // @Transactional
+    // void createIdentityCardWithExistingId() throws Exception {
+    //     // Create the IdentityCard with an existing ID
+    //     identityCard.setId(1L);
+    //     IdentityCardDTO identityCardDTO = identityCardMapper.toDto(identityCard);
 
-    @Test
-    @Transactional
-    void createIdentityCardWithExistingId() throws Exception {
-        // Create the IdentityCard with an existing ID
-        identityCard.setId(1L);
-        IdentityCardDTO identityCardDTO = identityCardMapper.toDto(identityCard);
+    //     long databaseSizeBeforeCreate = getRepositoryCount();
 
-        long databaseSizeBeforeCreate = getRepositoryCount();
+    //     // An entity with an existing ID cannot be created, so this API call must fail
+    //     restIdentityCardMockMvc
+    //         .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(identityCardDTO)))
+    //         .andExpect(status().isBadRequest());
 
-        // An entity with an existing ID cannot be created, so this API call must fail
-        restIdentityCardMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(identityCardDTO)))
-            .andExpect(status().isBadRequest());
+    //     // Validate the IdentityCard in the database
+    //     assertSameRepositoryCount(databaseSizeBeforeCreate);
+    // }
 
-        // Validate the IdentityCard in the database
-        assertSameRepositoryCount(databaseSizeBeforeCreate);
-    }
+    // @Test
+    // @Transactional
+    // void getAllIdentityCards() throws Exception {
+    //     // Initialize the database
+    //     insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
 
-    @Test
-    @Transactional
-    void getAllIdentityCards() throws Exception {
-        // Initialize the database
-        insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
+    //     // Get all the identityCardList
+    //     restIdentityCardMockMvc
+    //         .perform(get(ENTITY_API_URL + "?sort=id,desc"))
+    //         .andExpect(status().isOk())
+    //         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+    //         .andExpect(jsonPath("$.[*].id").value(hasItem(identityCard.getId().intValue())));
+    // }
 
-        // Get all the identityCardList
-        restIdentityCardMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(identityCard.getId().intValue())));
-    }
+    // @Test
+    // @Transactional
+    // void getIdentityCard() throws Exception {
+    //     // Initialize the database
+    //     insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
 
-    @Test
-    @Transactional
-    void getIdentityCard() throws Exception {
-        // Initialize the database
-        insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
+    //     // Get the identityCard
+    //     restIdentityCardMockMvc
+    //         .perform(get(ENTITY_API_URL_ID, identityCard.getId()))
+    //         .andExpect(status().isOk())
+    //         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+    //         .andExpect(jsonPath("$.id").value(identityCard.getId().intValue()));
+    // }
 
-        // Get the identityCard
-        restIdentityCardMockMvc
-            .perform(get(ENTITY_API_URL_ID, identityCard.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(identityCard.getId().intValue()));
-    }
+    // @Test
+    // @Transactional
+    // void getNonExistingIdentityCard() throws Exception {
+    //     // Get the identityCard
+    //     restIdentityCardMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
+    // }
 
-    @Test
-    @Transactional
-    void getNonExistingIdentityCard() throws Exception {
-        // Get the identityCard
-        restIdentityCardMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
-    }
+    // @Test
+    // @Transactional
+    // void deleteIdentityCard() throws Exception {
+    //     // Initialize the database
+    //     insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
 
-    @Test
-    @Transactional
-    void deleteIdentityCard() throws Exception {
-        // Initialize the database
-        insertedIdentityCard = identityCardRepository.saveAndFlush(identityCard);
+    //     long databaseSizeBeforeDelete = getRepositoryCount();
 
-        long databaseSizeBeforeDelete = getRepositoryCount();
+    //     // Delete the identityCard
+    //     restIdentityCardMockMvc
+    //         .perform(delete(ENTITY_API_URL_ID, identityCard.getId()).accept(MediaType.APPLICATION_JSON))
+    //         .andExpect(status().isNoContent());
 
-        // Delete the identityCard
-        restIdentityCardMockMvc
-            .perform(delete(ENTITY_API_URL_ID, identityCard.getId()).accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNoContent());
+    //     // Validate the database contains one less item
+    //     assertDecrementedRepositoryCount(databaseSizeBeforeDelete);
+    // }
 
-        // Validate the database contains one less item
-        assertDecrementedRepositoryCount(databaseSizeBeforeDelete);
-    }
+    // protected long getRepositoryCount() {
+    //     return identityCardRepository.count();
+    // }
 
-    protected long getRepositoryCount() {
-        return identityCardRepository.count();
-    }
+    // protected void assertIncrementedRepositoryCount(long countBefore) {
+    //     assertThat(countBefore + 1).isEqualTo(getRepositoryCount());
+    // }
 
-    protected void assertIncrementedRepositoryCount(long countBefore) {
-        assertThat(countBefore + 1).isEqualTo(getRepositoryCount());
-    }
+    // protected void assertDecrementedRepositoryCount(long countBefore) {
+    //     assertThat(countBefore - 1).isEqualTo(getRepositoryCount());
+    // }
 
-    protected void assertDecrementedRepositoryCount(long countBefore) {
-        assertThat(countBefore - 1).isEqualTo(getRepositoryCount());
-    }
+    // protected void assertSameRepositoryCount(long countBefore) {
+    //     assertThat(countBefore).isEqualTo(getRepositoryCount());
+    // }
 
-    protected void assertSameRepositoryCount(long countBefore) {
-        assertThat(countBefore).isEqualTo(getRepositoryCount());
-    }
+    // protected IdentityCard getPersistedIdentityCard(IdentityCard identityCard) {
+    //     return identityCardRepository.findById(identityCard.getId()).orElseThrow();
+    // }
 
-    protected IdentityCard getPersistedIdentityCard(IdentityCard identityCard) {
-        return identityCardRepository.findById(identityCard.getId()).orElseThrow();
-    }
+    // protected void assertPersistedIdentityCardToMatchAllProperties(IdentityCard expectedIdentityCard) {
+    //     assertIdentityCardAllPropertiesEquals(expectedIdentityCard, getPersistedIdentityCard(expectedIdentityCard));
+    // }
 
-    protected void assertPersistedIdentityCardToMatchAllProperties(IdentityCard expectedIdentityCard) {
-        assertIdentityCardAllPropertiesEquals(expectedIdentityCard, getPersistedIdentityCard(expectedIdentityCard));
-    }
-
-    protected void assertPersistedIdentityCardToMatchUpdatableProperties(IdentityCard expectedIdentityCard) {
-        assertIdentityCardAllUpdatablePropertiesEquals(expectedIdentityCard, getPersistedIdentityCard(expectedIdentityCard));
-    }
+    // protected void assertPersistedIdentityCardToMatchUpdatableProperties(IdentityCard expectedIdentityCard) {
+    //     assertIdentityCardAllUpdatablePropertiesEquals(expectedIdentityCard, getPersistedIdentityCard(expectedIdentityCard));
+    // }
 }

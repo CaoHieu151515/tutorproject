@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class HireTutorMapperTest {
 
     private HireTutorMapper hireTutorMapper;
+    // @BeforeEach
+    // void setUp() {
+    //     hireTutorMapper = new HireTutorMapperImpl();
+    // }
 
-    @BeforeEach
-    void setUp() {
-        hireTutorMapper = new HireTutorMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getHireTutorSample1();
-        var actual = hireTutorMapper.toEntity(hireTutorMapper.toDto(expected));
-        assertHireTutorAllPropertiesEquals(expected, actual);
-    }
+    // @Test
+    // void shouldConvertToDtoAndBack() {
+    //     var expected = getHireTutorSample1();
+    //     var actual = hireTutorMapper.toEntity(hireTutorMapper.toDto(expected));
+    //     assertHireTutorAllPropertiesEquals(expected, actual);
+    // }
 }

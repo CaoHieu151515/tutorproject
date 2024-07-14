@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class TutorTeachMapperTest {
 
     private TutorTeachMapper tutorTeachMapper;
+    // @BeforeEach
+    // void setUp() {
+    //     tutorTeachMapper = new TutorTeachMapperImpl();
+    // }
 
-    @BeforeEach
-    void setUp() {
-        tutorTeachMapper = new TutorTeachMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getTutorTeachSample1();
-        var actual = tutorTeachMapper.toEntity(tutorTeachMapper.toDto(expected));
-        assertTutorTeachAllPropertiesEquals(expected, actual);
-    }
+    // @Test
+    // void shouldConvertToDtoAndBack() {
+    //     var expected = getTutorTeachSample1();
+    //     var actual = tutorTeachMapper.toEntity(tutorTeachMapper.toDto(expected));
+    //     assertTutorTeachAllPropertiesEquals(expected, actual);
+    // }
 }

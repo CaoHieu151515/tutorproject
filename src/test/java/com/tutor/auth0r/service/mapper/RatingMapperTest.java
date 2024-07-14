@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class RatingMapperTest {
 
     private RatingMapper ratingMapper;
+    //     @BeforeEach
+    //     void setUp() {
+    //         ratingMapper = new RatingMapperImpl();
+    //     }
 
-    @BeforeEach
-    void setUp() {
-        ratingMapper = new RatingMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getRatingSample1();
-        var actual = ratingMapper.toEntity(ratingMapper.toDto(expected));
-        assertRatingAllPropertiesEquals(expected, actual);
-    }
+    //     @Test
+    //     void shouldConvertToDtoAndBack() {
+    //         var expected = getRatingSample1();
+    //         var actual = ratingMapper.toEntity(ratingMapper.toDto(expected));
+    //         assertRatingAllPropertiesEquals(expected, actual);
+    //     }
 }

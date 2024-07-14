@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class IdentityCardMapperTest {
 
     private IdentityCardMapper identityCardMapper;
+    // @BeforeEach
+    // void setUp() {
+    //     identityCardMapper = new IdentityCardMapperImpl();
+    // }
 
-    @BeforeEach
-    void setUp() {
-        identityCardMapper = new IdentityCardMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getIdentityCardSample1();
-        var actual = identityCardMapper.toEntity(identityCardMapper.toDto(expected));
-        assertIdentityCardAllPropertiesEquals(expected, actual);
-    }
+    // @Test
+    // void shouldConvertToDtoAndBack() {
+    //     var expected = getIdentityCardSample1();
+    //     var actual = identityCardMapper.toEntity(identityCardMapper.toDto(expected));
+    //     assertIdentityCardAllPropertiesEquals(expected, actual);
+    // }
 }

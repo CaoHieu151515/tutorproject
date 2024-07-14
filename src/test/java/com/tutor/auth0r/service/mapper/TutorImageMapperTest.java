@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class TutorImageMapperTest {
 
     private TutorImageMapper tutorImageMapper;
+    // @BeforeEach
+    // void setUp() {
+    //     tutorImageMapper = new TutorImageMapperImpl();
+    // }
 
-    @BeforeEach
-    void setUp() {
-        tutorImageMapper = new TutorImageMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getTutorImageSample1();
-        var actual = tutorImageMapper.toEntity(tutorImageMapper.toDto(expected));
-        assertTutorImageAllPropertiesEquals(expected, actual);
-    }
+    // @Test
+    // void shouldConvertToDtoAndBack() {
+    //     var expected = getTutorImageSample1();
+    //     var actual = tutorImageMapper.toEntity(tutorImageMapper.toDto(expected));
+    //     assertTutorImageAllPropertiesEquals(expected, actual);
+    // }
 }

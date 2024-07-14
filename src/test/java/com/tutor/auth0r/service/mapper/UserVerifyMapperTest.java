@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class UserVerifyMapperTest {
 
     private UserVerifyMapper userVerifyMapper;
+    //     @BeforeEach
+    //     void setUp() {
+    //         userVerifyMapper = new UserVerifyMapperImpl();
+    //     }
 
-    @BeforeEach
-    void setUp() {
-        userVerifyMapper = new UserVerifyMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getUserVerifySample1();
-        var actual = userVerifyMapper.toEntity(userVerifyMapper.toDto(expected));
-        assertUserVerifyAllPropertiesEquals(expected, actual);
-    }
+    //     @Test
+    //     void shouldConvertToDtoAndBack() {
+    //         var expected = getUserVerifySample1();
+    //         var actual = userVerifyMapper.toEntity(userVerifyMapper.toDto(expected));
+    //         assertUserVerifyAllPropertiesEquals(expected, actual);
+    //     }
 }

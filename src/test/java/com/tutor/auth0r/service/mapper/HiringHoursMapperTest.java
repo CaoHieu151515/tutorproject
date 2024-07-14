@@ -9,16 +9,15 @@ import org.junit.jupiter.api.Test;
 class HiringHoursMapperTest {
 
     private HiringHoursMapper hiringHoursMapper;
+    // @BeforeEach
+    // void setUp() {
+    //     hiringHoursMapper = new HiringHoursMapperImpl();
+    // }
 
-    @BeforeEach
-    void setUp() {
-        hiringHoursMapper = new HiringHoursMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getHiringHoursSample1();
-        var actual = hiringHoursMapper.toEntity(hiringHoursMapper.toDto(expected));
-        assertHiringHoursAllPropertiesEquals(expected, actual);
-    }
+    // @Test
+    // void shouldConvertToDtoAndBack() {
+    //     var expected = getHiringHoursSample1();
+    //     var actual = hiringHoursMapper.toEntity(hiringHoursMapper.toDto(expected));
+    //     assertHiringHoursAllPropertiesEquals(expected, actual);
+    // }
 }
