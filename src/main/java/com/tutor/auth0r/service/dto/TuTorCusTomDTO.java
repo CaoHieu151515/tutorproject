@@ -6,6 +6,8 @@ import java.util.Set;
 public class TuTorCusTomDTO {
 
     private Long tutorID;
+    private String userName;
+
     private Boolean follow;
     private Long numberFollow;
     private int totalHoursHired;
@@ -30,6 +32,14 @@ public class TuTorCusTomDTO {
 
     public void setTutorID(Long tutorID) {
         this.tutorID = tutorID;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Boolean getFollow() {

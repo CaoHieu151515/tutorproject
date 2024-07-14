@@ -33,6 +33,7 @@ public interface CustomTutorMapper {
     @Mapping(source = "id", target = "tutorID")
     @Mapping(target = "totalHoursHired", source = "hireTutors", qualifiedByName = "totalHoursHired")
     @Mapping(target = "percentSuccess", expression = "java(calculatePercentSuccess(tutor))")
+    @Mapping(source = "appUser.user.login", target = "userName")
     @Mapping(source = "appUser.user.firstName", target = "firstName")
     @Mapping(source = "appUser.user.lastName", target = "lastName")
     @Mapping(source = "appUser.user.email", target = "email")

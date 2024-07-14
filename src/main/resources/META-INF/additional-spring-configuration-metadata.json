@@ -24,26 +24,6 @@
       "name": "spring.liquibase.hibernate.ddl-auto",
       "type": "java.lang.String",
       "description": "A description for 'spring.liquibase.hibernate.ddl-auto'"
-    },
-    {
-      "name": "application.braintree.merchant-id",
-      "type": "java.lang.String",
-      "description": "A description for 'application.braintree.merchant-id'"
-    },
-    {
-      "name": "application.braintree.private-key",
-      "type": "java.lang.String",
-      "description": "Braintree private key."
-    },
-    {
-      "name": "application.braintree.merchant-id",
-      "type": "java.lang.String",
-      "description": "Braintree merchant ID."
-    },
-    {
-      "name": "application.braintree.public-key",
-      "type": "java.lang.String",
-      "description": "Braintree public key."
     }
   ]
 }

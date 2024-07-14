@@ -20,8 +20,6 @@ public class ChatService {
 
     public ChatMessageDTO processMessage(ChatMessageDTO message) {
         String roomId = getRoomId(message.getSender(), message.getReceiver());
-        message.setRoomId(roomId);
-
         // Lưu tin nhắn vào lịch sử
         messageHistory.computeIfAbsent(roomId, k -> new ArrayList<>()).add(message);
 

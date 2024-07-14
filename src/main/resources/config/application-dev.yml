@@ -87,7 +87,7 @@ spring:
     cache: false
 
 server:
-  port: 8081
+  port: 8080
 
 # ===================================================================
 # JHipster specific properties
@@ -133,8 +133,4 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
-  braintree:
-    merchant-id: dfw566wbpz3sp7st
-    public-key: twq69wpt67wdfm98
-    private-key: 5521277e2d4895bc87c314dcce0ac64d
+# application:

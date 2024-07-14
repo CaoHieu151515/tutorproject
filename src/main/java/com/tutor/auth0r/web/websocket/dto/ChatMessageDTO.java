@@ -5,15 +5,14 @@ public class ChatMessageDTO {
     private String sender;
     private String receiver;
     private String content;
-    private String roomId;
+    private String messageId;
 
     public ChatMessageDTO() {}
 
-    public ChatMessageDTO(String sender, String receiver, String content, String roomId) {
+    public ChatMessageDTO(String sender, String receiver, String content) {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
-        this.roomId = roomId;
     }
 
     // Getters and setters
@@ -41,11 +40,11 @@ public class ChatMessageDTO {
         this.content = content;
     }
 
-    public String getRoomId() {
-        return roomId;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 }

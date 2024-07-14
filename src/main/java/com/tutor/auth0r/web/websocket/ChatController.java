@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -32,24 +33,23 @@ public class ChatController {
     }
 
     @MessageMapping("/chat.sendMessage")
-    public void sendMessage(ChatMessageDTO message) {
+    public void sendMessage(@Payload ChatMessageDTO message) {
         // Tạo phòng nếu chưa tồn tại
         log.debug("asdasdasdasdasdsadsadsadsadsa", message);
 
-        String roomId = chatService.getRoomId(message.getSender(), message.getReceiver());
-        if (!chatService.roomExists(roomId)) {
-            chatService.createRoom(message.getSender(), message.getReceiver());
-        }
-
-        // Xử lý và gửi tin nhắn
-        ChatMessageDTO processedMessage = chatService.processMessage(message);
-        messagingTemplate.convertAndSend("/topic/rooms/" + roomId, processedMessage);
+        // String roomId = chatService.getRoomId(message.getSender(), message.getReceiver());
+        // if (!chatService.roomExists(roomId)) {
+        //     chatService.createRoom(message.getSender(), message.getReceiver());
+        // }
+        // ChatMessageDTO processedMessage = chatService.processMessage(message);
+        messagingTemplate.convertAndSend("/topic/chatAll", message);
+        log.debug("Message sent to public: {}", message);
     }
-    // @MessageMapping("/chat.createRoom")
-    // public void createRoom(RoomDTO room) {
-    //     chatService.createRoom(room.getUser1(), room.getUser2());
-    // }
 
+    @MessageMapping("/chat.createRoom")
+    public void createRoom(RoomDTO room) {
+        chatService.createRoom(room.getUser1(), room.getUser2());
+    }
     // @MessageMapping("/chat.userOffline")
     // public void userOffline(ChatUserStatus userStatus) {
     //     String username = userStatus.getUsername();
