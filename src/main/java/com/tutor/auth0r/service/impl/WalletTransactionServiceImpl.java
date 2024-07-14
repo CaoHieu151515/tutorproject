@@ -2,6 +2,8 @@ package com.tutor.auth0r.service.impl;
 
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.WalletTransaction;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionStatus;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.repository.WalletTransactionRepository;
 import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.WalletTransactionService;
@@ -120,5 +122,10 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
         monthlyRevenueDTO.setTotalRevenue(totalRevenue);
         monthlyRevenueDTO.setTransactions(new HashSet<>(transactions));
         return monthlyRevenueDTO;
+    }
+
+    @Override
+    public List<WalletTransaction> getWithdrawals() {
+        return walletTransactionRepository.findByType(WalletTransactionType.WITHDRAWAL);
     }
 }

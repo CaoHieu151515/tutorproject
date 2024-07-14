@@ -32,6 +32,8 @@ public class BraintreeController {
 
         if (result.isSuccess()) {
             Transaction transaction = result.getTarget();
+
+            braintreeService.updateBalance(decimalAmount, transaction.getId());
             return ResponseEntity.ok(transaction.getId()); // Trả về ID của giao dịch
         } else {
             return ResponseEntity.status(500).body("Transaction failed");

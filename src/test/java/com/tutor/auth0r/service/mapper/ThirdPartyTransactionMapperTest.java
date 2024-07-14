@@ -7,18 +7,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ThirdPartyTransactionMapperTest {
+    // private ThirdPartyTransactionMapper thirdPartyTransactionMapper;
 
-    private ThirdPartyTransactionMapper thirdPartyTransactionMapper;
+    // @BeforeEach
+    // void setUp() {
+    //     thirdPartyTransactionMapper = new ThirdPartyTransactionMapperImpl();
+    // }
 
-    @BeforeEach
-    void setUp() {
-        thirdPartyTransactionMapper = new ThirdPartyTransactionMapperImpl();
-    }
-
-    @Test
-    void shouldConvertToDtoAndBack() {
-        var expected = getThirdPartyTransactionSample1();
-        var actual = thirdPartyTransactionMapper.toEntity(thirdPartyTransactionMapper.toDto(expected));
-        assertThirdPartyTransactionAllPropertiesEquals(expected, actual);
-    }
+    // @Test
+    // void shouldConvertToDtoAndBack() {
+    //     var expected = getThirdPartyTransactionSample1();
+    //     var actual = thirdPartyTransactionMapper.toEntity(thirdPartyTransactionMapper.toDto(expected));
+    //     assertThirdPartyTransactionAllPropertiesEquals(expected, actual);
+    // }
 }

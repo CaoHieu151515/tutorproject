@@ -1,7 +1,12 @@
 package com.tutor.auth0r.service.impl;
 
+import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Report;
+import com.tutor.auth0r.domain.Tutor;
+import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.ReportRepository;
+import com.tutor.auth0r.repository.TutorRepository;
+import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.ReportService;
 import com.tutor.auth0r.service.dto.ReportDTO;
 import com.tutor.auth0r.service.mapper.ReportMapper;
@@ -27,15 +32,40 @@ public class ReportServiceImpl implements ReportService {
 
     private final ReportMapper reportMapper;
 
-    public ReportServiceImpl(ReportRepository reportRepository, ReportMapper reportMapper) {
+    private final AppUserService appUserService;
+
+    private final TutorRepository tutorRepository;
+
+    private final AppUserRepository appUserRepository;
+
+    public ReportServiceImpl(
+        ReportRepository reportRepository,
+        ReportMapper reportMapper,
+        AppUserService appUserService,
+        TutorRepository tutorRepository,
+        AppUserRepository appUserRepository
+    ) {
         this.reportRepository = reportRepository;
         this.reportMapper = reportMapper;
+        this.appUserService = appUserService;
+        this.tutorRepository = tutorRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     @Override
     public ReportDTO save(ReportDTO reportDTO) {
         log.debug("Request to save Report : {}", reportDTO);
         Report report = reportMapper.toEntity(reportDTO);
+
+        AppUser appuser = appUserRepository
+            .findById(reportDTO.getAppUser().getId())
+            .orElseThrow(() -> new RuntimeException("AppUser not found"));
+
+        Tutor tutor = tutorRepository.findById(reportDTO.getTutor().getId()).orElseThrow(() -> new RuntimeException("Tutor not found"));
+
+        report.setAppUser(appuser);
+        report.setTutor(tutor);
+
         report = reportRepository.save(report);
         return reportMapper.toDto(report);
     }

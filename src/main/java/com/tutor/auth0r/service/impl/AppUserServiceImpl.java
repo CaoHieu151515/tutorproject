@@ -197,6 +197,11 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUserDTO AdminConFirmTutor(Long id) {
         AppUser appUser = appUserRepository.findById(id).orElseThrow(() -> new RuntimeException("AppUser not found"));
+
+        if (!appUser.getTutor().getStatus().equals(TuStatus.CONFIRMING)) {
+            throw new RuntimeException("Tutor status must be CONFIRMING to be rejected");
+        }
+
         appUser.setBeTutor(true);
         appUser.getTutor().setStatus(TuStatus.OFFLINE);
 
@@ -209,6 +214,11 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUserDTO AdminRejectTutor(Long id) {
         AppUser appUser = appUserRepository.findById(id).orElseThrow(() -> new RuntimeException("AppUser not found"));
+
+        if (!appUser.getTutor().getStatus().equals(TuStatus.CONFIRMING)) {
+            throw new RuntimeException("Tutor status must be CONFIRMING to be rejected");
+        }
+
         appUser.setBeTutor(false);
         appUser.getTutor().setStatus(TuStatus.NOT_TUTOR);
         appUserRepository.save(appUser);

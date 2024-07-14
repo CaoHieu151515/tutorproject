@@ -1,5 +1,6 @@
 package com.tutor.auth0r.web.rest;
 
+import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.repository.WalletTransactionRepository;
 import com.tutor.auth0r.service.WalletTransactionService;
 import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
@@ -19,7 +20,8 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.tutor.auth0r.domain.WalletTransaction}.
+ * REST controller for managing
+ * {@link com.tutor.auth0r.domain.WalletTransaction}.
  */
 @RestController
 @RequestMapping("/api/wallet-transactions")
@@ -48,7 +50,9 @@ public class WalletTransactionResource {
      * {@code POST  /wallet-transactions} : Create a new walletTransaction.
      *
      * @param walletTransactionDTO the walletTransactionDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new walletTransactionDTO, or with status {@code 400 (Bad Request)} if the walletTransaction has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new walletTransactionDTO, or with status
+     *         {@code 400 (Bad Request)} if the walletTransaction has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
@@ -65,13 +69,17 @@ public class WalletTransactionResource {
     }
 
     /**
-     * {@code PUT  /wallet-transactions/:id} : Updates an existing walletTransaction.
+     * {@code PUT  /wallet-transactions/:id} : Updates an existing
+     * walletTransaction.
      *
-     * @param id the id of the walletTransactionDTO to save.
+     * @param id                   the id of the walletTransactionDTO to save.
      * @param walletTransactionDTO the walletTransactionDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated walletTransactionDTO,
-     * or with status {@code 400 (Bad Request)} if the walletTransactionDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the walletTransactionDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated walletTransactionDTO,
+     *         or with status {@code 400 (Bad Request)} if the walletTransactionDTO
+     *         is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the
+     *         walletTransactionDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
@@ -98,14 +106,19 @@ public class WalletTransactionResource {
     }
 
     /**
-     * {@code PATCH  /wallet-transactions/:id} : Partial updates given fields of an existing walletTransaction, field will ignore if it is null
+     * {@code PATCH  /wallet-transactions/:id} : Partial updates given fields of an
+     * existing walletTransaction, field will ignore if it is null
      *
-     * @param id the id of the walletTransactionDTO to save.
+     * @param id                   the id of the walletTransactionDTO to save.
      * @param walletTransactionDTO the walletTransactionDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated walletTransactionDTO,
-     * or with status {@code 400 (Bad Request)} if the walletTransactionDTO is not valid,
-     * or with status {@code 404 (Not Found)} if the walletTransactionDTO is not found,
-     * or with status {@code 500 (Internal Server Error)} if the walletTransactionDTO couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated walletTransactionDTO,
+     *         or with status {@code 400 (Bad Request)} if the walletTransactionDTO
+     *         is not valid,
+     *         or with status {@code 404 (Not Found)} if the walletTransactionDTO is
+     *         not found,
+     *         or with status {@code 500 (Internal Server Error)} if the
+     *         walletTransactionDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -136,7 +149,8 @@ public class WalletTransactionResource {
     /**
      * {@code GET  /wallet-transactions} : get all the walletTransactions.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of walletTransactions in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of walletTransactions in body.
      */
     @GetMapping("")
     public List<WalletTransactionDTO> getAllWalletTransactions() {
@@ -148,7 +162,8 @@ public class WalletTransactionResource {
      * {@code GET  /wallet-transactions/:id} : get the "id" walletTransaction.
      *
      * @param id the id of the walletTransactionDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the walletTransactionDTO, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the walletTransactionDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
     public ResponseEntity<WalletTransactionDTO> getWalletTransaction(@PathVariable("id") Long id) {
@@ -180,5 +195,11 @@ public class WalletTransactionResource {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/withdrawals")
+    public ResponseEntity<List<WalletTransaction>> getWithdrawals() {
+        List<WalletTransaction> withdrawals = walletTransactionService.getWithdrawals();
+        return ResponseEntity.ok(withdrawals);
     }
 }

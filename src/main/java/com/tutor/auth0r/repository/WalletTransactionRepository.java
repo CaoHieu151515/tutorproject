@@ -1,6 +1,7 @@
 package com.tutor.auth0r.repository;
 
 import com.tutor.auth0r.domain.WalletTransaction;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -22,4 +23,6 @@ public interface WalletTransactionRepository extends JpaRepository<WalletTransac
         @Param("startDate") LocalDate startDate,
         @Param("endDate") LocalDate endDate
     );
+
+    List<WalletTransaction> findByType(WalletTransactionType type);
 }

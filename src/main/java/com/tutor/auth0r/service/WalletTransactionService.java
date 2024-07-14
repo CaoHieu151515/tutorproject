@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service;
 
+import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import java.util.List;
@@ -56,4 +57,6 @@ public interface WalletTransactionService {
     void delete(Long id);
 
     MonthlyRevenueDTO calculateMonthlyRevenueForAdmin(int year, int month);
+
+    List<WalletTransaction> getWithdrawals();
 }

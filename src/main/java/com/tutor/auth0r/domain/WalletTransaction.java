@@ -38,7 +38,7 @@ public class WalletTransaction implements Serializable {
     @Column(name = "create_at")
     private LocalDate createAt;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "walletTransaction")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "walletTransaction")
     @JsonIgnoreProperties(value = { "walletTransaction" }, allowSetters = true)
     private Set<ThirdPartyTransaction> thirdPartyTransactions = new HashSet<>();
 
