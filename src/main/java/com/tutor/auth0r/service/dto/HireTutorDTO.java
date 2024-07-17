@@ -1,8 +1,10 @@
 package com.tutor.auth0r.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tutor.auth0r.domain.enumeration.HireStatus;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -19,9 +21,11 @@ public class HireTutorDTO implements Serializable {
 
     private HireStatus status;
 
-    private LocalDate startAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime startAt;
 
-    private LocalDate endAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime endAt;
 
     private AppUserDTO appUser;
 
@@ -59,19 +63,19 @@ public class HireTutorDTO implements Serializable {
         this.status = status;
     }
 
-    public LocalDate getStartAt() {
+    public LocalDateTime getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(LocalDate startAt) {
+    public void setStartAt(LocalDateTime startAt) {
         this.startAt = startAt;
     }
 
-    public LocalDate getEndAt() {
+    public LocalDateTime getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(LocalDate endAt) {
+    public void setEndAt(LocalDateTime endAt) {
         this.endAt = endAt;
     }
 

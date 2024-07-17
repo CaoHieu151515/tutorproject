@@ -2,6 +2,7 @@ package com.tutor.auth0r.service;
 
 import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.WithDrawLISTDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import java.util.List;
 import java.util.Optional;
@@ -59,4 +60,6 @@ public interface WalletTransactionService {
     MonthlyRevenueDTO calculateMonthlyRevenueForAdmin(int year, int month);
 
     List<WalletTransaction> getWithdrawals();
+
+    List<WithDrawLISTDTO> getAllWithdrawalDetails();
 }

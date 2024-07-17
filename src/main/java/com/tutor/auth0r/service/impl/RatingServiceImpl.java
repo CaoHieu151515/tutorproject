@@ -10,7 +10,6 @@ import com.tutor.auth0r.service.RatingService;
 import com.tutor.auth0r.service.TutorService;
 import com.tutor.auth0r.service.dto.RatingDTO;
 import com.tutor.auth0r.service.mapper.RatingMapper;
-import com.tutor.auth0r.web.rest.errors.InvalidInputException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.LinkedList;

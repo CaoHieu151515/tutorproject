@@ -73,4 +73,6 @@ public interface TutorService {
     void updateTutorStatusOnline(String login);
 
     void updateTutorStatusOffline(String login);
+
+    void updateTutorStatusConFirming(String login);
 }

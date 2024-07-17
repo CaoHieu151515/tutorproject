@@ -149,13 +149,17 @@ public class HireTutorServiceImpl implements HireTutorService {
 
         validateAndGetEntities(hireTutor);
 
-        LocalDate startAt = LocalDateTime.now().toLocalDate();
-        LocalDate endAt = LocalDateTime.now().plusHours((hireTutorDTO.getTimeHire())).toLocalDate();
+        LocalDateTime startAtDateTime = LocalDateTime.now();
+        LocalDateTime endAtDateTime = startAtDateTime.plusHours(hireTutorDTO.getTimeHire());
+
+        // Chuyển đổi LocalDateTime thành LocalDate để lưu trữ
+        // LocalDate startAt = startAtDateTime.toLocalDate();
+        // LocalDate endAt = endAtDateTime.toLocalDate();
 
         hireTutor.setStatus(HireStatus.DURING);
         hireTutor.setTimeHire(hireTutorDTO.getTimeHire());
-        hireTutor.setStartAt(startAt);
-        hireTutor.setEndAt(endAt);
+        hireTutor.setStartAt(startAtDateTime);
+        hireTutor.setEndAt(endAtDateTime);
         hireTutor = hireTutorRepository.save(hireTutor);
 
         processWalletTransactions(hireTutor);

@@ -10,4 +10,5 @@ public enum WalletTransactionType {
     SERVICE_FEE_EARN,
     REFUND,
     TUTORGAIN,
+    WITHDRAWALTEMP,
 }

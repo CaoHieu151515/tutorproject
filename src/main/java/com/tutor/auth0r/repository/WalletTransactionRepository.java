@@ -25,4 +25,7 @@ public interface WalletTransactionRepository extends JpaRepository<WalletTransac
     );
 
     List<WalletTransaction> findByType(WalletTransactionType type);
+
+    @Query("SELECT wt FROM WalletTransaction wt JOIN wt.wallet w JOIN w.appUser au WHERE wt.type = 'WITHDRAWAL'")
+    List<WalletTransaction> findAllWithdrawals();
 }

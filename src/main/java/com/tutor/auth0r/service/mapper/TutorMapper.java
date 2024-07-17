@@ -57,6 +57,7 @@ public interface TutorMapper extends EntityMapper<TutorDTO, Tutor> {
             @Mapping(source = "id", target = "tutorID"),
             @Mapping(source = "appUser.user.firstName", target = "firstName"),
             @Mapping(source = "appUser.user.lastName", target = "lastName"),
+            @Mapping(source = "status", target = "status"),
             @Mapping(source = "appUser.user.imageUrl", target = "urlImage"),
         }
     )

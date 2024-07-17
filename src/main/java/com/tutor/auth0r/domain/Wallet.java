@@ -117,6 +117,9 @@ public class Wallet implements Serializable {
             case SERVICE_FEE_EARN:
                 currentAmount += walletTransaction.getAmount();
                 break;
+            case WITHDRAWALTEMP:
+                currentAmount += walletTransaction.getAmount();
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + walletTransaction.getType());
         }

@@ -1,7 +1,5 @@
 package com.tutor.auth0r.service.impl;
 
-import static com.tutor.auth0r.security.SecurityUtils.AUTHORITIES_KEY;
-
 import com.tutor.auth0r.domain.AcademicRank;
 import com.tutor.auth0r.domain.AppUser;
 import com.tutor.auth0r.domain.Authority;
@@ -12,15 +10,21 @@ import com.tutor.auth0r.domain.TutorDetails;
 import com.tutor.auth0r.domain.TutorTeach;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
+import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.domain.enumeration.TuStatus;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionStatus;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.AuthorityRepository;
 import com.tutor.auth0r.repository.IdentityCardRepository;
 import com.tutor.auth0r.repository.MediaRepository;
 import com.tutor.auth0r.repository.TuTorContactWithRepository;
 import com.tutor.auth0r.repository.TutorTeachRepository;
+import com.tutor.auth0r.repository.WalletRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.UserService;
+import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
@@ -28,6 +32,7 @@ import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.WithdrawDTO;
 import com.tutor.auth0r.service.dto.IdentityCardDTO;
 import com.tutor.auth0r.service.dto.MediaDTO;
 import com.tutor.auth0r.service.dto.TuTorContactWithDTO;
@@ -40,6 +45,8 @@ import com.tutor.auth0r.service.mapper.TuTorContactWithMapper;
 import com.tutor.auth0r.service.mapper.TutorTeachMapper;
 import com.tutor.auth0r.web.rest.errors.InvalidInputException;
 import com.tutor.auth0r.web.rest.errors.NotLoggedException;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -79,6 +86,10 @@ public class AppUserServiceImpl implements AppUserService {
 
     private final TuTorContactWithRepository tuTorContactWithRepository;
 
+    private final WalletService walletService;
+
+    private final WalletRepository walletRepository;
+
     public AppUserServiceImpl(
         AppUserRepository appUserRepository,
         AppUserMapper appUserMapper,
@@ -89,7 +100,9 @@ public class AppUserServiceImpl implements AppUserService {
         AcademicRankMapper academicRankMapper,
         AuthorityRepository authorityRepository,
         TutorTeachRepository tutorTeachRepository,
-        TuTorContactWithRepository tuTorContactWithRepository
+        TuTorContactWithRepository tuTorContactWithRepository,
+        WalletService walletService,
+        WalletRepository walletRepository
     ) {
         this.appUserRepository = appUserRepository;
         this.appUserMapper = appUserMapper;
@@ -101,6 +114,8 @@ public class AppUserServiceImpl implements AppUserService {
         this.authorityRepository = authorityRepository;
         this.tutorTeachRepository = tutorTeachRepository;
         this.tuTorContactWithRepository = tuTorContactWithRepository;
+        this.walletService = walletService;
+        this.walletRepository = walletRepository;
     }
 
     @Override
@@ -173,6 +188,16 @@ public class AppUserServiceImpl implements AppUserService {
         log.debug("Request to get all AppUsers");
         return appUserRepository
             .findAllAppUsersWithTutorStatusReady()
+            .stream()
+            .map(allRecommendMapper::appUserToAllRecommendDTO)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    @Override
+    public List<AllRecommendDTO> AllAppUsersWithSearch(String search) {
+        log.debug("Request to get all AppUsers");
+        return appUserRepository
+            .findByUserFirstNameOrLastNameContainingAndBeTutorTrue(search)
             .stream()
             .map(allRecommendMapper::appUserToAllRecommendDTO)
             .collect(Collectors.toCollection(LinkedList::new));
@@ -474,5 +499,32 @@ public class AppUserServiceImpl implements AppUserService {
         // updatedTeachs.forEach(tutorTeachRepository::save);
         tutorDetails.setTutorTeaches(currentTeachs);
         appUser.getTutor().setTutorDetails(tutorDetails);
+    }
+
+    @Override
+    public Optional<WithdrawDTO> WithdrawDetails() {
+        return userService
+            .getCurrentUser()
+            .flatMap(user -> {
+                Optional<AppUser> appUserOptional = Optional.ofNullable(appUserRepository.findByUser(user));
+                return appUserOptional.map(appUserMapper::toWithdrawDTO);
+            });
+    }
+
+    @Override
+    public Optional<WithdrawDTO> CreateWithdrawApplication(WithdrawDTO withdrawDTO) {
+        Wallet userWallet = walletService.getCurrentUserWallet();
+
+        WalletTransaction trans = new WalletTransaction();
+        trans.setStatus(WalletTransactionStatus.VERIFING);
+        trans.setType(WalletTransactionType.WITHDRAWAL);
+        trans.setAmount(withdrawDTO.getAmount());
+        trans.setCreateAt(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
+
+        userWallet.addTransactions(trans);
+
+        walletRepository.save(userWallet);
+
+        return Optional.of(withdrawDTO);
     }
 }

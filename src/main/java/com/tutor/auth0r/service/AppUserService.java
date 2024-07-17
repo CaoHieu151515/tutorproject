@@ -7,6 +7,7 @@ import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.WithdrawDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,4 +92,10 @@ public interface AppUserService {
     TutorEditProfileDTO updateTutorProfile(TutorEditProfileDTO dto);
 
     Optional<UserProfileDTO> updateUserProfile(UserProfileDTO userProfileDTO);
+
+    List<AllRecommendDTO> AllAppUsersWithSearch(String search);
+
+    Optional<WithdrawDTO> WithdrawDetails();
+
+    Optional<WithdrawDTO> CreateWithdrawApplication(WithdrawDTO withdrawDTO);
 }

@@ -3,6 +3,7 @@ package com.tutor.auth0r.service.mapper;
 import com.tutor.auth0r.domain.HireTutor;
 import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.WalletTransaction;
+import com.tutor.auth0r.service.dto.CustomDTO.WithDrawLISTDTO;
 import com.tutor.auth0r.service.dto.HireTutorDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
@@ -29,4 +30,16 @@ public interface WalletTransactionMapper extends EntityMapper<WalletTransactionD
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     WalletDTO toDtoWalletId(Wallet wallet);
+
+    @Mapping(source = "wallet.appUser.id", target = "appUserID")
+    @Mapping(source = "wallet.appUser.user.firstName", target = "fname")
+    @Mapping(source = "wallet.appUser.user.lastName", target = "lname")
+    @Mapping(source = "wallet.appUser.user.email", target = "email")
+    @Mapping(source = "wallet.appUser.tutor.status", target = "status")
+    @Mapping(target = "withdrawTrans.id", source = "id")
+    @Mapping(target = "withdrawTrans.amount", source = "amount")
+    @Mapping(target = "withdrawTrans.type", source = "type")
+    @Mapping(target = "withdrawTrans.status", source = "status")
+    @Mapping(target = "withdrawTrans.createAt", source = "createAt")
+    WithDrawLISTDTO walletTransactionToWithDrawLISTDTO(WalletTransaction walletTransaction);
 }

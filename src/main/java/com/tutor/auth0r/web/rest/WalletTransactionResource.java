@@ -4,6 +4,7 @@ import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.repository.WalletTransactionRepository;
 import com.tutor.auth0r.service.WalletTransactionService;
 import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.WithDrawLISTDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -201,5 +202,11 @@ public class WalletTransactionResource {
     public ResponseEntity<List<WalletTransaction>> getWithdrawals() {
         List<WalletTransaction> withdrawals = walletTransactionService.getWithdrawals();
         return ResponseEntity.ok(withdrawals);
+    }
+
+    @GetMapping("/wallet-transactions/withdrawal-details")
+    public ResponseEntity<List<WithDrawLISTDTO>> getAllWithdrawalDetails() {
+        List<WithDrawLISTDTO> withdrawalDetails = walletTransactionService.getAllWithdrawalDetails();
+        return ResponseEntity.ok(withdrawalDetails);
     }
 }

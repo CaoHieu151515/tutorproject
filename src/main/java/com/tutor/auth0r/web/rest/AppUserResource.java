@@ -8,6 +8,7 @@ import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.WithdrawDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -152,6 +153,23 @@ public class AppUserResource {
     @GetMapping("/GetAllRecommend")
     public List<AllRecommendDTO> getAllAppUsersWithRecommend() {
         return appUserService.AllAppUsersWithRecommend();
+    }
+
+    @GetMapping("/SearchTutor/{search}")
+    public List<AllRecommendDTO> AllAppUsersWithSearch(@PathVariable("search") String search) {
+        return appUserService.AllAppUsersWithSearch(search);
+    }
+
+    @GetMapping("/WithdrawForm")
+    public ResponseEntity<WithdrawDTO> WithdrawForm() {
+        Optional<WithdrawDTO> withdrawDTO = appUserService.WithdrawDetails();
+        return ResponseUtil.wrapOrNotFound(withdrawDTO);
+    }
+
+    @PostMapping("/WithdrawForm/CreateApplication")
+    public ResponseEntity<WithdrawDTO> CreateApplication(@RequestBody WithdrawDTO withdrawDTO) {
+        Optional<WithdrawDTO> withdraw = appUserService.CreateWithdrawApplication(withdrawDTO);
+        return ResponseUtil.wrapOrNotFound(withdraw);
     }
 
     /**

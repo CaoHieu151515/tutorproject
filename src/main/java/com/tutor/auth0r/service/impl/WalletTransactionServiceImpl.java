@@ -8,6 +8,7 @@ import com.tutor.auth0r.repository.WalletTransactionRepository;
 import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.WalletTransactionService;
 import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.WithDrawLISTDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import com.tutor.auth0r.service.mapper.WalletTransactionMapper;
 import java.time.LocalDate;
@@ -127,5 +128,11 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
     @Override
     public List<WalletTransaction> getWithdrawals() {
         return walletTransactionRepository.findByType(WalletTransactionType.WITHDRAWAL);
+    }
+
+    @Override
+    public List<WithDrawLISTDTO> getAllWithdrawalDetails() {
+        List<WalletTransaction> transactions = walletTransactionRepository.findAllWithdrawals();
+        return transactions.stream().map(walletTransactionMapper::walletTransactionToWithDrawLISTDTO).collect(Collectors.toList());
     }
 }

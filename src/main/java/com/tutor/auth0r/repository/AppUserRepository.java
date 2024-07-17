@@ -25,4 +25,9 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     @Query("SELECT au FROM AppUser au WHERE au.tutor.status = 'READY'")
     List<AppUser> findAllAppUsersWithTutorStatusReady();
+
+    @Query(
+        "SELECT au FROM AppUser au JOIN au.user u WHERE (LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND au.beTutor = true"
+    )
+    List<AppUser> findByUserFirstNameOrLastNameContainingAndBeTutorTrue(String searchTerm);
 }

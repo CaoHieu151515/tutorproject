@@ -5,6 +5,8 @@ public class ListOfTutorDTO {
     String tutorID;
     String firstName;
     String lastName;
+    String status;
+
     String urlImage;
 
     public String getTutorID() {
@@ -40,5 +42,13 @@ public class ListOfTutorDTO {
 
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -191,6 +191,7 @@ public class TutorServiceImpl implements TutorService {
     //     });
     // }
 
+    @Override
     public void updateTutorStatusOnline(String login) {
         Optional<Tutor> tutorOptional = tutorRepository.findTutorByUserLogin(login);
         tutorOptional.ifPresent(tutor -> {
@@ -199,10 +200,20 @@ public class TutorServiceImpl implements TutorService {
         });
     }
 
+    @Override
     public void updateTutorStatusOffline(String login) {
         Optional<Tutor> tutorOptional = tutorRepository.findTutorByUserLogin(login);
         tutorOptional.ifPresent(tutor -> {
             tutor.setStatus(TuStatus.OFFLINE);
+            tutorRepository.save(tutor);
+        });
+    }
+
+    @Override
+    public void updateTutorStatusConFirming(String login) {
+        Optional<Tutor> tutorOptional = tutorRepository.findTutorByUserLogin(login);
+        tutorOptional.ifPresent(tutor -> {
+            tutor.setStatus(TuStatus.CONFIRMING);
             tutorRepository.save(tutor);
         });
     }

@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service.dto.CustomDTO;
 
+import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.service.dto.TuTorContactWithDTO;
 import com.tutor.auth0r.service.dto.TutorTeachDTO;
 import java.util.Set;
@@ -7,6 +8,7 @@ import java.util.Set;
 public class TutorEditProfileDTO {
 
     Long appUserID;
+    TuStatus status;
     Boolean beTutor; //appUser.status
     String lname; //appUser.user.lastName
     String fname; //appUser.user.fastName
@@ -95,5 +97,13 @@ public class TutorEditProfileDTO {
 
     public void setContacts(Set<TuTorContactWithDTO> contacts) {
         this.contacts = contacts;
+    }
+
+    public TuStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TuStatus status) {
+        this.status = status;
     }
 }

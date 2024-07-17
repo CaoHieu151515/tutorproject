@@ -5,6 +5,7 @@ import com.tutor.auth0r.domain.enumeration.HireStatus;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,10 +35,10 @@ public class HireTutor implements Serializable {
     private HireStatus status;
 
     @Column(name = "start_at")
-    private LocalDate startAt;
+    private LocalDateTime startAt;
 
     @Column(name = "end_at")
-    private LocalDate endAt;
+    private LocalDateTime endAt;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "hireTutor")
     @JsonIgnoreProperties(value = { "thirdPartyTransactions", "hireTutor", "wallet" }, allowSetters = true)
@@ -105,29 +106,29 @@ public class HireTutor implements Serializable {
         this.status = status;
     }
 
-    public LocalDate getStartAt() {
+    public LocalDateTime getStartAt() {
         return this.startAt;
     }
 
-    public HireTutor startAt(LocalDate startAt) {
+    public HireTutor startAt(LocalDateTime startAt) {
         this.setStartAt(startAt);
         return this;
     }
 
-    public void setStartAt(LocalDate startAt) {
+    public void setStartAt(LocalDateTime startAt) {
         this.startAt = startAt;
     }
 
-    public LocalDate getEndAt() {
+    public LocalDateTime getEndAt() {
         return this.endAt;
     }
 
-    public HireTutor endAt(LocalDate endAt) {
+    public HireTutor endAt(LocalDateTime endAt) {
         this.setEndAt(endAt);
         return this;
     }
 
-    public void setEndAt(LocalDate endAt) {
+    public void setEndAt(LocalDateTime endAt) {
         this.endAt = endAt;
     }
 

@@ -1,5 +1,6 @@
 package com.tutor.auth0r.service.dto.CustomDTO;
 
+import com.tutor.auth0r.domain.enumeration.TuStatus;
 import java.util.Set;
 
 public class UpdatecertificateDTO {
@@ -7,6 +8,7 @@ public class UpdatecertificateDTO {
     Long appUserid;
     String lname;
     String fname;
+    TuStatus status;
     String email;
     String school;
     String studentID;
@@ -88,5 +90,13 @@ public class UpdatecertificateDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public TuStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TuStatus status) {
+        this.status = status;
     }
 }

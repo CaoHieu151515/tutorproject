@@ -181,7 +181,7 @@ public class TutorResource {
         return ResponseUtil.wrapOrNotFound(TuTorCusTomDTO);
     }
 
-    @GetMapping("/tutors/by-subject")
+    @GetMapping("/by-subject")
     public List<ListOfTutorDTO> getTutorsBySubject(@RequestParam String subject) {
         return tutorService.getTutorsBySubject(subject);
     }
@@ -194,6 +194,12 @@ public class TutorResource {
 
     @PostMapping("/tutors/{login}/status/offline")
     public ResponseEntity<Void> updateTutorStatusOffline(@PathVariable String login) {
+        tutorService.updateTutorStatusOffline(login);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/tutors/{login}/status/Confirming")
+    public ResponseEntity<Void> updateTutorStatusConfirming(@PathVariable String login) {
         tutorService.updateTutorStatusOffline(login);
         return ResponseEntity.ok().build();
     }

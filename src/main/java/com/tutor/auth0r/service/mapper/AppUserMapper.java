@@ -8,22 +8,29 @@ import com.tutor.auth0r.domain.TutorTeach;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.WithDrawLISTDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.WithdrawDTO;
+import com.tutor.auth0r.service.dto.HireTutorDTO;
 import com.tutor.auth0r.service.dto.TuTorContactWithDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.dto.TutorTeachDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
 import com.tutor.auth0r.service.dto.UserVerifyDTO;
 import com.tutor.auth0r.service.dto.WalletDTO;
+import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
+import org.springframework.web.socket.sockjs.transport.TransportType;
 
 /**
  * Mapper for the entity {@link AppUser} and its DTO {@link AppUserDTO}.
@@ -143,6 +150,7 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
             @Mapping(source = "id", target = "appUserid"),
             @Mapping(source = "user.firstName", target = "fname"),
             @Mapping(source = "user.lastName", target = "lname"),
+            @Mapping(source = "tutor.status", target = "status"),
             @Mapping(source = "user.email", target = "email"),
             @Mapping(source = "userVerify.school", target = "school"),
             @Mapping(source = "userVerify.studentID", target = "studentID"),
@@ -197,6 +205,7 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
 
     @Mapping(source = "id", target = "appUserID")
     @Mapping(source = "beTutor", target = "beTutor")
+    @Mapping(source = "tutor.status", target = "status")
     @Mapping(source = "user.lastName", target = "lname")
     @Mapping(source = "user.firstName", target = "fname")
     @Mapping(source = "user.imageUrl", target = "image")
@@ -250,4 +259,9 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
         }
         return tuTorContactWithDTOs.stream().map(TuTorContactWithMapper.INSTANCE::toEntity).collect(Collectors.toSet());
     }
+
+    @Mapping(source = "id", target = "appUserID")
+    @Mapping(source = "bankName", target = "bankName")
+    @Mapping(source = "bankAccountNumber", target = "bankNumber")
+    WithdrawDTO toWithdrawDTO(AppUser appUser);
 }
