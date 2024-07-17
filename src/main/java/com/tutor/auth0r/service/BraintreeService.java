@@ -28,7 +28,7 @@ public class BraintreeService {
     private final ThirdPartyTransactionRepository thirdPartyTransactionRepository;
     private final WalletTransactionRepository walletTransactionRepository;
 
-    @Autowired
+    // @Autowired
     public BraintreeService(
         BraintreeGateway braintreeGateway,
         WalletService walletService,
