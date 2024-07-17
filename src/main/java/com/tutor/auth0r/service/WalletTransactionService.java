@@ -62,4 +62,8 @@ public interface WalletTransactionService {
     List<WalletTransaction> getWithdrawals();
 
     List<WithDrawLISTDTO> getAllWithdrawalDetails();
+
+    WithDrawLISTDTO updateTransactionStatus(Long transactionId);
+
+    WithDrawLISTDTO rejectTransaction(Long transactionId);
 }

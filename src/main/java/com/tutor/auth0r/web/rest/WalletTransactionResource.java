@@ -1,6 +1,7 @@
 package com.tutor.auth0r.web.rest;
 
 import com.tutor.auth0r.domain.WalletTransaction;
+import com.tutor.auth0r.domain.enumeration.WalletTransactionStatus;
 import com.tutor.auth0r.repository.WalletTransactionRepository;
 import com.tutor.auth0r.service.WalletTransactionService;
 import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
@@ -208,5 +209,17 @@ public class WalletTransactionResource {
     public ResponseEntity<List<WithDrawLISTDTO>> getAllWithdrawalDetails() {
         List<WithDrawLISTDTO> withdrawalDetails = walletTransactionService.getAllWithdrawalDetails();
         return ResponseEntity.ok(withdrawalDetails);
+    }
+
+    @PostMapping("/wallet-transactions/{id}")
+    public ResponseEntity<WithDrawLISTDTO> updateTransactionStatus(@PathVariable Long id) {
+        WithDrawLISTDTO updatedTransaction = walletTransactionService.updateTransactionStatus(id);
+        return ResponseEntity.ok(updatedTransaction);
+    }
+
+    @PostMapping("/wallet-transactions/{id}/reject")
+    public ResponseEntity<WithDrawLISTDTO> rejectTransaction(@PathVariable Long id) {
+        WithDrawLISTDTO rejectedTransaction = walletTransactionService.rejectTransaction(id);
+        return ResponseEntity.ok(rejectedTransaction);
     }
 }

@@ -4,6 +4,7 @@ import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.WalletTransaction;
 import com.tutor.auth0r.domain.enumeration.WalletTransactionStatus;
 import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
+import com.tutor.auth0r.repository.WalletRepository;
 import com.tutor.auth0r.repository.WalletTransactionRepository;
 import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.WalletTransactionService;
@@ -11,8 +12,10 @@ import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.WithDrawLISTDTO;
 import com.tutor.auth0r.service.dto.WalletTransactionDTO;
 import com.tutor.auth0r.service.mapper.WalletTransactionMapper;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,14 +42,18 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
 
     private final WalletService walletService;
 
+    private final WalletRepository walletRepository;
+
     public WalletTransactionServiceImpl(
         WalletTransactionRepository walletTransactionRepository,
         WalletTransactionMapper walletTransactionMapper,
-        WalletService walletService
+        WalletService walletService,
+        WalletRepository walletRepository
     ) {
         this.walletTransactionRepository = walletTransactionRepository;
         this.walletTransactionMapper = walletTransactionMapper;
         this.walletService = walletService;
+        this.walletRepository = walletRepository;
     }
 
     @Override
@@ -134,5 +141,59 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
     public List<WithDrawLISTDTO> getAllWithdrawalDetails() {
         List<WalletTransaction> transactions = walletTransactionRepository.findAllWithdrawals();
         return transactions.stream().map(walletTransactionMapper::walletTransactionToWithDrawLISTDTO).collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public WithDrawLISTDTO updateTransactionStatus(Long transactionId) {
+        WalletTransaction walletTransaction = walletTransactionRepository
+            .findById(transactionId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid transaction ID: " + transactionId));
+
+        if (walletTransaction.getType() != WalletTransactionType.WITHDRAWAL) {
+            throw new IllegalArgumentException("Transaction type is not WITHDRAWAL, status update is not allowed");
+        }
+
+        if (walletTransaction.getStatus() != WalletTransactionStatus.VERIFING) {
+            throw new IllegalArgumentException("Transaction Status is not VERIFING, updating is not allowed");
+        }
+
+        walletTransaction.setStatus(WalletTransactionStatus.SUCCEED);
+        walletTransaction = walletTransactionRepository.save(walletTransaction);
+
+        return walletTransactionMapper.walletTransactionToWithDrawLISTDTO(walletTransaction);
+    }
+
+    @Transactional
+    @Override
+    public WithDrawLISTDTO rejectTransaction(Long transactionId) {
+        WalletTransaction walletTransaction = walletTransactionRepository
+            .findById(transactionId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid transaction ID: " + transactionId));
+
+        if (
+            walletTransaction.getType() != WalletTransactionType.WITHDRAWAL ||
+            walletTransaction.getStatus() != WalletTransactionStatus.VERIFING
+        ) {
+            throw new IllegalArgumentException("Transaction type must be WITHDRAWAL and status must be VERIFING to reject the transaction");
+        }
+
+        WalletTransaction refund = new WalletTransaction();
+
+        refund.setAmount(walletTransaction.getAmount());
+        refund.setCreateAt(Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
+        refund.setStatus(WalletTransactionStatus.SUCCEED);
+        refund.setType(WalletTransactionType.REFUND);
+
+        Wallet wallet = walletTransaction.getWallet();
+
+        wallet.addTransactions(refund);
+        walletRepository.save(wallet);
+
+        // Update the transaction status to REJECTED
+        walletTransaction.setStatus(WalletTransactionStatus.REJECTED);
+        walletTransaction = walletTransactionRepository.save(walletTransaction);
+
+        return walletTransactionMapper.walletTransactionToWithDrawLISTDTO(walletTransaction);
     }
 }

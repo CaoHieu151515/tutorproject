@@ -45,7 +45,8 @@ enum WalletTransactionType {
 enum WalletTransactionStatus {
     SUCCEED,
     FAILED,
-    VERIFING
+    VERIFING,
+    REJECTED
 }
 
 enum Contact {
