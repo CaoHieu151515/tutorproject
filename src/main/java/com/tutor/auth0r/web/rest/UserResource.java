@@ -4,9 +4,12 @@ import com.tutor.auth0r.config.Constants;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.repository.UserRepository;
 import com.tutor.auth0r.security.AuthoritiesConstants;
+import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.MailService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.AdminUserDTO;
+import com.tutor.auth0r.service.dto.AppUserDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ManageDTO;
 import com.tutor.auth0r.web.rest.errors.BadRequestAlertException;
 import com.tutor.auth0r.web.rest.errors.EmailAlreadyUsedException;
 import com.tutor.auth0r.web.rest.errors.LoginAlreadyUsedException;
@@ -86,10 +89,13 @@ public class UserResource {
 
     private final MailService mailService;
 
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    private final AppUserService appUserService;
+
+    public UserResource(UserService userService, UserRepository userRepository, MailService mailService, AppUserService appUserService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
+        this.appUserService = appUserService;
     }
 
     /**
@@ -204,5 +210,17 @@ public class UserResource {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "userManagement.deleted", login)).build();
+    }
+
+    @GetMapping("/GetAllAppUsers")
+    public ResponseEntity<List<ManageDTO>> getAllAppUsers() {
+        List<ManageDTO> users = appUserService.findAllManageDTOs();
+        return ResponseEntity.ok().body(users);
+    }
+
+    @PostMapping("/DeleteAppuser/{id}")
+    public ResponseEntity<AppUserDTO> Deleteappuser(@PathVariable("id") Long id) {
+        AppUserDTO users = appUserService.DeleteAppuser(id);
+        return ResponseEntity.ok().body(users);
     }
 }

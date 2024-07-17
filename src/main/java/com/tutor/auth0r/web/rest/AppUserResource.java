@@ -5,6 +5,7 @@ import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ManageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UserProfileDTO;

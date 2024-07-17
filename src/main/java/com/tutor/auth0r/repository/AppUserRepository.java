@@ -47,4 +47,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     @Query("SELECT au FROM AppUser au WHERE au.tutor.status = 'READY' AND au.id <> :id")
     List<AppUser> findAllAppUsersWithTutorStatusReadyAndIdNot(@Param("id") Long id);
+
+    @Query("SELECT a FROM AppUser a WHERE a.user.login <> :login AND a.user.activated = true")
+    List<AppUser> findAllByUserLoginNotAndActivated(@Param("login") String login);
 }

@@ -11,6 +11,7 @@ import com.tutor.auth0r.domain.Wallet;
 import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ManageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
@@ -264,4 +265,12 @@ public interface AppUserMapper extends EntityMapper<AppUserDTO, AppUser> {
     @Mapping(source = "bankName", target = "bankName")
     @Mapping(source = "bankAccountNumber", target = "bankNumber")
     WithdrawDTO toWithdrawDTO(AppUser appUser);
+
+    @Mapping(source = "id", target = "appUserID")
+    @Mapping(source = "user.firstName", target = "fname")
+    @Mapping(source = "user.lastName", target = "lname")
+    @Mapping(source = "wallet.amount", target = "amount")
+    @Mapping(source = "gender", target = "gender")
+    @Mapping(source = "user.authorities", target = "role")
+    ManageDTO toManageDTO(AppUser appUser);
 }

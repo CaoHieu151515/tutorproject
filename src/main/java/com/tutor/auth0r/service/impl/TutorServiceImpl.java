@@ -238,8 +238,8 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
-    public void updateTutorStatusConFirming(String login) {
-        Optional<Tutor> tutorOptional = tutorRepository.findTutorByUserLogin(login);
+    public void updateTutorStatusConFirming(Long id) {
+        Optional<Tutor> tutorOptional = tutorRepository.findByAppUserId(id);
         tutorOptional.ifPresent(tutor -> {
             tutor.setStatus(TuStatus.CONFIRMING);
             tutorRepository.save(tutor);

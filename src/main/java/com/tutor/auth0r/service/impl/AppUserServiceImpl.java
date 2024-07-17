@@ -28,6 +28,7 @@ import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.dto.AppUserDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.AllRecommendDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfConfirmingDTO;
+import com.tutor.auth0r.service.dto.CustomDTO.ManageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.RankwithImageDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.TutorEditProfileDTO;
 import com.tutor.auth0r.service.dto.CustomDTO.UpdatecertificateDTO;
@@ -565,5 +566,25 @@ public class AppUserServiceImpl implements AppUserService {
         walletRepository.save(userWallet);
 
         return Optional.of(withdrawDTO);
+    }
+
+    @Override
+    public List<ManageDTO> findAllManageDTOs() {
+        List<AppUser> appUsers = appUserRepository.findAllByUserLoginNotAndActivated("admin");
+        return appUsers.stream().map(appUserMapper::toManageDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public AppUserDTO DeleteAppuser(Long id) {
+        AppUser appUser = appUserRepository.findById(id).orElseThrow(() -> new RuntimeException("AppUser not found"));
+
+        appUser.getUser().setActivated(false);
+        appUser.setBeTutor(false);
+        appUser.getTutor().setRecommend(false);
+        appUser.getTutor().setStatus(TuStatus.NOT_TUTOR);
+
+        appUserRepository.save(appUser);
+
+        return appUserMapper.toDto(appUser);
     }
 }

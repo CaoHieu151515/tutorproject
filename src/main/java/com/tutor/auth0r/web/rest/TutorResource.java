@@ -198,9 +198,9 @@ public class TutorResource {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/tutors/{login}/status/Confirming")
-    public ResponseEntity<Void> updateTutorStatusConfirming(@PathVariable String login) {
-        tutorService.updateTutorStatusOffline(login);
+    @PostMapping("/tutors/{id}/status/Confirming")
+    public ResponseEntity<Void> updateTutorStatusConfirming(@PathVariable Long id) {
+        tutorService.updateTutorStatusConFirming(id);
         return ResponseEntity.ok().build();
     }
 }
