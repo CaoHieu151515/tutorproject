@@ -6,6 +6,7 @@ import com.tutor.auth0r.domain.enumeration.TuStatus;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -30,4 +31,20 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
         "SELECT au FROM AppUser au JOIN au.user u WHERE (LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND au.beTutor = true"
     )
     List<AppUser> findByUserFirstNameOrLastNameContainingAndBeTutorTrue(String searchTerm);
+
+    List<AppUser> findByBeTutorTrue();
+
+    @Query("SELECT au FROM AppUser au WHERE au.beTutor = TRUE AND au.id <> :id")
+    List<AppUser> findByBeTutorTrueAndIdNot(@Param("id") Long id);
+
+    @Query(
+        "SELECT au FROM AppUser au JOIN au.user u WHERE (LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND au.beTutor = true AND au.id <> :id"
+    )
+    List<AppUser> findByUserFirstNameOrLastNameContainingAndBeTutorTrueAndIdNot(
+        @Param("searchTerm") String searchTerm,
+        @Param("id") Long id
+    );
+
+    @Query("SELECT au FROM AppUser au WHERE au.tutor.status = 'READY' AND au.id <> :id")
+    List<AppUser> findAllAppUsersWithTutorStatusReadyAndIdNot(@Param("id") Long id);
 }

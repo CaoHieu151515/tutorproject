@@ -174,6 +174,10 @@ public class HireTutorServiceImpl implements HireTutorService {
 
         Tutor tutor = tutorRepository.findById(hireTutor.getTutor().getId()).orElseThrow(() -> new RuntimeException("Tutor not found"));
 
+        if (tutor.getStatus().equals(TuStatus.BUSY)) {
+            throw new UserAlreadyHiringException("The Tutor is already hiring a tutor with DURING status.");
+        }
+
         tutor.setStatus(TuStatus.BUSY);
         tutorRepository.save(tutor);
         hireTutor.setAppUser(hirer);
@@ -233,6 +237,25 @@ public class HireTutorServiceImpl implements HireTutorService {
         tutorRepository.save(tutor);
 
         hireTutor.setStatus(HireStatus.DONE);
+        hireTutor = hireTutorRepository.save(hireTutor);
+        return hireTutorMapper.toDto(hireTutor);
+    }
+
+    @Override
+    public HireTutorDTO updatesTatusCancel(Long id) {
+        log.debug("Request to update HireTutor : {}", id);
+        HireTutor hireTutor = hireTutorRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutor not found"));
+
+        if (hireTutor.getStatus() != HireStatus.DURING) {
+            throw new RuntimeException("Status not During");
+        }
+
+        Tutor tutor = tutorRepository.findById(hireTutor.getTutor().getId()).orElseThrow(() -> new RuntimeException("Tutor not found"));
+
+        tutor.setStatus(TuStatus.READY);
+        tutorRepository.save(tutor);
+
+        hireTutor.setStatus(HireStatus.CANCEL);
         hireTutor = hireTutorRepository.save(hireTutor);
         return hireTutorMapper.toDto(hireTutor);
     }

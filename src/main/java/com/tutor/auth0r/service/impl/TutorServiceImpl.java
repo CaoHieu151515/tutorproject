@@ -8,6 +8,7 @@ import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.repository.UserRepository;
+import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.TutorService;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfTutorDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
@@ -15,6 +16,7 @@ import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.impl.Transactional.TutorCustomService;
 import com.tutor.auth0r.service.mapper.CustomTutorMapper;
 import com.tutor.auth0r.service.mapper.TutorMapper;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,6 +43,8 @@ public class TutorServiceImpl implements TutorService {
 
     private final CustomTutorMapper customTutorMapper;
 
+    private final AppUserService appUserService;
+
     private final UserRepository userRepository;
 
     private final AppUserRepository appUserRepository;
@@ -53,7 +57,8 @@ public class TutorServiceImpl implements TutorService {
         CustomTutorMapper customTutorMapper,
         UserRepository userRepository,
         AppUserRepository appUserRepository,
-        TutorCustomService tutorCustomService
+        TutorCustomService tutorCustomService,
+        AppUserService appUserService
     ) {
         this.tutorRepository = tutorRepository;
         this.tutorMapper = tutorMapper;
@@ -61,6 +66,7 @@ public class TutorServiceImpl implements TutorService {
         this.userRepository = userRepository;
         this.appUserRepository = appUserRepository;
         this.tutorCustomService = tutorCustomService;
+        this.appUserService = appUserService;
     }
 
     @Override
@@ -141,7 +147,10 @@ public class TutorServiceImpl implements TutorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ListOfTutorDTO> getTutorsBySubject(String subject) {
+        log.debug("Request to get tutors by subject: {}", subject);
+
         List<Teach> subjects;
         switch (subject.toUpperCase()) {
             case "MATH":
@@ -159,7 +168,26 @@ public class TutorServiceImpl implements TutorService {
             default:
                 throw new IllegalArgumentException("Invalid subject: " + subject);
         }
+
+        Long appUserID = null;
+        // try {
+        //     AppUser currentUser = appUserService.getBycurrentAppUser();
+        //     if (currentUser != null) {
+        //         appUserID = currentUser.getTutor().getId();
+        //     }
+        // } catch (Exception e) {
+        //     log.warn("No current user found, treating as guest user. Error: {}", e.getMessage());
+        // }
+
+        // List<Tutor> tutors = new ArrayList<>();
+
         List<Tutor> tutors = tutorRepository.findBySubjects(subjects);
+        // if (appUserID == null) {
+        //     tutors = tutorRepository.findBySubjects(subjects);
+        // } else {
+        //     tutors = tutorRepository.findBySubjectsAndIdNot(subjects, appUserID);
+        // }
+
         return tutors.stream().map(tutorMapper::toListDTO).collect(Collectors.toList());
     }
 

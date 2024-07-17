@@ -186,21 +186,60 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public List<AllRecommendDTO> AllAppUsersWithRecommend() {
         log.debug("Request to get all AppUsers");
-        return appUserRepository
-            .findAllAppUsersWithTutorStatusReady()
-            .stream()
-            .map(allRecommendMapper::appUserToAllRecommendDTO)
-            .collect(Collectors.toCollection(LinkedList::new));
+
+        Long appUserID = null;
+        try {
+            AppUser currentUser = getBycurrentAppUser();
+            if (currentUser != null) {
+                appUserID = currentUser.getId();
+            }
+        } catch (Exception e) {
+            log.debug("No current user found, treating as guest user.");
+        }
+
+        List<AppUser> appUsers;
+        if (appUserID == null) {
+            // Guest user, load all tutors with status 'READY'
+            appUsers = appUserRepository.findAllAppUsersWithTutorStatusReady();
+        } else {
+            // Logged in user, load all tutors with status 'READY' excluding current user
+            appUsers = appUserRepository.findAllAppUsersWithTutorStatusReadyAndIdNot(appUserID);
+        }
+
+        return appUsers.stream().map(allRecommendMapper::appUserToAllRecommendDTO).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     public List<AllRecommendDTO> AllAppUsersWithSearch(String search) {
         log.debug("Request to get all AppUsers");
-        return appUserRepository
-            .findByUserFirstNameOrLastNameContainingAndBeTutorTrue(search)
-            .stream()
-            .map(allRecommendMapper::appUserToAllRecommendDTO)
-            .collect(Collectors.toCollection(LinkedList::new));
+
+        Long appUserID = null;
+        try {
+            AppUser curUser = getBycurrentAppUser();
+            if (curUser != null) {
+                appUserID = curUser.getId();
+            }
+        } catch (Exception e) {
+            log.debug("No current user found, treating as guest user.");
+        }
+
+        List<AppUser> appUsers;
+
+        if (search == null || search.trim().isEmpty()) {
+            if (appUserID == null) {
+                appUsers = appUserRepository.findByBeTutorTrue();
+            } else {
+                appUsers = appUserRepository.findByBeTutorTrueAndIdNot(appUserID);
+            }
+        } else {
+            if (appUserID == null) {
+                appUsers = appUserRepository.findByUserFirstNameOrLastNameContainingAndBeTutorTrue(search);
+            } else {
+                appUsers = appUserRepository.findByUserFirstNameOrLastNameContainingAndBeTutorTrueAndIdNot(search, appUserID);
+            }
+        }
+
+        return appUsers.stream().map(allRecommendMapper::appUserToAllRecommendDTO).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override

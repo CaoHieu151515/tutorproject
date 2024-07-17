@@ -184,4 +184,12 @@ public class HireTutorResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @PostMapping("/{id}/updateStatusCancel")
+    public ResponseEntity<Void> updateStatusCancel(@PathVariable("id") Long id) throws URISyntaxException {
+        hireTutorService.updatesTatusCancel(id);
+        return ResponseEntity.noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .build();
+    }
 }

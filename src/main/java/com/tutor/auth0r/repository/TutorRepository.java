@@ -25,4 +25,7 @@ public interface TutorRepository extends JpaRepository<Tutor, Long> {
 
     @Query("SELECT t FROM Tutor t JOIN FETCH t.appUser au JOIN FETCH au.user u WHERE u.login = :login")
     Optional<Tutor> findTutorByUserLogin(@Param("login") String login);
+
+    @Query("SELECT t FROM Tutor t JOIN t.tutorDetails td JOIN td.tutorTeaches tt WHERE tt.subject IN :subjects AND t.id <> :id")
+    List<Tutor> findBySubjectsAndIdNot(@Param("subjects") List<Teach> subjects, @Param("id") Long id);
 }
