@@ -1,0 +1,16 @@
+<!-- src/main/resources/templates/mail/rejectTransactionEmail.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Rejected</title>
+  </head>
+  <body>
+    <p>Dear [[${user.login}]],</p>
+    <p>Your transaction with ID <strong>[[${transactionId}]]</strong> has been rejected.</p>
+    <p>The amount of <strong>[[${amount}]]</strong> has been refunded to your wallet.</p>
+    <p>Thank you,</p>
+    <p>Your Company Name</p>
+  </body>
+</html>

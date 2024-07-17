@@ -117,4 +117,48 @@ public class MailService {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         this.sendEmailFromTemplateSync(user, "mail/passwordResetEmail", "email.reset.title");
     }
+
+    @Async
+    public void sendRejectionEmail(User user, Long transactionId, Double amount) {
+        log.debug("Sending rejection email to '{}'", user.getEmail());
+        this.sendEmailFromTemplateSync(user, "mail/rejectTransactionEmail", "email.transaction.rejection.title", transactionId, amount);
+    }
+
+    private void sendEmailFromTemplateSync(User user, String templateName, String titleKey, Long transactionId, Double amount) {
+        if (user.getEmail() == null) {
+            log.debug("Email doesn't exist for user '{}'", user.getLogin());
+            return;
+        }
+        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        Context context = new Context(locale);
+        context.setVariable(USER, user);
+        context.setVariable("transactionId", transactionId);
+        context.setVariable("amount", amount);
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        this.sendEmailSync(user.getEmail(), subject, content, false, true);
+    }
+
+    @Async
+    public void sendWithdrawRequestEmail(User user, Double amount) {
+        log.debug("Sending withdrawal request email to '{}'", user.getEmail());
+        String templateName = "mail/withdrawRequestEmail"; // The path to your email template
+        this.sendEmailFromTemplateSync(user, templateName, "email.withdraw.request.title", amount);
+    }
+
+    private void sendEmailFromTemplateSync(User user, String templateName, String titleKey, Double amount) {
+        if (user.getEmail() == null) {
+            log.debug("Email doesn't exist for user '{}'", user.getLogin());
+            return;
+        }
+        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        Context context = new Context(locale);
+        context.setVariable("user", user);
+        context.setVariable("amount", amount);
+        context.setVariable("baseUrl", jHipsterProperties.getMail().getBaseUrl());
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        this.sendEmailSync(user.getEmail(), subject, content, false, true);
+    }
 }

@@ -6,6 +6,7 @@ import com.tutor.auth0r.domain.enumeration.WalletTransactionStatus;
 import com.tutor.auth0r.domain.enumeration.WalletTransactionType;
 import com.tutor.auth0r.repository.WalletRepository;
 import com.tutor.auth0r.repository.WalletTransactionRepository;
+import com.tutor.auth0r.service.MailService;
 import com.tutor.auth0r.service.WalletService;
 import com.tutor.auth0r.service.WalletTransactionService;
 import com.tutor.auth0r.service.dto.CustomDTO.MonthlyRevenueDTO;
@@ -16,9 +17,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -44,16 +47,20 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
 
     private final WalletRepository walletRepository;
 
+    private final MailService mailService;
+
     public WalletTransactionServiceImpl(
         WalletTransactionRepository walletTransactionRepository,
         WalletTransactionMapper walletTransactionMapper,
         WalletService walletService,
-        WalletRepository walletRepository
+        WalletRepository walletRepository,
+        MailService mailService
     ) {
         this.walletTransactionRepository = walletTransactionRepository;
         this.walletTransactionMapper = walletTransactionMapper;
         this.walletService = walletService;
         this.walletRepository = walletRepository;
+        this.mailService = mailService;
     }
 
     @Override
@@ -193,6 +200,13 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
         // Update the transaction status to REJECTED
         walletTransaction.setStatus(WalletTransactionStatus.REJECTED);
         walletTransaction = walletTransactionRepository.save(walletTransaction);
+
+        // Map<String, Object> variables = new HashMap<>();
+        // variables.put("username", wallet.getAppUser().getUser().getLogin());
+        // variables.put("transactionId", transactionId);
+        // variables.put("amount", walletTransaction.getAmount());
+
+        // mailService.sendRejectionEmail(wallet.getAppUser().getUser(), transactionId, walletTransaction.getAmount());
 
         return walletTransactionMapper.walletTransactionToWithDrawLISTDTO(walletTransaction);
     }

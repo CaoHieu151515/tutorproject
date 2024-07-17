@@ -10,12 +10,14 @@ import com.tutor.auth0r.repository.TutorRepository;
 import com.tutor.auth0r.repository.UserRepository;
 import com.tutor.auth0r.service.AppUserService;
 import com.tutor.auth0r.service.TutorService;
+import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.CustomDTO.ListOfTutorDTO;
 import com.tutor.auth0r.service.dto.TuTorCusTomDTO;
 import com.tutor.auth0r.service.dto.TutorDTO;
 import com.tutor.auth0r.service.impl.Transactional.TutorCustomService;
 import com.tutor.auth0r.service.mapper.CustomTutorMapper;
 import com.tutor.auth0r.service.mapper.TutorMapper;
+import com.tutor.auth0r.web.rest.errors.NotLoggedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -45,6 +47,8 @@ public class TutorServiceImpl implements TutorService {
 
     private final AppUserService appUserService;
 
+    private final UserService userService;
+
     private final UserRepository userRepository;
 
     private final AppUserRepository appUserRepository;
@@ -58,7 +62,8 @@ public class TutorServiceImpl implements TutorService {
         UserRepository userRepository,
         AppUserRepository appUserRepository,
         TutorCustomService tutorCustomService,
-        AppUserService appUserService
+        AppUserService appUserService,
+        UserService userService
     ) {
         this.tutorRepository = tutorRepository;
         this.tutorMapper = tutorMapper;
@@ -67,6 +72,7 @@ public class TutorServiceImpl implements TutorService {
         this.appUserRepository = appUserRepository;
         this.tutorCustomService = tutorCustomService;
         this.appUserService = appUserService;
+        this.userService = userService;
     }
 
     @Override
@@ -151,44 +157,48 @@ public class TutorServiceImpl implements TutorService {
     public List<ListOfTutorDTO> getTutorsBySubject(String subject) {
         log.debug("Request to get tutors by subject: {}", subject);
 
-        List<Teach> subjects;
+        List<Teach> subjects = getSubjectsBySubjectName(subject);
+
+        Long appUserID = null;
+        try {
+            appUserID = getCurrentAppUserId();
+        } catch (Exception e) {
+            log.warn("Failed to get current user. Treating as guest user. Error: {}", e.getMessage());
+        }
+
+        List<Tutor> tutors;
+        if (appUserID == null) {
+            tutors = tutorRepository.findBySubjects(subjects);
+        } else {
+            tutors = tutorRepository.findBySubjectsAndIdNot(subjects, appUserID);
+        }
+
+        return tutors.stream().map(tutorMapper::toListDTO).collect(Collectors.toList());
+    }
+
+    private List<Teach> getSubjectsBySubjectName(String subject) {
         switch (subject.toUpperCase()) {
             case "MATH":
-                subjects = Arrays.asList(Teach.MATH_10, Teach.MATH_11, Teach.MATH_12);
-                break;
+                return Arrays.asList(Teach.MATH_10, Teach.MATH_11, Teach.MATH_12);
             case "PHYSIC":
-                subjects = Arrays.asList(Teach.PHYSIC_10, Teach.PHYSIC_11, Teach.PHYSIC_12);
-                break;
+                return Arrays.asList(Teach.PHYSIC_10, Teach.PHYSIC_11, Teach.PHYSIC_12);
             case "CHEMISTRY":
-                subjects = Arrays.asList(Teach.CHEMISTRY_10, Teach.CHEMISTRY_11, Teach.CHEMISTRY_12);
-                break;
+                return Arrays.asList(Teach.CHEMISTRY_10, Teach.CHEMISTRY_11, Teach.CHEMISTRY_12);
             case "ENGLISH":
-                subjects = Arrays.asList(Teach.ENGLISH_10, Teach.ENGLISH_11, Teach.ENGLISH_12);
-                break;
+                return Arrays.asList(Teach.ENGLISH_10, Teach.ENGLISH_11, Teach.ENGLISH_12);
             default:
                 throw new IllegalArgumentException("Invalid subject: " + subject);
         }
+    }
 
-        Long appUserID = null;
-        // try {
-        //     AppUser currentUser = appUserService.getBycurrentAppUser();
-        //     if (currentUser != null) {
-        //         appUserID = currentUser.getTutor().getId();
-        //     }
-        // } catch (Exception e) {
-        //     log.warn("No current user found, treating as guest user. Error: {}", e.getMessage());
-        // }
+    private Long getCurrentAppUserId() throws Exception {
+        User currentUser = userService.getCurrentUser().orElseThrow(NotLoggedException::new);
+        AppUser appUser = appUserRepository.findByUser(currentUser);
 
-        // List<Tutor> tutors = new ArrayList<>();
-
-        List<Tutor> tutors = tutorRepository.findBySubjects(subjects);
-        // if (appUserID == null) {
-        //     tutors = tutorRepository.findBySubjects(subjects);
-        // } else {
-        //     tutors = tutorRepository.findBySubjectsAndIdNot(subjects, appUserID);
-        // }
-
-        return tutors.stream().map(tutorMapper::toListDTO).collect(Collectors.toList());
+        if (appUser != null && appUser.getTutor() != null) {
+            return appUser.getTutor().getId();
+        }
+        return null;
     }
 
     // public void updateTutorStatusOnline(String login) {
