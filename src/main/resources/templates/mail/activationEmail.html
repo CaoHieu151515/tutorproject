@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}" />
   </head>
+  {% comment %}
   <body>
     <p th:text="#{email.activation.greeting(${user.login})}">Dear</p>
     <p th:text="#{email.activation.text1}">Your JHipster account has been created, please click on the URL below to activate it:</p>
@@ -15,6 +16,14 @@
       <span th:text="#{email.activation.text2}">Regards, </span>
       <br />
       <em th:text="#{email.signature}">JHipster.</em>
+    </p>
+  </body>
+  {% endcomment %}
+  <body>
+    <p th:text="#{email.activation.greeting(${email})}">Dear</p>
+    <p th:text="#{email.activation.text1}">Your Tutorplatform account has been created,Here is your OTP:</p>
+    <p>
+      <a th:text="${otp}"></a>
     </p>
   </body>
 </html>

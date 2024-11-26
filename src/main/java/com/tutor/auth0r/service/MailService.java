@@ -100,10 +100,28 @@ public class MailService {
         this.sendEmailSync(user.getEmail(), subject, content, false, true);
     }
 
+    private void sendEmailFromTemplateSyncOTP(String email, String otp, String templateName, String titleKey) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("email", email);
+        context.setVariable("otp", otp);
+
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        this.sendEmailSync(email, subject, content, false, true);
+    }
+
     @Async
     public void sendActivationEmail(User user) {
         log.debug("Sending activation email to '{}'", user.getEmail());
         this.sendEmailFromTemplateSync(user, "mail/activationEmail", "email.activation.title");
+    }
+
+    @Async
+    public void sendActivationOTP(String email, String OTP) {
+        log.debug("Sending activation email to '{}'", email);
+        this.sendEmailFromTemplateSyncOTP(email, OTP, "mail/otpEmail", "email.activation.title");
     }
 
     @Async

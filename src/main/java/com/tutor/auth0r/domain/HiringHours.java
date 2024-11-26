@@ -1,8 +1,17 @@
 package com.tutor.auth0r.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -29,6 +38,9 @@ public class HiringHours implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "tutorDetails", "hireTutors", "hiringHours", "reports", "ratings", "appUser" }, allowSetters = true)
     private Tutor tutor;
+
+    @Column(name = "status", nullable = false)
+    private String status;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -68,6 +80,19 @@ public class HiringHours implements Serializable {
 
     public HiringHours tutor(Tutor tutor) {
         this.setTutor(tutor);
+        return this;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public HiringHours status(String status) {
+        this.setStatus(status);
         return this;
     }
 

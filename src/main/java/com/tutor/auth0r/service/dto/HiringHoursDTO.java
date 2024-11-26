@@ -1,6 +1,8 @@
 package com.tutor.auth0r.service.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,6 +19,8 @@ public class HiringHoursDTO implements Serializable {
     @Max(value = 5)
     private Integer hour;
 
+    private String status;
+
     private TutorDTO tutor;
 
     public Long getId() {
@@ -25,6 +29,14 @@ public class HiringHoursDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Integer getHour() {

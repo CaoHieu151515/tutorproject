@@ -7,16 +7,25 @@ import com.tutor.auth0r.service.MailService;
 import com.tutor.auth0r.service.UserService;
 import com.tutor.auth0r.service.dto.AdminUserDTO;
 import com.tutor.auth0r.service.dto.PasswordChangeDTO;
-import com.tutor.auth0r.web.rest.errors.*;
+import com.tutor.auth0r.web.rest.errors.EmailAlreadyUsedException;
+import com.tutor.auth0r.web.rest.errors.InvalidPasswordException;
+import com.tutor.auth0r.web.rest.errors.LoginAlreadyUsedException;
 import com.tutor.auth0r.web.rest.vm.KeyAndPasswordVM;
 import com.tutor.auth0r.web.rest.vm.ManagedUserVM;
 import jakarta.validation.Valid;
-import java.util.*;
+import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller for managing the current user's account.
@@ -62,6 +71,22 @@ public class AccountResource {
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);
+    }
+
+    @PostMapping("/sendOTP")
+    public void sendOTP(@Valid String email) {
+        String OTP = userService.sendOTP(email);
+        mailService.sendActivationOTP(email, OTP);
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<String> verifyOtp(@RequestParam String email, @RequestParam String otp) {
+        boolean isValid = userService.verifyUserOtp(email, otp);
+        if (isValid) {
+            return ResponseEntity.ok("OTP verified successfully!");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid or expired OTP.");
+        }
     }
 
     /**

@@ -17,9 +17,13 @@ import com.tutor.auth0r.security.AuthoritiesConstants;
 import com.tutor.auth0r.security.SecurityUtils;
 import com.tutor.auth0r.service.dto.AdminUserDTO;
 import com.tutor.auth0r.service.dto.UserDTO;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,13 +56,16 @@ public class UserService {
 
     private final WalletRepository walletRepository;
 
+    private final OtpCacheService otpCacheService;
+
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         AppUserRepository appUserRepository,
         TutorRepository tutorRepository,
-        WalletRepository walletRepository
+        WalletRepository walletRepository,
+        OtpCacheService otpCacheService
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -66,6 +73,7 @@ public class UserService {
         this.appUserRepository = appUserRepository;
         this.tutorRepository = tutorRepository;
         this.walletRepository = walletRepository;
+        this.otpCacheService = otpCacheService;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -137,7 +145,7 @@ public class UserService {
         // new user is not active
         newUser.setActivated(false);
         // new user gets registration key
-        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        newUser.setActivationKey(generateOTP(6));
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
@@ -247,6 +255,13 @@ public class UserService {
             .map(AdminUserDTO::new);
     }
 
+    public String sendOTP(String email) {
+        String otp = generateOTP(6);
+        otpCacheService.saveOtp(email, otp);
+
+        return otp;
+    }
+
     public void deleteUser(String login) {
         userRepository
             .findOneByLogin(login)
@@ -254,6 +269,19 @@ public class UserService {
                 userRepository.delete(user);
                 log.debug("Deleted User: {}", user);
             });
+    }
+
+    public boolean verifyUserOtp(String email, String inputOtp) {
+        // Lấy OTP từ cache thông qua OtpCacheService
+        String cachedOtp = otpCacheService.getOtp(email);
+
+        // So sánh OTP nhập vào với OTP trong cache
+        if (cachedOtp != null && cachedOtp.equals(inputOtp)) {
+            // Xóa OTP khỏi cache sau khi xác minh thành công
+            otpCacheService.removeOtp(email);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -342,5 +370,14 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).toList();
+    }
+
+    public String generateOTP(int length) {
+        SecureRandom random = new SecureRandom();
+        StringBuilder otp = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            otp.append(random.nextInt(10)); // Chỉ số
+        }
+        return otp.toString();
     }
 }
