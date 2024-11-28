@@ -11,6 +11,7 @@ import com.tutor.auth0r.web.rest.errors.EmailAlreadyUsedException;
 import com.tutor.auth0r.web.rest.errors.InvalidPasswordException;
 import com.tutor.auth0r.web.rest.errors.LoginAlreadyUsedException;
 import com.tutor.auth0r.web.rest.vm.KeyAndPasswordVM;
+import com.tutor.auth0r.web.rest.vm.ManagedUserDetailsVM;
 import com.tutor.auth0r.web.rest.vm.ManagedUserVM;
 import jakarta.validation.Valid;
 import java.util.Optional;
@@ -80,10 +81,15 @@ public class AccountResource {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<String> verifyOtp(@RequestParam String email, @RequestParam String otp) {
-        boolean isValid = userService.verifyUserOtp(email, otp);
+    public ResponseEntity<String> verifyOtp(@Valid @RequestBody ManagedUserDetailsVM managedUserDetailsVM) {
+        boolean isValid = userService.verifyUserOtp(managedUserDetailsVM.getEmail(), managedUserDetailsVM.getOTP());
         if (isValid) {
-            return ResponseEntity.ok("OTP verified successfully!");
+            User user = userService.registerUserOTP(
+                managedUserDetailsVM,
+                managedUserDetailsVM.getPassword(),
+                managedUserDetailsVM.getGender()
+            );
+            return ResponseEntity.ok("Register Successfully");
         } else {
             return ResponseEntity.badRequest().body("Invalid or expired OTP.");
         }

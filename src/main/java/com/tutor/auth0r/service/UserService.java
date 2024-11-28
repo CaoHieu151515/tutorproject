@@ -7,6 +7,7 @@ import com.tutor.auth0r.domain.Tutor;
 import com.tutor.auth0r.domain.User;
 import com.tutor.auth0r.domain.UserVerify;
 import com.tutor.auth0r.domain.Wallet;
+import com.tutor.auth0r.domain.enumeration.GenderType;
 import com.tutor.auth0r.domain.enumeration.TuStatus;
 import com.tutor.auth0r.repository.AppUserRepository;
 import com.tutor.auth0r.repository.AuthorityRepository;
@@ -152,6 +153,77 @@ public class UserService {
 
         AppUser appuser = new AppUser();
         appuser.setBeTutor(false);
+
+        Wallet wallet = new Wallet();
+        wallet.setAmount(0.0);
+        wallet.setAppUser(appuser);
+
+        walletRepository.save(wallet);
+        UserVerify userVerify = new UserVerify();
+
+        Tutor tutor = new Tutor();
+        tutor.setStatus(TuStatus.NOT_TUTOR);
+        tutorRepository.save(tutor);
+
+        appuser.setUser(newUser);
+        appuser.setWallet(wallet);
+        appuser.setUserVerify(userVerify);
+        appuser.setTutor(tutor);
+
+        appUserRepository.save(appuser);
+
+        userRepository.save(newUser);
+        log.debug("Created Information for User: {}", newUser);
+        return newUser;
+    }
+
+    public User registerUserOTP(AdminUserDTO userDTO, String password, String gender) {
+        userRepository
+            .findOneByLogin(userDTO.getLogin().toLowerCase())
+            .ifPresent(existingUser -> {
+                boolean removed = removeNonActivatedUser(existingUser);
+                if (!removed) {
+                    throw new UsernameAlreadyUsedException();
+                }
+            });
+        userRepository
+            .findOneByEmailIgnoreCase(userDTO.getEmail())
+            .ifPresent(existingUser -> {
+                boolean removed = removeNonActivatedUser(existingUser);
+                if (!removed) {
+                    throw new EmailAlreadyUsedException();
+                }
+            });
+        User newUser = new User();
+        String encryptedPassword = passwordEncoder.encode(password);
+        newUser.setLogin(userDTO.getLogin().toLowerCase());
+        // new user gets initially a generated password
+        newUser.setPassword(encryptedPassword);
+        newUser.setFirstName(userDTO.getFirstName());
+        newUser.setLastName(userDTO.getLastName());
+        if (userDTO.getEmail() != null) {
+            newUser.setEmail(userDTO.getEmail().toLowerCase());
+        }
+        newUser.setImageUrl(userDTO.getImageUrl());
+        newUser.setLangKey("en");
+        // new user is not active
+        newUser.setActivated(true);
+        // new user gets registration key
+        newUser.setActivationKey(generateOTP(6));
+        Set<Authority> authorities = new HashSet<>();
+        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        newUser.setAuthorities(authorities);
+
+        AppUser appuser = new AppUser();
+        appuser.setBeTutor(false);
+
+        if (gender.equals("MALE")) {
+            appuser.setGender(GenderType.MALE);
+        } else if (gender.equals("FEMALE")) {
+            appuser.setGender(GenderType.FEMALE);
+        } else {
+            appuser.setGender(GenderType.OTHER);
+        }
 
         Wallet wallet = new Wallet();
         wallet.setAmount(0.0);
